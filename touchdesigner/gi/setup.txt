@@ -1,0 +1,115 @@
+GI NAIVE — TouchDesigner (jason.today/gi)
+=========================================
+
+Pipeline:  scene TOP  →  JFA  →  distance  →  GI  →  denoise  →  out
+
+El TOP de escena va a DOS sitios:
+  1) jfa_seed (inicio del Jump Flood)
+  2) gi input 0 (color al impactar un rayo)
+
+
+RESOLUCIÓN
+----------
+Todos los TOPs del pipeline: 512 x 512 (Common → Output Resolution)
+O usa Resolution TOP antes de jfa_seed si tu fuente es otra resolución.
+
+
+NODOS
+-----
+
+1. scene
+   - Tu contenido: Render TOP, Movie File In, Composite, GLSL, etc.
+   - Para probar sin fuente externa: GLSL TOP con scene_test.glsl
+   - Export uTime desde absTime.seconds si usas scene_test
+
+   Requisitos del TOP:
+     • RGB  = color emisivo
+     • Alpha > 0.1  = geometría que emite luz
+     • Alpha = 0    = vacío (recibe GI)
+
+2. jfa_seed  (GLSL TOP)
+   - Pixel Shader: shaders/jfa_seed.glsl
+   - Input 0: scene
+
+3. jfa_loop  (For Loop TOP, TD 2022+)
+   - Input: jfa_seed
+   - Iterations (expresión):
+       math.ceil(math.log(max(parent().par.w, parent().par.h), 2))
+   - Dentro del loop, GLSL TOP con jfa_pass.glsl
+   - Uniform uOffset (expresión en el GLSL interno):
+       2 ** (parent().par.iterations - me.parent().par.index - 1)
+
+   Alternativa sin For Loop: cadena manual de GLSL TOPs (jfa_pass.glsl)
+   con uOffset = 256, 128, 64, 32, 16, 8, 4, 2, 1  (para 512px)
+
+4. distance  (GLSL TOP)
+   - Pixel Shader: shaders/distance_field.glsl
+   - Input 0: salida de jfa_loop
+
+5. gi  (GLSL TOP)
+   - Pixel Shader: shaders/gi_raymarch.glsl
+   - Input 0: scene
+   - Input 1: distance
+   - Input 2: feedback_gi (opcional, acumulación temporal)
+
+   Uniforms (Vectors / Constants page):
+     uRayCount       = 12
+     uMaxSteps       = 28
+     uSoftRays       = 1         ← 1 = mucho más rápido · 3 = más suave
+     uFastMode       = 1         ← limita rayos/steps automáticamente
+     uCullDist       = 0.92      ← skip píxeles lejos de emisores
+     uSkipEmissive   = 1         ← no raymarch en píxeles emisores
+     uEmissionMix    = 0
+     uSunAngle       = slider 0–6.28
+     uEnableSun      = 1
+     uEnableNoise    = 0
+     uTemporalBlend  = 0.95
+     uGIGain         = 1.0
+     uTime           = absTime.seconds
+
+6. gi_denoise  (GLSL TOP)  ← elimina rayos/haces visibles
+   - Pixel Shader: shaders/gi_denoise.glsl
+   - Input 0: gi
+   - Input 1: scene
+   - uBlurRadius   = 3.0
+   - uBlurStrength = 0.85
+
+7. feedback_gi  (Feedback TOP)
+   - Target TOP: gi
+   - Output conectado a gi input 2
+
+8. out  (Null TOP)
+   - Input: gi_denoise
+   - Conectar a Window COMP o salida final
+
+
+CABLEADO
+--------
+
+  scene ──┬──→ jfa_seed → jfa_loop → distance ──→ gi input 1
+          │                                        ↑
+          └──────────────────────────────────→ gi input 0
+
+  feedback_gi → gi input 2
+  gi → feedback_gi (target)
+  gi → gi_denoise (in 0)    scene → gi_denoise (in 1)
+  gi_denoise → out
+
+
+FUENTES DE SCENE TOP
+--------------------
+  • scene_test.glsl     — prueba rápida (formas animadas)
+  • Render TOP          — geometría 3D, cámara ortográfica, fondo alpha 0
+  • Movie File In TOP   — vídeo/imagen con alpha
+  • Composite TOP       — varias capas
+  • Cualquier GLSL TOP  — generación procedural
+
+
+TIPS
+----
+  • Render TOP: material emisivo, fondo con alpha 0 (no negro opaco)
+  • Si el GI no aparece: revisa que scene tenga alpha en los emisores
+  • Subir uRayCount (32) y uMaxSteps (48) mejora calidad, baja FPS
+  • PERF: GI a 256×512 · uFastMode=1 · uSoftRays=1 · uRayCount=8–12
+  • uSoftRays 3 + gi_denoise suavizan los haces visibles (modo calidad) desde cada luz
+  • uTemporalBlend 0.95 suaviza ruido angular entre frames

@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "compress-images": "node scripts/compress-images.mjs",
+    "download-galleries": "node scripts/download-project-galleries.mjs && node scripts/apply-gallery-manifest.mjs"
   },
   "dependencies": {
+    "framer-motion": "^12.40.0",
+    "lucide-react": "^1.18.0",
     "next": "16.2.9",
     "react": "19.2.4",
     "react-dom": "19.2.4"
@@ -20,6 +24,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
+    "sharp": "^0.35.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
