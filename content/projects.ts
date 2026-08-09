@@ -50,6 +50,16 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "torre-glories-content",
+    title: "Torre Glories Content",
+    year: "2026",
+    client: "Protopixel",
+    category: "estudio-encargos",
+    sections: {
+      information: "Client - Protopixel\nYear - 2026",
+    },
+  },
+  {
     slug: "visuales-para-tayhana",
     title: "Visuales para Tayhana",
     year: "2026",
