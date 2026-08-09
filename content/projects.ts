@@ -19,8 +19,8 @@ export const projectCategories = [
 export type ProjectCategory = (typeof projectCategories)[number];
 
 export const projectCategoryLabels: Record<ProjectCategory, string> = {
-  "practica-artistica": "Personal Projects",
-  "estudio-encargos": "Comissions and Studios",
+  "practica-artistica": "Personal projects",
+  "estudio-encargos": "Comissions and studios",
   colaboraciones: "Colaborations",
 };
 

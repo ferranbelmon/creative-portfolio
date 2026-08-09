@@ -59,15 +59,11 @@ export function ProjectGrid() {
 
   return (
     <section className="mx-auto max-w-[1600px] px-5 pb-4 pt-6 md:px-8 md:pt-8">
-      <div className="mb-8 border-b border-border pb-6 md:mb-10 md:pb-8">
-        <p className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-accent">
-          Work
-        </p>
-
+      <div className="mb-8 border-b border-border pb-5 md:mb-10 md:pb-6">
         <div
-          role="tablist"
+          role="group"
           aria-label="Filter projects by category"
-          className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-8 sm:gap-y-3"
+          className="flex flex-wrap items-center gap-2"
         >
           <FilterButton
             active={category === "all"}
@@ -84,8 +80,9 @@ export function ProjectGrid() {
           ))}
         </div>
 
-        <p className="mt-5 font-display text-xs font-bold uppercase tracking-[0.22em] text-muted">
-          {String(filteredProjects.length).padStart(2, "0")} projects
+        <p className="mt-4 text-xs tracking-wide text-muted">
+          {filteredProjects.length}{" "}
+          {filteredProjects.length === 1 ? "project" : "projects"}
         </p>
       </div>
 
@@ -178,20 +175,15 @@ function FilterButton({
   return (
     <button
       type="button"
-      role="tab"
-      aria-selected={active}
+      aria-pressed={active}
       onClick={onClick}
-      className={`relative w-fit pb-1.5 text-left font-display text-xl font-bold uppercase tracking-tight transition-colors md:text-2xl lg:text-3xl ${
-        active ? "text-accent" : "text-foreground/45 hover:text-foreground"
+      className={`border px-3 py-1.5 text-sm font-medium tracking-normal transition-colors ${
+        active
+          ? "border-accent bg-accent/10 text-accent"
+          : "border-border text-muted hover:border-foreground/35 hover:text-foreground"
       }`}
     >
       {label}
-      <span
-        aria-hidden
-        className={`absolute inset-x-0 bottom-0 h-[2px] transition-all ${
-          active ? "bg-accent" : "bg-transparent"
-        }`}
-      />
     </button>
   );
 }
