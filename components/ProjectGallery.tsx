@@ -59,7 +59,9 @@ export function ProjectGallery({
               {isVideo ? (
                 <video
                   src={src}
-                  controls
+                  autoPlay
+                  muted
+                  loop
                   playsInline
                   preload="metadata"
                   className={objectFit}

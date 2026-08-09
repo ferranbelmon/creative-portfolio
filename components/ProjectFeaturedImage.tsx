@@ -14,7 +14,9 @@ export function ProjectFeaturedImage({ title, src }: ProjectFeaturedImageProps) 
       {isVideo ? (
         <video
           src={src}
-          controls
+          autoPlay
+          muted
+          loop
           playsInline
           preload="metadata"
           className="h-auto w-full"
