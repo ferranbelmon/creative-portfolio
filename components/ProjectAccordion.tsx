@@ -1,6 +1,15 @@
 import type { ProjectSection } from "@/content/projects";
 
+const sectionOrder: (keyof ProjectSection)[] = [
+  "role",
+  "concept",
+  "tools",
+  "credits",
+  "information",
+];
+
 const sectionLabels: Record<keyof ProjectSection, string> = {
+  role: "Role",
   concept: "Concept",
   tools: "Tools",
   credits: "Credits",
@@ -12,9 +21,9 @@ type ProjectAccordionProps = {
 };
 
 export function ProjectAccordion({ sections }: ProjectAccordionProps) {
-  const entries = (
-    Object.entries(sections) as [keyof ProjectSection, string | undefined][]
-  ).filter(([, value]) => Boolean(value?.trim()));
+  const entries = sectionOrder
+    .map((key) => [key, sections[key]] as const)
+    .filter(([, value]) => Boolean(value?.trim()));
 
   return (
     <div className="border-t border-border">
