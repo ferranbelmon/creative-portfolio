@@ -346,7 +346,7 @@ export const projects: Project[] = [
     title: "Wonders",
     year: "2020",
     client: "Moon Ribas / Felix Schoeller",
-    category: "colaboraciones",
+    category: "practica-artistica",
     thumbnail: "/images/projects/wonders/thumbnail.jpg",
     images: [
       "/images/projects/wonders/gallery/01.jpg",
