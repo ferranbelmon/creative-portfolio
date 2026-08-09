@@ -188,11 +188,30 @@ export const projects: Project[] = [
   {
     slug: "cupra-sensorial-capsule",
     title: "Cupra Sensorial Capsule",
-    year: "2024",
+    year: "2025",
     client: "Tigrelab",
     category: "estudio-encargos",
+    thumbnail: "/images/projects/cupra-sensorial-capsule/thumbnail.jpg",
+    images: [
+      "/images/projects/cupra-sensorial-capsule/gallery/01.jpg",
+      "/images/projects/cupra-sensorial-capsule/gallery/02.jpg",
+      "/images/projects/cupra-sensorial-capsule/gallery/03.jpg",
+      "/images/projects/cupra-sensorial-capsule/gallery/04.jpg",
+      "/images/projects/cupra-sensorial-capsule/gallery/05.jpg",
+      "/images/projects/cupra-sensorial-capsule/gallery/06.jpg",
+      "/images/projects/cupra-sensorial-capsule/gallery/07.jpg",
+      "/images/projects/cupra-sensorial-capsule/gallery/08.jpg",
+    ],
+    externalUrl: "https://tigrelab.com/project/cupra-sensorial-capsule/",
     sections: {
-      information: "Client - Tigrelab\nYear - 2024",
+      concept:
+        "A full-scale immersive capsule that reimagines the car interior as a living, reactive space — presented with CUPRA at Milan Design Week 2025.\n\nCommissioned by CUPRA through Tigrelab, the CUPRA Sensorial Capsule invited visitors in Piazza XXV Aprile to step inside a futuristic concept where space, emotion, and technology converge. Built over the course of a year with the CUPRA design team, the interior reacts in real time to movement, presence, and emotion: light pulses, surfaces breathe, and sound evolves into a fluid dialogue between human and machine.\n\nThe narrative unfolds in four acts — Welcome, an immersive reveal of materials and structure through light trails and mapped projection, Ride (sound, lighting, and Boost Mode), and Meta, an adaptive AI-driven space where the car becomes an evolving companion.",
+      tools:
+        "Light\nCreative Code\nReal-Time Graphics\nProjection Mapping",
+      credits:
+        "Client - CUPRA\nAgency - Tigrelab\nCreative Directors - Federico Gonzalez, Mathieu Felix, Javier Pinto\nCreative Coders - Daniel Guillen, Ferran Belda\nNotch & Smode Artist - Antonio Nieto\nSound Design - Jhon Christian Cardenas\nProject Manager - Laura Gómez\nEvent Agency - Dicom Events\nPrototype & Engineering - ÚNIC Works\nProjection & Technical Setup - Custom Projects Vioso GmbH",
+      information:
+        "Industry - Automobile\nType - Event / Immersive / Installation / Projection Mapping\nPresented at - Milan Design Week 2025, Piazza XXV Aprile\nYear - 2025\nProject page - https://tigrelab.com/project/cupra-sensorial-capsule/",
     },
   },
   {
