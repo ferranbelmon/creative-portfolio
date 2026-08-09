@@ -547,6 +547,7 @@ export const projects: Project[] = [
       "/images/projects/001-durham-light-festival/gallery/06.jpg",
       "/images/projects/001-durham-light-festival/gallery/07.jpg",
       "/images/projects/001-durham-light-festival/gallery/08.jpg",
+      "/images/projects/001-durham-light-festival/gallery/09.mp4",
     ],
     externalUrl: "https://tigrelab.com/project/stones/",
     sections: {
