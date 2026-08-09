@@ -130,6 +130,9 @@ export const projects: Project[] = [
       "/images/projects/017-light-tunnel-sonar-by-night/gallery/02.jpg",
       "/images/projects/017-light-tunnel-sonar-by-night/gallery/03.jpg",
       "/images/projects/017-light-tunnel-sonar-by-night/gallery/04.jpg",
+      "/images/projects/017-light-tunnel-sonar-by-night/gallery/05.jpg",
+      "/images/projects/017-light-tunnel-sonar-by-night/gallery/06.jpg",
+      "/images/projects/017-light-tunnel-sonar-by-night/gallery/07.jpg",
     ],
     externalUrl: "https://landscapes.digital/en/work/lasers-at-sonar-festival/",
     sections: {
