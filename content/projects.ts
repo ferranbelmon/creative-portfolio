@@ -211,6 +211,7 @@ export const projects: Project[] = [
       "/images/projects/014-baddance-with-the-badweeds/gallery/07.jpg",
       "/images/projects/014-baddance-with-the-badweeds/gallery/08.jpg",
       "/images/projects/014-baddance-with-the-badweeds/gallery/09.jpg",
+      "/images/projects/014-baddance-with-the-badweeds/gallery/10.jpg",
     ],
     externalUrl: "https://badweeds.live/",
     sections: {
