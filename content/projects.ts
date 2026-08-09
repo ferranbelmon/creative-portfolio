@@ -151,11 +151,27 @@ export const projects: Project[] = [
   {
     slug: "baddance-with-the-badweeds",
     title: "BADDANCE WITH THE BADWEEDS",
-    year: "2024",
+    year: "2025",
     client: "Rocío Berenguer",
     category: "colaboraciones",
+    thumbnail: "/images/projects/baddance-with-the-badweeds/thumbnail.jpg",
+    images: [
+      "/images/projects/baddance-with-the-badweeds/gallery/01.jpg",
+      "/images/projects/baddance-with-the-badweeds/gallery/02.jpg",
+      "/images/projects/baddance-with-the-badweeds/gallery/03.jpg",
+      "/images/projects/baddance-with-the-badweeds/gallery/04.jpg",
+      "/images/projects/baddance-with-the-badweeds/gallery/05.jpg",
+      "/images/projects/baddance-with-the-badweeds/gallery/06.jpg",
+    ],
+    externalUrl: "https://badweeds.live/",
     sections: {
-      information: "Client - Rocío Berenguer\nYear - 2024",
+      concept:
+        "MAKE YOUR MUTANT BODY BADDANCE AND EARN SEEDS OF FUTURES.\n\nWith this participatory installation, visitors are invited to mutate, to join THEBADWEEDS — a trans-species music group that is part-human, part-plant. Its hybrid members embody a queer ecological transition: they grow from oblivion, cracks, and the most inhospitable places, humorously demonstrating the resilience and resistance of weeds.\n\nThe immersive experience invites the audience to transform and mutate through dance, offering a festive and playful perspective on ecological transition. The installation offers a three-part journey: discovering the universe of THEBADWEEDS through a video; dancing to mutate as a new plant body forms; and finding one's new mutant body.\n\nA project by Rocio Berenguer commissioned by mudac for Soleil.s / Solar Biennale 2.",
+      tools: "Unreal Engine\nMotion detection\nInteractive installation",
+      credits:
+        "Original work - Rocio Berenguer\nGame design on Unreal Engine - Ferran Belda\nWeb design - Pere Calopa Piedra\n3D motion design - Guillaume Gravier\nMotion detection analysis - Leo Chedin\nMusic - HERBICIDE by Killason; EATTHESUN and TAKOMAK by Baptiste Malgoire, written by Rocio Berenguer",
+      information:
+        "Client - Rocío Berenguer / mudac\nType - Participatory installation\nDuration - 5 minutes\nPresented at - Soleil.s, Solar Biennale 2, mudac, Lausanne, 2025\nAlso - Milano Design Week 2025; Malta Biennale 2026\nProject site - https://badweeds.live/",
     },
   },
   {
