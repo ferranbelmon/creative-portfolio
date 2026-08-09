@@ -21,26 +21,16 @@ export function ProjectGrid() {
   }, [category]);
 
   return (
-    <section className="mx-auto max-w-[1600px] px-5 pb-4 md:px-8">
-      <div className="mb-6 flex flex-col gap-4 border-b border-border pb-5 md:mb-8 md:flex-row md:items-end md:justify-between md:pb-6">
-        <div>
-          <p className="mb-2 text-[0.65rem] font-bold uppercase tracking-[0.3em] text-muted">
-            Filter
-          </p>
-          <p className="font-display text-sm font-bold uppercase tracking-[0.18em] md:text-base">
-            {category === "all"
-              ? "All projects"
-              : projectCategoryLabels[category]}
-            <span className="ml-3 text-muted">
-              {String(filteredProjects.length).padStart(2, "0")}
-            </span>
-          </p>
-        </div>
+    <section className="mx-auto max-w-[1600px] px-5 pb-4 pt-6 md:px-8 md:pt-8">
+      <div className="mb-8 border-b border-border pb-6 md:mb-10 md:pb-8">
+        <p className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-accent">
+          Work
+        </p>
 
         <div
           role="tablist"
           aria-label="Filter projects by category"
-          className="flex flex-wrap items-center gap-x-5 gap-y-2 md:gap-x-7"
+          className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-baseline sm:gap-x-8 sm:gap-y-3"
         >
           <FilterButton
             active={category === "all"}
@@ -56,6 +46,10 @@ export function ProjectGrid() {
             />
           ))}
         </div>
+
+        <p className="mt-5 font-display text-xs font-bold uppercase tracking-[0.22em] text-muted">
+          {String(filteredProjects.length).padStart(2, "0")} projects
+        </p>
       </div>
 
       {/* Tipology filter will plug in here later (Mapping, Instalación, etc.) */}
@@ -134,14 +128,14 @@ function FilterButton({
       role="tab"
       aria-selected={active}
       onClick={onClick}
-      className={`relative pb-1 font-display text-[0.7rem] font-bold uppercase tracking-[0.18em] transition-colors md:text-xs ${
-        active ? "text-accent" : "text-muted hover:text-foreground"
+      className={`relative w-fit pb-1.5 text-left font-display text-xl font-bold uppercase tracking-tight transition-colors md:text-2xl lg:text-3xl ${
+        active ? "text-accent" : "text-foreground/45 hover:text-foreground"
       }`}
     >
       {label}
       <span
         aria-hidden
-        className={`absolute inset-x-0 -bottom-px h-px transition-all ${
+        className={`absolute inset-x-0 bottom-0 h-[2px] transition-all ${
           active ? "bg-accent" : "bg-transparent"
         }`}
       />

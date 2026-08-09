@@ -19,9 +19,9 @@ export const projectCategories = [
 export type ProjectCategory = (typeof projectCategories)[number];
 
 export const projectCategoryLabels: Record<ProjectCategory, string> = {
-  "practica-artistica": "Práctica Artística",
-  "estudio-encargos": "Estudio / Encargos",
-  colaboraciones: "Colaboraciones",
+  "practica-artistica": "Personal Projects",
+  "estudio-encargos": "Comissions and Studios",
+  colaboraciones: "Colaborations",
 };
 
 /** Reserved for upcoming typology filters (Mapping, Instalación, etc.). */
