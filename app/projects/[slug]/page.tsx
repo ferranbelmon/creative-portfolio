@@ -41,17 +41,29 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const { prev, next } = getAdjacentProjects(slug);
   const featuredImage = project.images?.[0] ?? project.thumbnail;
   const galleryImages =
-    (project.images?.length ?? 0) > 1 ? project.images.slice(1) : [];
+    (project.images?.length ?? 0) > 1 ? (project.images?.slice(1) ?? []) : [];
 
   return (
     <main className="mx-auto max-w-[1600px] px-5 py-12 md:px-8 md:py-16">
+      <p className="mb-4 font-display text-xs font-bold uppercase tracking-[0.3em] text-accent">
+        {project.year}
+      </p>
       <h1 className="font-display max-w-5xl text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold uppercase leading-[0.92] tracking-tight">
         {project.title}
       </h1>
+      <p className="mt-4 max-w-2xl text-sm uppercase tracking-[0.18em] text-muted md:text-base">
+        {project.client}
+      </p>
 
       <section className="mt-10 grid items-start gap-10 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_minmax(280px,34rem)] lg:gap-12 xl:gap-16">
         <ProjectAccordion sections={project.sections} />
-        <ProjectFeaturedImage title={project.title} src={featuredImage} />
+        {featuredImage ? (
+          <ProjectFeaturedImage title={project.title} src={featuredImage} />
+        ) : (
+          <div className="flex min-h-[18rem] items-end border border-border bg-surface p-6 text-xs font-bold uppercase tracking-[0.25em] text-muted lg:max-w-[34rem] lg:justify-self-end">
+            Photos coming soon
+          </div>
+        )}
       </section>
 
       <ProjectGallery

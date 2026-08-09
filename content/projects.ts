@@ -13,16 +13,39 @@ export type GalleryLayout = {
 export type Project = {
   slug: string;
   title: string;
-  thumbnail: string;
-  images: string[];
+  year: string;
+  client: string;
+  thumbnail?: string;
+  images?: string[];
+  externalUrl?: string;
   galleryLayout?: GalleryLayout;
   sections: ProjectSection;
 };
 
 export const projects: Project[] = [
   {
+    slug: "visuales-para-tayhana",
+    title: "Visuales para Tayhana",
+    year: "2026",
+    client: "Sónar Festival",
+    sections: {
+      information: "Sónar Festival\nYear - 2026",
+    },
+  },
+  {
+    slug: "technical-direction-mwc-congress-hall",
+    title: "Technical Direction MWC Congress Hall",
+    year: "2026",
+    client: "Landscapes",
+    sections: {
+      information: "Client - Landscapes\nYear - 2026",
+    },
+  },
+  {
     slug: "espurna",
     title: "Espurna",
+    year: "2025",
+    client: "Turbina (proyecto propio)",
     thumbnail: "/images/projects/espurna/thumbnail.jpg",
     images: [
       "/images/projects/espurna/gallery/01.jpg",
@@ -40,8 +63,19 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "art-direction-sonar-night-vip-corridor",
+    title: "Art Direction for Sónar Night VIP Corridor",
+    year: "2025",
+    client: "Landscapes",
+    sections: {
+      information: "Client - Landscapes\nYear - 2025",
+    },
+  },
+  {
     slug: "collide",
     title: "Collide",
+    year: "2024–2025",
+    client: "Bahidorá / Akamba (proyecto propio)",
     thumbnail: "/images/projects/collide/thumbnail.jpg",
     images: [
       "/images/projects/collide/gallery/01.jpg",
@@ -61,6 +95,8 @@ export const projects: Project[] = [
   {
     slug: "ciclic",
     title: "CíCLIC",
+    year: "2024–2025",
+    client: "Lux / Intervals / Mira (proyecto propio)",
     thumbnail: "/images/projects/ciclic/thumbnail.jpg",
     images: [
       "/images/projects/ciclic/gallery/01.jpg",
@@ -81,27 +117,38 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "moonai-soundwaves-wellness",
-    title: "Moonai Soundwaves Wellness",
-    thumbnail: "/images/projects/moonai-soundwaves-wellness/thumbnail.jpg",
-    images: [
-      "/images/projects/moonai-soundwaves-wellness/gallery/01.jpg",
-      "/images/projects/moonai-soundwaves-wellness/gallery/02.jpg",
-      "/images/projects/moonai-soundwaves-wellness/gallery/03.jpg",
-      "/images/projects/moonai-soundwaves-wellness/gallery/04.jpg",
-    ],
+    slug: "baddance-with-the-badweeds",
+    title: "BADDANCE WITH THE BADWEEDS",
+    year: "2024",
+    client: "Rocío Berenguer",
     sections: {
-      concept:
-        "Moonai is a sound wellness app designed to relieve menstrual pain and enhance mental clarity through frequencies supported by neuroscience and cognitive-behavioral therapy. The platform fuses immersive digital art, psychedelic therapeutic experiences and functional music, creating a technology with a significant social impact. During the event at IDEAL, we will enjoy a stunning audiovisual live show by the artist and functional music Fernanda Aleman. In this performance, Fernanda will use synthesizers, modular instruments and acoustic elements to enhance the feeling of well-being in the public. The sound will be transmitted through wireless Bluetooth headphones, thus creating an immersive environment that fuses sound, visual and atmospheric landscapes, and that establishes connections between nature, welfare science and audiovisual art.",
-      tools: "TouchDesigner Software",
-      credits:
-        "Concept - Laura June Clarke\nMusic - Fernanda Aleman\nVisuals - Ferran Belmon\nSound - Ivan Ferrigno\nProduction - Catalina Joy",
-      information: "Mira Festival, Ideal Centre d'Art Digitals,\n\nBarcelona, 2023",
+      information: "Client - Rocío Berenguer\nYear - 2024",
+    },
+  },
+  {
+    slug: "kieli",
+    title: "Kieli",
+    year: "2024",
+    client: "Sónar+D / Espronceda Art and Culture",
+    sections: {
+      information:
+        "Sónar+D / Espronceda Art and Culture\nYear - 2024",
+    },
+  },
+  {
+    slug: "cupra-sensorial-capsule",
+    title: "Cupra Sensorial Capsule",
+    year: "2024",
+    client: "Tigrelab",
+    sections: {
+      information: "Client - Tigrelab\nYear - 2024",
     },
   },
   {
     slug: "ciclic-live-av",
     title: "CíCLIC Live AV",
+    year: "2023–2024",
+    client: "Espronceda / Volumens / Intervals",
     thumbnail: "/images/projects/ciclic-live-av/thumbnail.jpg",
     images: [
       "/images/projects/ciclic-live-av/gallery/01.jpg",
@@ -128,8 +175,53 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "moonai-soundwaves-wellness",
+    title: "Moonai Soundwaves Wellness",
+    year: "2023",
+    client: "Moonai / Mira Festival (Ideal)",
+    thumbnail: "/images/projects/moonai-soundwaves-wellness/thumbnail.jpg",
+    images: [
+      "/images/projects/moonai-soundwaves-wellness/gallery/01.jpg",
+      "/images/projects/moonai-soundwaves-wellness/gallery/02.jpg",
+      "/images/projects/moonai-soundwaves-wellness/gallery/03.jpg",
+      "/images/projects/moonai-soundwaves-wellness/gallery/04.jpg",
+    ],
+    sections: {
+      concept:
+        "Moonai is a sound wellness app designed to relieve menstrual pain and enhance mental clarity through frequencies supported by neuroscience and cognitive-behavioral therapy. The platform fuses immersive digital art, psychedelic therapeutic experiences and functional music, creating a technology with a significant social impact. During the event at IDEAL, we will enjoy a stunning audiovisual live show by the artist and functional music Fernanda Aleman. In this performance, Fernanda will use synthesizers, modular instruments and acoustic elements to enhance the feeling of well-being in the public. The sound will be transmitted through wireless Bluetooth headphones, thus creating an immersive environment that fuses sound, visual and atmospheric landscapes, and that establishes connections between nature, welfare science and audiovisual art.",
+      tools: "TouchDesigner Software",
+      credits:
+        "Concept - Laura June Clarke\nMusic - Fernanda Aleman\nVisuals - Ferran Belmon\nSound - Ivan Ferrigno\nProduction - Catalina Joy",
+      information: "Mira Festival, Ideal Centre d'Art Digitals,\n\nBarcelona, 2023",
+    },
+  },
+  {
+    slug: "o",
+    title: "O",
+    year: "2022",
+    client: "Mira Festival (concepto Tiler Gab / Landscapes)",
+    thumbnail: "/images/projects/o/thumbnail.jpeg",
+    images: [
+      "/images/projects/o/gallery/01.jpg",
+      "/images/projects/o/gallery/02.jpg",
+      "/images/projects/o/gallery/03.jpeg",
+    ],
+    sections: {
+      concept:
+        "Light installation \"O\" is a laconic designed visual experience.\n\nAn eye-shaped frame that is bathed in a tinted light beam, transforming the space into a dreamlike atmosphere.\n\nThe slow-paced metamorphosis of the space through light, color and sound.",
+      tools:
+        "Projection - 30K Lumens Projector\nSound System - 2.1\nSound Design Software - Ableton Live\nVisuals - TouchDesigner",
+      credits:
+        "Concept - Tiler Gab\nDesign - Tiler Gab\nProduction - Landscapes agency\nSound Design - Ferran Bemon\nPhotography - Jean-Marc Joseph",
+      information:
+        "Venue - Nau Revolució\nLocation - Barcelona\nEvent - Mira Festival\nYear - 2022",
+    },
+  },
+  {
     slug: "mostra-festival-2022",
     title: "Mostra Festival 2022",
+    year: "2022",
+    client: "Mostra Festival",
     thumbnail: "/images/projects/mostra-festival-2022/thumbnail.jpg",
     images: [
       "/images/projects/mostra-festival-2022/gallery/01.jpg",
@@ -149,6 +241,8 @@ export const projects: Project[] = [
   {
     slug: "color-conversations",
     title: "Color Conversations",
+    year: "2021",
+    client: "Llum BCN (concepto Tiler Gab / Landscapes)",
     thumbnail: "/images/projects/color-conversations/thumbnail.jpg",
     images: [
       "/images/projects/color-conversations/gallery/01.jpg",
@@ -170,6 +264,8 @@ export const projects: Project[] = [
   {
     slug: "centrifuge-nft",
     title: "Centrifuge NFT",
+    year: "2021",
+    client: "Centrifuge",
     thumbnail: "/images/projects/centrifuge-nft/thumbnail.jpg",
     images: [
       "/images/projects/centrifuge-nft/gallery/01.jpg",
@@ -185,8 +281,19 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "planets-mapping-sharjah-light-festival",
+    title: "Planets Mapping in Sharjah Light Festival",
+    year: "2020",
+    client: "Tigrelab",
+    sections: {
+      information: "Client - Tigrelab\nYear - 2020",
+    },
+  },
+  {
     slug: "wonders",
     title: "Wonders",
+    year: "2020",
+    client: "Moon Ribas / Felix Schoeller",
     thumbnail: "/images/projects/wonders/thumbnail.jpg",
     images: [
       "/images/projects/wonders/gallery/01.jpg",
@@ -203,8 +310,19 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "durham-light-festival",
+    title: "Durham Light Festival",
+    year: "2019",
+    client: "Tigrelab",
+    sections: {
+      information: "Client - Tigrelab\nYear - 2019",
+    },
+  },
+  {
     slug: "dansa-del-cosmos",
     title: "Dansa del Cosmos",
+    year: "2019",
+    client: "Marina Colell (Graphitons) / BAU",
     thumbnail: "/images/projects/dansa-del-cosmos/thumbnail.jpg",
     images: [
       "/images/projects/dansa-del-cosmos/gallery/01.jpg",
@@ -219,26 +337,6 @@ export const projects: Project[] = [
       credits:
         "Concept - Marina Colell\nDesign - Marina Colell\nArchitecture - Studio Sauras\nCreative Coding - Ferran Bemon, Joan Sandoval\nMusic - Bru Ferri\nChoreography - Elena Tarrats, Marc Vilajuana\nPhotography - Montse Capdevila\nFilmmaking - Montse Capdevila\nText Revision - Sonia Fernández-Vidal\nManagement - Gisela Colell",
       information: "Venue - BAU\nLocation - Barcelona\nYear - 2019",
-    },
-  },
-  {
-    slug: "o",
-    title: "O",
-    thumbnail: "/images/projects/o/thumbnail.jpeg",
-    images: [
-      "/images/projects/o/gallery/01.jpg",
-      "/images/projects/o/gallery/02.jpg",
-      "/images/projects/o/gallery/03.jpeg",
-    ],
-    sections: {
-      concept:
-        "Light installation \"O\" is a laconic designed visual experience.\n\nAn eye-shaped frame that is bathed in a tinted light beam, transforming the space into a dreamlike atmosphere.\n\nThe slow-paced metamorphosis of the space through light, color and sound.",
-      tools:
-        "Projection - 30K Lumens Projector\nSound System - 2.1\nSound Design Software - Ableton Live\nVisuals - TouchDesigner",
-      credits:
-        "Concept - Tiler Gab\nDesign - Tiler Gab\nProduction - Landscapes agency\nSound Design - Ferran Bemon\nPhotography - Jean-Marc Joseph",
-      information:
-        "Venue - Nau Revolució\nLocation - Barcelona\nEvent - Mira Festival\nYear - 2022",
     },
   },
 ];
