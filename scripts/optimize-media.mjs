@@ -163,7 +163,6 @@ async function optimizeVideo(filePath) {
     return { before, after: before, saved: 0 };
   }
 
-  const ext = path.extname(filePath);
   const tempPath = `${filePath}.tmp.mp4`;
 
   await execFileAsync(
