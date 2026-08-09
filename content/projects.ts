@@ -230,11 +230,11 @@ export const projects: Project[] = [
   {
     slug: "visuals-for-aitana",
     title: "Visuals For Aitana",
-    year: "2024",
+    year: "May 2025",
     client: "Vampire",
     category: "estudio-encargos",
     sections: {
-      information: "Client - Vampire\nYear - 2024",
+      information: "Client - Vampire\nYear - May 2025",
     },
   },
   {
