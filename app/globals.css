@@ -35,3 +35,8 @@ body {
   background: var(--accent);
   color: var(--background);
 }
+
+.about-float-card {
+  -webkit-backdrop-filter: blur(28px);
+  backdrop-filter: blur(28px);
+}
