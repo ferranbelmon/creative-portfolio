@@ -8,6 +8,7 @@ type ProjectGalleryProps = {
 };
 
 const columnClasses: Record<NonNullable<GalleryLayout["columns"]>, string> = {
+  1: "md:grid-cols-1",
   2: "md:grid-cols-2",
   3: "md:grid-cols-3",
   4: "md:grid-cols-4",
@@ -35,11 +36,17 @@ export function ProjectGallery({
   const aspectClass = aspectClasses[aspectRatio];
   const objectFit = aspectRatio === "auto" ? "h-auto w-full" : "h-full w-full object-cover";
 
+  const gapClass = columns === 1 ? "gap-3 md:gap-4" : "gap-1";
+  const imageWidth = columns === 1 ? 1600 : 960;
+  const imageHeight = columns === 1 ? 900 : 1440;
+  const sizes =
+    columns === 1
+      ? "100vw"
+      : `(max-width: 768px) 100vw, ${Math.round(100 / columns)}vw`;
+
   return (
     <section className="mt-16 border-t border-border pt-1 md:mt-20">
-      <div
-        className={`grid grid-cols-1 gap-1 ${columnClasses[columns]}`}
-      >
+      <div className={`grid grid-cols-1 ${gapClass} ${columnClasses[columns]}`}>
         {images.map((src, index) => {
           const isVideo = /\.(mp4|webm|mov)$/i.test(src);
           const isGif = src.endsWith(".gif");
@@ -70,10 +77,10 @@ export function ProjectGallery({
                 <RemoteImage
                   src={src}
                   alt={`${title} — image ${index + 1}`}
-                  width={960}
-                  height={1440}
+                  width={imageWidth}
+                  height={imageHeight}
                   className={objectFit}
-                  sizes={`(max-width: 768px) 100vw, ${Math.round(100 / columns)}vw`}
+                  sizes={sizes}
                 />
               )}
             </div>

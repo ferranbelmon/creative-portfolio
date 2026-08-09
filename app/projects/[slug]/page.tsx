@@ -40,9 +40,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   const { prev, next } = getAdjacentProjects(slug);
-  const featuredImage = project.images?.[0] ?? project.thumbnail;
-  const galleryImages =
-    (project.images?.length ?? 0) > 1 ? (project.images?.slice(1) ?? []) : [];
+  const fullWidthGallery = project.galleryLayout?.columns === 1;
+  const featuredImage = fullWidthGallery
+    ? undefined
+    : (project.images?.[0] ?? project.thumbnail);
+  const galleryImages = fullWidthGallery
+    ? (project.images ?? [])
+    : (project.images?.length ?? 0) > 1
+      ? (project.images?.slice(1) ?? [])
+      : [];
 
   return (
     <main className="mx-auto max-w-[1600px] px-5 py-12 md:px-8 md:py-16">
@@ -60,15 +66,22 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         {project.client}
       </p>
 
-      <section className="mt-10 grid items-start gap-10 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_minmax(280px,34rem)] lg:gap-12 xl:gap-16">
+      <section
+        className={
+          fullWidthGallery
+            ? "mt-10 max-w-3xl lg:mt-12"
+            : "mt-10 grid items-start gap-10 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_minmax(280px,34rem)] lg:gap-12 xl:gap-16"
+        }
+      >
         <ProjectAccordion sections={project.sections} />
-        {featuredImage ? (
-          <ProjectFeaturedImage title={project.title} src={featuredImage} />
-        ) : (
-          <div className="flex min-h-[18rem] items-end border border-border bg-surface p-6 text-xs font-bold uppercase tracking-[0.25em] text-muted lg:max-w-[34rem] lg:justify-self-end">
-            Photos coming soon
-          </div>
-        )}
+        {!fullWidthGallery &&
+          (featuredImage ? (
+            <ProjectFeaturedImage title={project.title} src={featuredImage} />
+          ) : (
+            <div className="flex min-h-[18rem] items-end border border-border bg-surface p-6 text-xs font-bold uppercase tracking-[0.25em] text-muted lg:max-w-[34rem] lg:justify-self-end">
+              Photos coming soon
+            </div>
+          ))}
       </section>
 
       <ProjectGallery

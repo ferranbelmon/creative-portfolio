@@ -6,7 +6,7 @@ export type ProjectSection = {
 };
 
 export type GalleryLayout = {
-  columns?: 2 | 3 | 4;
+  columns?: 1 | 2 | 3 | 4;
   aspectRatio?: "auto" | "portrait" | "square" | "landscape";
 };
 
@@ -277,6 +277,10 @@ export const projects: Project[] = [
       "/images/projects/018-visuals-for-aitana/gallery/04.jpg",
       "/images/projects/018-visuals-for-aitana/gallery/05.jpg",
     ],
+    galleryLayout: {
+      columns: 1,
+      aspectRatio: "auto",
+    },
     sections: {
       information: "Client - Vampire\nYear - May 2025",
     },
