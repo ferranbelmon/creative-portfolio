@@ -269,6 +269,14 @@ export const projects: Project[] = [
     year: "May 2025",
     client: "Vampire",
     category: "estudio-encargos",
+    thumbnail: "/images/projects/018-visuals-for-aitana/thumbnail.jpg",
+    images: [
+      "/images/projects/018-visuals-for-aitana/gallery/01.jpg",
+      "/images/projects/018-visuals-for-aitana/gallery/02.jpg",
+      "/images/projects/018-visuals-for-aitana/gallery/03.jpg",
+      "/images/projects/018-visuals-for-aitana/gallery/04.jpg",
+      "/images/projects/018-visuals-for-aitana/gallery/05.jpg",
+    ],
     sections: {
       information: "Client - Vampire\nYear - May 2025",
     },
