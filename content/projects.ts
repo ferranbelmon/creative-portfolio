@@ -53,10 +53,10 @@ export const projects: Project[] = [
     slug: "visuales-para-tayhana",
     title: "Visuales para Tayhana",
     year: "2026",
-    client: "Sónar Festival",
+    client: "Tayhana",
     category: "colaboraciones",
     sections: {
-      information: "Sónar Festival\nYear - 2026",
+      information: "Client - Tayhana\nEvent - Sónar Festival\nYear - 2026",
     },
   },
   {
