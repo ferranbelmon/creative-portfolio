@@ -243,8 +243,20 @@ export const projects: Project[] = [
     year: "2024",
     client: "Vampire",
     category: "estudio-encargos",
+    thumbnail: "/images/projects/visuals-for-boiler-room-primavera-sound-2024/thumbnail.jpg",
+    images: [
+      "/images/projects/visuals-for-boiler-room-primavera-sound-2024/gallery/01.jpg",
+      "/images/projects/visuals-for-boiler-room-primavera-sound-2024/gallery/02.jpg",
+      "/images/projects/visuals-for-boiler-room-primavera-sound-2024/gallery/03.jpg",
+      "/images/projects/visuals-for-boiler-room-primavera-sound-2024/gallery/04.jpg",
+      "/images/projects/visuals-for-boiler-room-primavera-sound-2024/gallery/05.jpg",
+      "/images/projects/visuals-for-boiler-room-primavera-sound-2024/gallery/06.jpg",
+      "/images/projects/visuals-for-boiler-room-primavera-sound-2024/gallery/07.jpg",
+      "/images/projects/visuals-for-boiler-room-primavera-sound-2024/gallery/08.jpg",
+    ],
     sections: {
-      information: "Client - Vampire\nEvent - Boiler Room x Primavera Sound\nYear - 2024",
+      information:
+        "Client - Vampire\nEvent - Boiler Room x CUPRA at Primavera Sound\nLocation - Barcelona, Spain\nYear - 2024",
     },
   },
   {
