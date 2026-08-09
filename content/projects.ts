@@ -180,6 +180,16 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "visuals-for-aitana",
+    title: "Visuals For Aitana",
+    year: "2024",
+    client: "Vampire",
+    category: "estudio-encargos",
+    sections: {
+      information: "Client - Vampire\nYear - 2024",
+    },
+  },
+  {
     slug: "ciclic-live-av",
     title: "CíCLIC Live AV",
     year: "2023–2024",
