@@ -74,12 +74,20 @@ export const projects: Project[] = [
   },
   {
     slug: "technical-direction-mwc-congress-hall",
-    title: "Technical Direction MWC Congress Hall",
+    title: "Landscapes at MWC 2026",
     year: "2026",
     client: "Landscapes",
     category: "estudio-encargos",
+    externalUrl: "https://landscapes.digital/en/work/landscapes-en-mwc-2026/",
     sections: {
-      information: "Client - Landscapes\nYear - 2026",
+      concept:
+        "Immersive installations for industry, health and research at Mobile World Congress 2026.\n\nAt Mobile World Congress 2026, Landscapes developed and produced a range of interactive installations showcasing innovation across healthcare, food production, industry and scientific research. Through immersive environments and hands-on experiences, visitors were invited to engage with emerging technologies in a direct and accessible way.\n\nThe project included a variety of bespoke installations, from an immersive fog screen featuring artistic content by Ferran Belmon to interactive experiences exploring therapeutic nanobots, artificial intelligence, sustainable agriculture and advanced manufacturing systems. Each proposal translated complex technological processes into intuitive and engaging narratives.",
+      tools:
+        "Immersive fog screen\nInteractive systems\nExhibition structures\nCustom supports & screens\nSpatial integration",
+      credits:
+        "Agency - Landscapes\nArtistic content (fog screen) - Ferran Belmon\nTechnical development, physical production & spatial integration - Landscapes",
+      information:
+        "Client - Landscapes\nEvent - Mobile World Congress 2026\nType - Events / Immersive / Interactive installations\nRole - Artistic content for immersive fog screen\nYear - 2026\nProject page - https://landscapes.digital/en/work/landscapes-en-mwc-2026/",
     },
   },
   {
