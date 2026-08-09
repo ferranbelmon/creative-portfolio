@@ -372,8 +372,29 @@ export const projects: Project[] = [
     year: "2020",
     client: "Tigrelab",
     category: "estudio-encargos",
+    thumbnail: "/images/projects/planets-mapping-sharjah-light-festival/thumbnail.jpg",
+    images: [
+      "/images/projects/planets-mapping-sharjah-light-festival/gallery/01.jpg",
+      "/images/projects/planets-mapping-sharjah-light-festival/gallery/02.jpg",
+      "/images/projects/planets-mapping-sharjah-light-festival/gallery/03.jpg",
+      "/images/projects/planets-mapping-sharjah-light-festival/gallery/04.jpg",
+      "/images/projects/planets-mapping-sharjah-light-festival/gallery/05.jpg",
+      "/images/projects/planets-mapping-sharjah-light-festival/gallery/06.jpg",
+      "/images/projects/planets-mapping-sharjah-light-festival/gallery/07.jpg",
+      "/images/projects/planets-mapping-sharjah-light-festival/gallery/08.jpg",
+      "/images/projects/planets-mapping-sharjah-light-festival/gallery/09.jpg",
+      "/images/projects/planets-mapping-sharjah-light-festival/gallery/10.jpg",
+    ],
+    externalUrl: "https://tigrelab.com/project/planets/",
     sections: {
-      information: "Client - Tigrelab\nYear - 2020",
+      concept:
+        "Embark on an interactive journey of Planets at Sharjah Light Festival with an augmented reality installation.\n\nInvited by Nomada for the 10th Sharjah Light Festival 2020, Planets was presented at University City Hall as a combination of video mapping and AR. Visitors stretched the boundaries of the building beyond its walls, interacting with planets and modifying the characteristics of the show, while the rest of the public enjoyed the uninterrupted augmented experience through a mobile app.",
+      tools:
+        "Creative Code\nReal-Time Graphics\nNotch\nAbleton\nLeap Motion\nFirebase\nAR mobile app (Android & iOS)\nProjection Mapping",
+      credits:
+        "Client - Nomada / Sharjah Light Festival\nAgency - Tigrelab\nCreative Direction - Federico Gonzalez, Mathieu Felix, Javier Pinto\nNotch Designer - Dan Garotte, Daniel Guillén, Filip Roca\nProducer - Vanesa Palmeri\nCreative Coder - Ferran Belda, Daniel Guillén\nApp Designer - Daniel Guillén\nAR Developer - Nacho Cosio",
+      information:
+        "Industry - Arts & Culture\nType - Immersive / Interactive / Installation / Projection Mapping\nFestival - Sharjah Light Festival 2020\nVenue - University City Hall\nYear - 2020\nProject page - https://tigrelab.com/project/planets/",
     },
   },
   {
@@ -399,12 +420,31 @@ export const projects: Project[] = [
   },
   {
     slug: "durham-light-festival",
-    title: "Durham Light Festival",
+    title: "Stones — Durham Lumiere",
     year: "2019",
     client: "Tigrelab",
     category: "estudio-encargos",
+    thumbnail: "/images/projects/durham-light-festival/thumbnail.jpg",
+    images: [
+      "/images/projects/durham-light-festival/gallery/01.jpg",
+      "/images/projects/durham-light-festival/gallery/02.jpg",
+      "/images/projects/durham-light-festival/gallery/03.jpg",
+      "/images/projects/durham-light-festival/gallery/04.jpg",
+      "/images/projects/durham-light-festival/gallery/05.jpg",
+      "/images/projects/durham-light-festival/gallery/06.jpg",
+      "/images/projects/durham-light-festival/gallery/07.jpg",
+      "/images/projects/durham-light-festival/gallery/08.jpg",
+    ],
+    externalUrl: "https://tigrelab.com/project/stones/",
     sections: {
-      information: "Client - Tigrelab\nYear - 2019",
+      concept:
+        "Transforming Durham Cathedral into a contemplative canvas through collaborative interaction with stones.\n\nCommissioned via Artichoke for Durham Lumiere Festival 2019, Stones is an interactive artwork where people generate and control light and sound on the cathedral facade by touching stones. As stones are the main material of the building, visitors feel they are interacting with a part of it — the warm touch of a natural element softens the technology and focuses attention on the experience and the dialogue with the canvas.",
+      tools:
+        "Notch VFX\nD3 Media Server\nArduino UNO\nRaspberry Pi 3B\nAdafruit Capacitive Sensor\nCreative Code\nReal-Time Graphics\nSet Design",
+      credits:
+        "Client - Artichoke / Durham Lumiere\nAgency - Tigrelab\nCreative Direction - Federico Gonzalez, Mathieu Felix, Javier Pinto\nNotch Designer - Dan Garote, Antonio Nieto\nProducer - Camila Araujo Vasquez\nCreative Coder - Ferran Belda\nGraphic Design - Daniel Guillén\n3D Modeler - Gerard Foix\nEdit - WeLoveMarta\nSound Design - Mathieu Bosi",
+      information:
+        "Industry - Arts & Culture\nType - Immersive / Interactive / Installation / Projection Mapping\nFestival - Durham Lumiere 2019\nVenue - Durham Cathedral\nYear - 2019\nProject page - https://tigrelab.com/project/stones/",
     },
   },
   {
