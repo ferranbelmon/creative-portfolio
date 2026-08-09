@@ -6,6 +6,7 @@ import { ProjectGallery } from "@/components/ProjectGallery";
 import {
   getAdjacentProjects,
   getProjectBySlug,
+  projectCategoryLabels,
   projects,
 } from "@/content/projects";
 
@@ -47,6 +48,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <main className="mx-auto max-w-[1600px] px-5 py-12 md:px-8 md:py-16">
       <p className="mb-4 font-display text-xs font-bold uppercase tracking-[0.3em] text-accent">
         {project.year}
+        <span className="mx-3 text-border">/</span>
+        {projectCategoryLabels[project.category]}
       </p>
       <h1 className="font-display max-w-5xl text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold uppercase leading-[0.92] tracking-tight">
         {project.title}

@@ -10,11 +10,37 @@ export type GalleryLayout = {
   aspectRatio?: "auto" | "portrait" | "square" | "landscape";
 };
 
+export const projectCategories = [
+  "practica-artistica",
+  "estudio-encargos",
+  "colaboraciones",
+] as const;
+
+export type ProjectCategory = (typeof projectCategories)[number];
+
+export const projectCategoryLabels: Record<ProjectCategory, string> = {
+  "practica-artistica": "Práctica Artística",
+  "estudio-encargos": "Estudio / Encargos",
+  colaboraciones: "Colaboraciones",
+};
+
+/** Reserved for upcoming typology filters (Mapping, Instalación, etc.). */
+export type ProjectTypology =
+  | "mapping"
+  | "instalacion"
+  | "live-av"
+  | "direccion-artistica"
+  | "direccion-tecnica"
+  | "nft"
+  | "otros";
+
 export type Project = {
   slug: string;
   title: string;
   year: string;
   client: string;
+  category: ProjectCategory;
+  typologies?: ProjectTypology[];
   thumbnail?: string;
   images?: string[];
   externalUrl?: string;
@@ -28,6 +54,7 @@ export const projects: Project[] = [
     title: "Visuales para Tayhana",
     year: "2026",
     client: "Sónar Festival",
+    category: "colaboraciones",
     sections: {
       information: "Sónar Festival\nYear - 2026",
     },
@@ -37,6 +64,7 @@ export const projects: Project[] = [
     title: "Technical Direction MWC Congress Hall",
     year: "2026",
     client: "Landscapes",
+    category: "estudio-encargos",
     sections: {
       information: "Client - Landscapes\nYear - 2026",
     },
@@ -46,6 +74,7 @@ export const projects: Project[] = [
     title: "Espurna",
     year: "2025",
     client: "Turbina (proyecto propio)",
+    category: "practica-artistica",
     thumbnail: "/images/projects/espurna/thumbnail.jpg",
     images: [
       "/images/projects/espurna/gallery/01.jpg",
@@ -67,6 +96,7 @@ export const projects: Project[] = [
     title: "Art Direction for Sónar Night VIP Corridor",
     year: "2025",
     client: "Landscapes",
+    category: "estudio-encargos",
     sections: {
       information: "Client - Landscapes\nYear - 2025",
     },
@@ -76,6 +106,7 @@ export const projects: Project[] = [
     title: "Collide",
     year: "2024–2025",
     client: "Bahidorá / Akamba (proyecto propio)",
+    category: "practica-artistica",
     thumbnail: "/images/projects/collide/thumbnail.jpg",
     images: [
       "/images/projects/collide/gallery/01.jpg",
@@ -97,6 +128,7 @@ export const projects: Project[] = [
     title: "CíCLIC",
     year: "2024–2025",
     client: "Lux / Intervals / Mira (proyecto propio)",
+    category: "practica-artistica",
     thumbnail: "/images/projects/ciclic/thumbnail.jpg",
     images: [
       "/images/projects/ciclic/gallery/01.jpg",
@@ -121,6 +153,7 @@ export const projects: Project[] = [
     title: "BADDANCE WITH THE BADWEEDS",
     year: "2024",
     client: "Rocío Berenguer",
+    category: "colaboraciones",
     sections: {
       information: "Client - Rocío Berenguer\nYear - 2024",
     },
@@ -130,6 +163,7 @@ export const projects: Project[] = [
     title: "Kieli",
     year: "2024",
     client: "Sónar+D / Espronceda Art and Culture",
+    category: "colaboraciones",
     sections: {
       information:
         "Sónar+D / Espronceda Art and Culture\nYear - 2024",
@@ -140,6 +174,7 @@ export const projects: Project[] = [
     title: "Cupra Sensorial Capsule",
     year: "2024",
     client: "Tigrelab",
+    category: "estudio-encargos",
     sections: {
       information: "Client - Tigrelab\nYear - 2024",
     },
@@ -149,6 +184,7 @@ export const projects: Project[] = [
     title: "CíCLIC Live AV",
     year: "2023–2024",
     client: "Espronceda / Volumens / Intervals",
+    category: "practica-artistica",
     thumbnail: "/images/projects/ciclic-live-av/thumbnail.jpg",
     images: [
       "/images/projects/ciclic-live-av/gallery/01.jpg",
@@ -179,6 +215,7 @@ export const projects: Project[] = [
     title: "Moonai Soundwaves Wellness",
     year: "2023",
     client: "Moonai / Mira Festival (Ideal)",
+    category: "colaboraciones",
     thumbnail: "/images/projects/moonai-soundwaves-wellness/thumbnail.jpg",
     images: [
       "/images/projects/moonai-soundwaves-wellness/gallery/01.jpg",
@@ -200,6 +237,7 @@ export const projects: Project[] = [
     title: "O",
     year: "2022",
     client: "Mira Festival (concepto Tiler Gab / Landscapes)",
+    category: "colaboraciones",
     thumbnail: "/images/projects/o/thumbnail.jpeg",
     images: [
       "/images/projects/o/gallery/01.jpg",
@@ -222,6 +260,7 @@ export const projects: Project[] = [
     title: "Mostra Festival 2022",
     year: "2022",
     client: "Mostra Festival",
+    category: "estudio-encargos",
     thumbnail: "/images/projects/mostra-festival-2022/thumbnail.jpg",
     images: [
       "/images/projects/mostra-festival-2022/gallery/01.jpg",
@@ -243,6 +282,7 @@ export const projects: Project[] = [
     title: "Color Conversations",
     year: "2021",
     client: "Llum BCN (concepto Tiler Gab / Landscapes)",
+    category: "colaboraciones",
     thumbnail: "/images/projects/color-conversations/thumbnail.jpg",
     images: [
       "/images/projects/color-conversations/gallery/01.jpg",
@@ -266,6 +306,7 @@ export const projects: Project[] = [
     title: "Centrifuge NFT",
     year: "2021",
     client: "Centrifuge",
+    category: "estudio-encargos",
     thumbnail: "/images/projects/centrifuge-nft/thumbnail.jpg",
     images: [
       "/images/projects/centrifuge-nft/gallery/01.jpg",
@@ -285,6 +326,7 @@ export const projects: Project[] = [
     title: "Planets Mapping in Sharjah Light Festival",
     year: "2020",
     client: "Tigrelab",
+    category: "estudio-encargos",
     sections: {
       information: "Client - Tigrelab\nYear - 2020",
     },
@@ -294,6 +336,7 @@ export const projects: Project[] = [
     title: "Wonders",
     year: "2020",
     client: "Moon Ribas / Felix Schoeller",
+    category: "colaboraciones",
     thumbnail: "/images/projects/wonders/thumbnail.jpg",
     images: [
       "/images/projects/wonders/gallery/01.jpg",
@@ -314,6 +357,7 @@ export const projects: Project[] = [
     title: "Durham Light Festival",
     year: "2019",
     client: "Tigrelab",
+    category: "estudio-encargos",
     sections: {
       information: "Client - Tigrelab\nYear - 2019",
     },
@@ -323,6 +367,7 @@ export const projects: Project[] = [
     title: "Dansa del Cosmos",
     year: "2019",
     client: "Marina Colell (Graphitons) / BAU",
+    category: "colaboraciones",
     thumbnail: "/images/projects/dansa-del-cosmos/thumbnail.jpg",
     images: [
       "/images/projects/dansa-del-cosmos/gallery/01.jpg",
