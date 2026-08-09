@@ -35,3 +35,37 @@ body {
   background: var(--accent);
   color: var(--background);
 }
+
+.project-card-scene {
+  perspective: 1100px;
+  transform-style: preserve-3d;
+}
+
+.project-card-depth {
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: box-shadow 0.35s ease;
+}
+
+.project-card {
+  box-shadow:
+    0 2px 0 rgba(212, 255, 0, 0.08),
+    0 18px 40px rgba(0, 0, 0, 0.45),
+    0 4px 12px rgba(0, 0, 0, 0.35);
+  outline: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+  transform-style: preserve-3d;
+}
+
+.project-card-scene:hover .project-card-depth {
+  box-shadow:
+    0 28px 60px rgba(0, 0, 0, 0.55),
+    0 10px 24px rgba(0, 0, 0, 0.4),
+    0 0 0 1px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card-depth {
+    transform: none !important;
+  }
+}
