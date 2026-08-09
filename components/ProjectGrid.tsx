@@ -98,7 +98,7 @@ export function ProjectGrid() {
             animate="show"
             exit="exit"
           >
-            {filteredProjects.map((project, index) => (
+            {filteredProjects.map((project) => (
               <motion.div
                 key={project.slug}
                 variants={reduceMotion ? undefined : cardVariants}
@@ -125,7 +125,7 @@ export function ProjectGrid() {
                   <div className="absolute inset-0 flex flex-col justify-between p-5 md:p-6">
                     <div className="flex items-start justify-between gap-3">
                       <span className="font-display text-xs font-bold text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        {String(index + 1).padStart(2, "0")}
+                        {project.id}
                       </span>
                       <div className="text-right">
                         <span className="block font-display text-[0.65rem] font-bold uppercase tracking-[0.2em] text-muted">

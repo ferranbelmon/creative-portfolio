@@ -47,6 +47,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <main className="mx-auto max-w-[1600px] px-5 py-12 md:px-8 md:py-16">
       <p className="mb-4 font-display text-xs font-bold uppercase tracking-[0.3em] text-accent">
+        {project.id}
+        <span className="mx-3 text-border">/</span>
         {project.year}
         <span className="mx-3 text-border">/</span>
         {projectCategoryLabels[project.category]}
