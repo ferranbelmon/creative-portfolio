@@ -24,23 +24,12 @@ export const projectCategoryLabels: Record<ProjectCategory, string> = {
   colaboraciones: "Colaborations",
 };
 
-/** Reserved for upcoming typology filters (Mapping, Instalación, etc.). */
-export type ProjectTypology =
-  | "mapping"
-  | "instalacion"
-  | "live-av"
-  | "direccion-artistica"
-  | "direccion-tecnica"
-  | "nft"
-  | "otros";
-
 export type Project = {
   slug: string;
   title: string;
   year: string;
   client: string;
   category: ProjectCategory;
-  typologies?: ProjectTypology[];
   thumbnail?: string;
   images?: string[];
   externalUrl?: string;
