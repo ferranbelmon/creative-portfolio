@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Syne } from "next/font/google";
+import { Suspense } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { site } from "@/content/site";
@@ -37,7 +38,9 @@ export default function RootLayout({
         className="min-h-full bg-background text-foreground antialiased"
         suppressHydrationWarning
       >
-        <Header />
+        <Suspense fallback={null}>
+          <Header />
+        </Suspense>
         {children}
         <Footer />
       </body>

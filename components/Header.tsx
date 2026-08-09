@@ -1,11 +1,11 @@
-import { RemoteImage } from "@/components/RemoteImage";
-import Link from "next/link";
-import { site } from "@/content/site";
+"use client";
 
-const navLinks = [
-  { label: "Work", href: "/" },
-  { label: "About", href: "/about" },
-];
+import Link from "next/link";
+import { useCallback } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { AboutPanel } from "@/components/AboutPanel";
+import { RemoteImage } from "@/components/RemoteImage";
+import { site } from "@/content/site";
 
 function InstagramIcon() {
   return (
@@ -26,56 +26,88 @@ function LinkedinIcon() {
 }
 
 export function Header() {
-  return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 md:px-8 md:py-5">
-        <Link href="/" className="group flex items-center gap-3">
-          <span className="relative block h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-border transition-all group-hover:ring-accent">
-            <RemoteImage
-              src={site.logo}
-              alt={site.name}
-              fill
-              sizes="36px"
-              className="object-cover"
-              priority
-            />
-          </span>
-          <span className="hidden font-display text-sm font-bold uppercase tracking-[0.15em] sm:inline">
-            {site.name.split(" ")[0]}
-          </span>
-        </Link>
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const aboutOpen = searchParams.get("about") === "1";
 
-        <nav className="flex items-center gap-5 md:gap-8">
-          {navLinks.map((link) => (
+  const closeAbout = useCallback(() => {
+    if (!aboutOpen) return;
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("about");
+    const query = params.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  }, [aboutOpen, pathname, router, searchParams]);
+
+  const openAbout = useCallback(() => {
+    if (aboutOpen) return;
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("about", "1");
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [aboutOpen, pathname, router, searchParams]);
+
+  return (
+    <>
+      <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 md:px-8 md:py-5">
+          <Link href="/" className="group flex items-center gap-3">
+            <span className="relative block h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-border transition-all group-hover:ring-accent">
+              <RemoteImage
+                src={site.logo}
+                alt={site.name}
+                fill
+                sizes="36px"
+                className="object-cover"
+                priority
+              />
+            </span>
+            <span className="hidden font-display text-sm font-bold uppercase tracking-[0.15em] sm:inline">
+              {site.name.split(" ")[0]}
+            </span>
+          </Link>
+
+          <nav className="flex items-center gap-5 md:gap-8">
             <Link
-              key={link.href}
-              href={link.href}
+              href="/"
               className="font-display text-xs font-bold uppercase tracking-[0.2em] transition-colors hover:text-accent md:text-sm"
             >
-              {link.label}
+              Work
             </Link>
-          ))}
-          <span className="hidden h-4 w-px bg-border sm:block" />
-          <a
-            href={site.social.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-            className="transition-colors hover:text-accent"
-          >
-            <InstagramIcon />
-          </a>
-          <a
-            href={site.social.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="transition-colors hover:text-accent"
-          >
-            <LinkedinIcon />
-          </a>
-        </nav>
-      </div>
-    </header>
+            <button
+              type="button"
+              onClick={openAbout}
+              aria-expanded={aboutOpen}
+              aria-controls="about-panel-title"
+              className="font-display text-xs font-bold uppercase tracking-[0.2em] transition-colors hover:text-accent md:text-sm"
+            >
+              About
+            </button>
+            <span className="hidden h-4 w-px bg-border sm:block" />
+            <a
+              href={site.social.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="transition-colors hover:text-accent"
+            >
+              <InstagramIcon />
+            </a>
+            <a
+              href={site.social.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="transition-colors hover:text-accent"
+            >
+              <LinkedinIcon />
+            </a>
+          </nav>
+        </div>
+      </header>
+
+      <AboutPanel open={aboutOpen} onClose={closeAbout} />
+    </>
   );
 }
