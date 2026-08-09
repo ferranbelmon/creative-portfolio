@@ -92,13 +92,26 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "art-direction-sonar-night-vip-corridor",
-    title: "Art Direction for Sónar Night VIP Corridor",
+    slug: "light-tunnel-sonar-by-night",
+    title: "Light Tunnel at Sónar by Night",
     year: "2025",
     client: "Landscapes",
     category: "estudio-encargos",
+    thumbnail: "/images/projects/light-tunnel-sonar-by-night/thumbnail.jpg",
+    images: [
+      "/images/projects/light-tunnel-sonar-by-night/gallery/01.jpg",
+      "/images/projects/light-tunnel-sonar-by-night/gallery/02.jpg",
+      "/images/projects/light-tunnel-sonar-by-night/gallery/03.jpg",
+      "/images/projects/light-tunnel-sonar-by-night/gallery/04.jpg",
+    ],
+    externalUrl: "https://landscapes.digital/en/work/lasers-at-sonar-festival/",
     sections: {
-      information: "Client - Landscapes\nYear - 2025",
+      concept:
+        "A hypnotic light tunnel at Sónar by Night.\n\nLandscapes transformed the space with laser installations, blending light, silence, and emotion to create an immersive and contemplative passage. Indoor laser installations reshape how people perceive space through light, silence, and emotion. At Sónar by Night, a key passage at Fira Gran Via 2 became a contemplative corridor of light and mist. Thousands of visitors walked through, many pausing to disconnect from noise and simply observe — a test of spatial storytelling through laser technology for festivals, institutions, and brands.",
+      tools: "Lasers\nLighting\nSpatial design\nAtmospheric haze",
+      credits: "Agency - Landscapes\nEvent - Sónar by Night\nPhotography - Leafhopper",
+      information:
+        "Client - Landscapes\nEvent - Sónar by Night 2025\nVenue - Fira Gran Via 2, Barcelona\nType - Events / Immersive\nRole - Lasers, lighting\nYear - 2025\nProject page - https://landscapes.digital/en/work/lasers-at-sonar-festival/",
     },
   },
   {
