@@ -136,8 +136,8 @@ export const projects: Project[] = [
     thumbnail: "/images/projects/collide/thumbnail.jpg",
     images: [
       "/images/projects/collide/gallery/01.jpg",
-      "/images/projects/collide/gallery/02.gif",
-      "/images/projects/collide/gallery/03.gif",
+      "/images/projects/collide/gallery/02.mp4",
+      "/images/projects/collide/gallery/03.mp4",
     ],
     sections: {
       concept:
@@ -281,16 +281,16 @@ export const projects: Project[] = [
     thumbnail: "/images/projects/ciclic-live-av/thumbnail.jpg",
     images: [
       "/images/projects/ciclic-live-av/gallery/01.jpg",
-      "/images/projects/ciclic-live-av/gallery/02.gif",
-      "/images/projects/ciclic-live-av/gallery/03.gif",
-      "/images/projects/ciclic-live-av/gallery/04.gif",
-      "/images/projects/ciclic-live-av/gallery/05.gif",
+      "/images/projects/ciclic-live-av/gallery/02.mp4",
+      "/images/projects/ciclic-live-av/gallery/03.mp4",
+      "/images/projects/ciclic-live-av/gallery/04.mp4",
+      "/images/projects/ciclic-live-av/gallery/05.mp4",
       "/images/projects/ciclic-live-av/gallery/07.jpg",
-      "/images/projects/ciclic-live-av/gallery/08.jpeg",
+      "/images/projects/ciclic-live-av/gallery/08.jpg",
       "/images/projects/ciclic-live-av/gallery/09.jpg",
-      "/images/projects/ciclic-live-av/gallery/10.jpeg",
-      "/images/projects/ciclic-live-av/gallery/11.jpeg",
-      "/images/projects/ciclic-live-av/gallery/12.jpeg",
+      "/images/projects/ciclic-live-av/gallery/10.jpg",
+      "/images/projects/ciclic-live-av/gallery/11.jpg",
+      "/images/projects/ciclic-live-av/gallery/12.jpg",
     ],
     sections: {
       concept:
@@ -331,11 +331,11 @@ export const projects: Project[] = [
     year: "2022",
     client: "Mira Festival (concepto Tiler Gab / Landscapes)",
     category: "colaboraciones",
-    thumbnail: "/images/projects/o/thumbnail.jpeg",
+    thumbnail: "/images/projects/o/thumbnail.jpg",
     images: [
       "/images/projects/o/gallery/01.jpg",
       "/images/projects/o/gallery/02.jpg",
-      "/images/projects/o/gallery/03.jpeg",
+      "/images/projects/o/gallery/03.jpg",
     ],
     sections: {
       concept:
