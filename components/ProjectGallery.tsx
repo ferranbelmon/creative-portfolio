@@ -40,31 +40,45 @@ export function ProjectGallery({
       <div
         className={`grid grid-cols-1 gap-1 ${columnClasses[columns]}`}
       >
-        {images.map((src, index) => (
-          <div
-            key={src}
-            className={`relative w-full overflow-hidden bg-surface ${aspectClass}`}
-          >
-            {src.endsWith(".gif") ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={src}
-                alt={`${title} — image ${index + 1}`}
-                className={objectFit}
-                loading="lazy"
-              />
-            ) : (
-              <RemoteImage
-                src={src}
-                alt={`${title} — image ${index + 1}`}
-                width={960}
-                height={1440}
-                className={objectFit}
-                sizes={`(max-width: 768px) 100vw, ${Math.round(100 / columns)}vw`}
-              />
-            )}
-          </div>
-        ))}
+        {images.map((src, index) => {
+          const isVideo = /\.(mp4|webm|mov)$/i.test(src);
+          const isGif = src.endsWith(".gif");
+
+          return (
+            <div
+              key={src}
+              className={`relative w-full overflow-hidden bg-surface ${aspectClass}`}
+            >
+              {isVideo ? (
+                <video
+                  src={src}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className={objectFit}
+                  aria-label={`${title} — video ${index + 1}`}
+                />
+              ) : isGif ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={src}
+                  alt={`${title} — image ${index + 1}`}
+                  className={objectFit}
+                  loading="lazy"
+                />
+              ) : (
+                <RemoteImage
+                  src={src}
+                  alt={`${title} — image ${index + 1}`}
+                  width={960}
+                  height={1440}
+                  className={objectFit}
+                  sizes={`(max-width: 768px) 100vw, ${Math.round(100 / columns)}vw`}
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
     </section>
   );

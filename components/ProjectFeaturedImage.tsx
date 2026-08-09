@@ -6,9 +6,21 @@ type ProjectFeaturedImageProps = {
 };
 
 export function ProjectFeaturedImage({ title, src }: ProjectFeaturedImageProps) {
+  const isVideo = /\.(mp4|webm|mov)$/i.test(src);
+  const isGif = src.endsWith(".gif");
+
   return (
     <div className="relative w-full overflow-hidden bg-surface lg:max-w-[34rem] lg:justify-self-end">
-      {src.endsWith(".gif") ? (
+      {isVideo ? (
+        <video
+          src={src}
+          controls
+          playsInline
+          preload="metadata"
+          className="h-auto w-full"
+          aria-label={`${title} — featured video`}
+        />
+      ) : isGif ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={src}

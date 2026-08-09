@@ -55,6 +55,9 @@ export const projects: Project[] = [
     year: "2026",
     client: "Protopixel",
     category: "estudio-encargos",
+    images: [
+      "/images/projects/torre-glories-content/gallery/torreglories_visita_papa.mp4",
+    ],
     sections: {
       information: "Client - Protopixel\nYear - 2026",
     },
