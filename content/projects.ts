@@ -238,6 +238,16 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "visuals-for-boiler-room-primavera-sound-2024",
+    title: "Visuals For Boiler Room x Primavera Sound 2024",
+    year: "2024",
+    client: "Vampire",
+    category: "estudio-encargos",
+    sections: {
+      information: "Client - Vampire\nEvent - Boiler Room x Primavera Sound\nYear - 2024",
+    },
+  },
+  {
     slug: "ciclic-live-av",
     title: "CíCLIC Live AV",
     year: "2023–2024",
