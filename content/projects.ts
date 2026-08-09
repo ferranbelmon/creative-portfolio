@@ -306,6 +306,9 @@ export const projects: Project[] = [
       "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/06.jpg",
       "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/07.jpg",
       "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/08.jpg",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/09.mp4",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/10.mp4",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/11.mp4",
     ],
     sections: {
       information:
