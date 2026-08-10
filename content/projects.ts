@@ -277,9 +277,9 @@ export const projects: Project[] = [
   {
     id: "018",
     slug: "visuals-for-aitana",
-    title: "Visuals For Aitana",
+    title: "Aitana Metamorfosis Season",
     year: "May 2025",
-    client: "Vampire / Metamorfosis Season",
+    client: "Vampire",
     category: "estudio-encargos",
     thumbnail: "/images/projects/018-visuals-for-aitana/thumbnail.jpg",
     images: [
