@@ -446,12 +446,7 @@ export const projects: Project[] = [
     event: "Llum BCN",
     category: "colaboraciones",
     thumbnail: "/images/projects/005-color-conversations/thumbnail.jpg",
-    images: [
-      "/images/projects/005-color-conversations/gallery/01.jpg",
-      "/images/projects/005-color-conversations/gallery/02.jpg",
-      "/images/projects/005-color-conversations/gallery/03.jpg",
-      "/images/projects/005-color-conversations/gallery/04.jpg",
-    ],
+    images: [],
     sections: {
       role: "Sound Design",
       concept:
@@ -476,6 +471,10 @@ export const projects: Project[] = [
       "/images/projects/004-centrifuge-nft/gallery/01.jpg",
       "/images/projects/004-centrifuge-nft/gallery/02.jpg",
       "/images/projects/004-centrifuge-nft/gallery/03.jpg",
+      "/images/projects/004-centrifuge-nft/gallery/04.jpg",
+      "/images/projects/004-centrifuge-nft/gallery/05.jpg",
+      "/images/projects/004-centrifuge-nft/gallery/06.jpg",
+      "/images/projects/004-centrifuge-nft/gallery/07.jpg",
     ],
     sections: {
       role: "Visuals",
