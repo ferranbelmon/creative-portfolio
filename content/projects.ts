@@ -205,7 +205,7 @@ export const projects: Project[] = [
     year: "2025",
     client: "Rocío Berenguer",
     category: "colaboraciones",
-    thumbnail: "/images/projects/014-baddance-with-the-badweeds/thumbnail.jpg",
+    thumbnail: "/images/projects/014-baddance-with-the-badweeds/gallery/08.jpg",
     images: [
       "/images/projects/014-baddance-with-the-badweeds/gallery/01.jpg",
       "/images/projects/014-baddance-with-the-badweeds/gallery/07.jpg",
