@@ -484,9 +484,6 @@ export const projects: Project[] = [
       "/images/projects/004-centrifuge-nft/gallery/02.jpg",
       "/images/projects/004-centrifuge-nft/gallery/03.jpg",
       "/images/projects/004-centrifuge-nft/gallery/04.jpg",
-      "/images/projects/004-centrifuge-nft/gallery/05.jpg",
-      "/images/projects/004-centrifuge-nft/gallery/06.jpg",
-      "/images/projects/004-centrifuge-nft/gallery/07.jpg",
     ],
     sections: {
       role: "Visuals",
