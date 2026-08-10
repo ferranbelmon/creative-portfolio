@@ -155,7 +155,7 @@ export function ProjectGrid() {
         <AnimatePresence mode="wait">
           <motion.div
             key={category}
-            className="grid grid-cols-1 gap-0.5 sm:grid-cols-2 lg:grid-cols-3"
+            className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3"
             variants={reduceMotion ? undefined : gridVariants}
             initial={reduceMotion ? false : "hidden"}
             animate="show"
