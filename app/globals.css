@@ -150,3 +150,26 @@ html.light .project-card-face {
     display: none;
   }
 }
+
+/* Non-hovered cards go grayscale when one card is hovered */
+@media (hover: hover) and (pointer: fine) {
+  .project-cards-grid .project-card-slab {
+    filter: grayscale(1);
+    transition: filter 0.45s ease, opacity 0.45s ease;
+  }
+
+  .project-cards-grid:has(.project-card-slab:hover) .project-card-slab,
+  .project-cards-grid:has(.project-card-slab:focus-within) .project-card-slab {
+    filter: grayscale(1);
+    opacity: 0.72;
+  }
+
+  .project-cards-grid .project-card-slab:hover,
+  .project-cards-grid .project-card-slab:focus-within,
+  .project-cards-grid:has(.project-card-slab:hover) .project-card-slab:hover,
+  .project-cards-grid:has(.project-card-slab:focus-within)
+    .project-card-slab:focus-within {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+}
