@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans, Syne } from "next/font/google";
+import Script from "next/script";
 import { Suspense } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -38,6 +39,9 @@ export default function RootLayout({
         className="min-h-full bg-background text-foreground antialiased"
         suppressHydrationWarning
       >
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`(function(){try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light");}catch(e){}})();`}
+        </Script>
         <Suspense fallback={null}>
           <Header />
         </Suspense>

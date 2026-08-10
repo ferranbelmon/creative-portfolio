@@ -5,6 +5,7 @@ import { useCallback } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AboutPanel } from "@/components/AboutPanel";
 import { RemoteImage } from "@/components/RemoteImage";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { site } from "@/content/site";
 
 function InstagramIcon() {
@@ -103,6 +104,8 @@ export function Header() {
             >
               <LinkedinIcon />
             </a>
+            <span className="hidden h-4 w-px bg-border sm:block" />
+            <ThemeToggle />
           </nav>
         </div>
       </header>
