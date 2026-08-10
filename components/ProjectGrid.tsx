@@ -285,7 +285,7 @@ function ProjectCard({
     <motion.div
       ref={cardRef}
       variants={reduceMotion ? undefined : cardVariants}
-      className="origin-center pb-11 pr-11 will-change-transform"
+      className="origin-center will-change-transform"
       style={
         reduceMotion
           ? undefined
@@ -297,76 +297,64 @@ function ProjectCard({
             }
       }
     >
-      <div className="project-card-slab">
-        <div className="project-card-face overflow-hidden">
-          <Link
-            href={`/projects/${project.slug}`}
-            className="group relative block aspect-square overflow-hidden bg-surface outline-none"
-            style={{ transformStyle: "preserve-3d" }}
-          >
-            {project.thumbnail ? (
-              <RemoteImage
-                src={project.thumbnail}
-                alt={project.title}
-                fill
-                className="object-cover transition-all duration-700 group-hover:scale-110 group-hover:opacity-40"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-            ) : (
-              <div className="absolute inset-0 bg-gradient-to-br from-surface via-[#161616] to-background" />
-            )}
+      <Link
+        href={`/projects/${project.slug}`}
+        className="group relative block aspect-square overflow-hidden bg-surface outline-none"
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        {project.thumbnail ? (
+          <RemoteImage
+            src={project.thumbnail}
+            alt={project.title}
+            fill
+            className="object-cover transition-all duration-700 group-hover:scale-110 group-hover:opacity-40"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-surface via-[#161616] to-background" />
+        )}
 
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60 transition-opacity group-hover:opacity-90" />
-
-            {!reduceMotion ? (
-              <motion.div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 mix-blend-soft-light"
-                style={{ background: glareBackground, opacity: glareOpacity }}
-              />
-            ) : null}
-
-            <div
-              className="absolute inset-0 flex flex-col justify-between p-5 md:p-6"
-              style={{ transform: "translateZ(24px)" }}
-            >
-              <div className="flex items-start justify-between gap-3">
-                <span className="font-display text-xs font-bold text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  {project.id}
-                </span>
-                <div className="text-right">
-                  <span className="block font-display text-[0.65rem] font-bold uppercase tracking-[0.2em] text-muted">
-                    {project.year}
-                  </span>
-                  <span className="mt-1 block text-[0.6rem] uppercase tracking-[0.16em] text-muted/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    {projectCategoryLabels[project.category]}
-                  </span>
-                </div>
-              </div>
-
-              <div>
-                {project.event ? (
-                  <p className="mb-2 text-[0.65rem] font-medium uppercase tracking-[0.18em] text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    {project.event}
-                  </p>
-                ) : null}
-                <h2 className="font-display text-2xl font-bold uppercase leading-none tracking-tight transition-all duration-300 group-hover:text-accent md:text-3xl lg:text-4xl">
-                  {project.title}
-                </h2>
-                <span className="mt-3 inline-block h-0.5 w-0 bg-accent transition-all duration-500 group-hover:w-full" />
-              </div>
-            </div>
-          </Link>
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60 transition-opacity group-hover:opacity-90" />
 
         {!reduceMotion ? (
-          <>
-            <span aria-hidden className="project-card-edge project-card-edge-right" />
-            <span aria-hidden className="project-card-edge project-card-edge-bottom" />
-            <span aria-hidden className="project-card-edge project-card-edge-corner" />
-          </>
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 mix-blend-soft-light"
+            style={{ background: glareBackground, opacity: glareOpacity }}
+          />
         ) : null}
-      </div>
+
+        <div
+          className="absolute inset-0 flex flex-col justify-between p-5 md:p-6"
+          style={{ transform: "translateZ(24px)" }}
+        >
+          <div className="flex items-start justify-between gap-3">
+            <span className="font-display text-xs font-bold text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              {project.id}
+            </span>
+            <div className="text-right">
+              <span className="block font-display text-[0.65rem] font-bold uppercase tracking-[0.2em] text-muted">
+                {project.year}
+              </span>
+              <span className="mt-1 block text-[0.6rem] uppercase tracking-[0.16em] text-muted/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                {projectCategoryLabels[project.category]}
+              </span>
+            </div>
+          </div>
+
+          <div>
+            {project.event ? (
+              <p className="mb-2 text-[0.65rem] font-medium uppercase tracking-[0.18em] text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                {project.event}
+              </p>
+            ) : null}
+            <h2 className="font-display text-2xl font-bold uppercase leading-none tracking-tight transition-all duration-300 group-hover:text-accent md:text-3xl lg:text-4xl">
+              {project.title}
+            </h2>
+            <span className="mt-3 inline-block h-0.5 w-0 bg-accent transition-all duration-500 group-hover:w-full" />
+          </div>
+        </div>
+      </Link>
     </motion.div>
   );
 }
