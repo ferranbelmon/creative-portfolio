@@ -242,7 +242,7 @@ export const projects: Project[] = [
     year: "2024",
     event: "Sónar +D",
     category: "colaboraciones",
-    thumbnail: "/images/projects/011-kieli/thumbnail.jpg",
+    thumbnail: "/images/projects/011-kieli/gallery/01.jpg",
     images: [
       "/images/projects/011-kieli/gallery/01.jpg",
       "/images/projects/011-kieli/gallery/02.jpg",

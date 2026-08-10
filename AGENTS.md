@@ -20,4 +20,6 @@ That script renames messy uploads (e.g. WhatsApp filenames) to the next free `NN
 
 Optional: `npm run compress-images` for stills. Gallery videos play muted/looping (GIF-like).
 
+**Thumbnail vs gallery:** the featured thumbnail must never appear again in the project gallery. `app/projects/[slug]/page.tsx` filters by path and identical file contents via `galleryWithoutThumbnail` in `lib/project-media.ts`. Prefer pointing `thumbnail` at a gallery path (e.g. Badweeds `gallery/08.jpg`) when the cover is one of the gallery shots; avoid a separate `thumbnail.jpg` that duplicates `01.jpg`.
+
 Production: https://creative-portfolio-chi-five.vercel.app (deploys from `master`).

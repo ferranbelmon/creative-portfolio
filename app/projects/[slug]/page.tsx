@@ -9,6 +9,7 @@ import {
   projectCategoryLabels,
   projects,
 } from "@/content/projects";
+import { galleryWithoutThumbnail } from "@/lib/project-media";
 
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
@@ -49,9 +50,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     const images = project.images ?? [];
     if (!images.length) return [];
     if (project.thumbnail) {
-      return images.filter((src) => src !== project.thumbnail);
+      // Never repeat the thumbnail (same path or identical file) in the gallery.
+      return galleryWithoutThumbnail(images, project.thumbnail);
     }
     if (fullWidthGallery) return images;
+    // Featured uses images[0]; keep it out of the strip below.
     return images.length > 1 ? images.slice(1) : [];
   })();
   const showFeaturedBeside = Boolean(featuredImage);
