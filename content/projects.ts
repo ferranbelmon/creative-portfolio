@@ -348,11 +348,9 @@ export const projects: Project[] = [
       "/images/projects/009-ciclic-live-av/gallery/04.gif",
       "/images/projects/009-ciclic-live-av/gallery/05.gif",
       "/images/projects/009-ciclic-live-av/gallery/07.jpg",
-      "/images/projects/009-ciclic-live-av/gallery/08.jpeg",
       "/images/projects/009-ciclic-live-av/gallery/09.jpg",
       "/images/projects/009-ciclic-live-av/gallery/10.jpeg",
       "/images/projects/009-ciclic-live-av/gallery/11.jpeg",
-      "/images/projects/009-ciclic-live-av/gallery/12.jpeg",
     ],
     sections: {
       concept:
