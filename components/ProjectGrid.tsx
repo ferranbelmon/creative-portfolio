@@ -22,7 +22,7 @@ import {
 
 type CategoryFilter = "all" | ProjectCategory;
 
-const MAX_TILT = 4;
+const MAX_TILT = 1;
 /** How far (in card-size multiples) the cursor still tilts a card. */
 const INFLUENCE_RADIUS = 1.85;
 
