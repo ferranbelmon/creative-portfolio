@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -9,7 +9,7 @@ import {
   useMotionValue,
   useReducedMotion,
   useSpring,
-  useTransform,
+  type MotionValue,
 } from "framer-motion";
 import { RemoteImage } from "@/components/RemoteImage";
 import {
@@ -22,7 +22,9 @@ import {
 
 type CategoryFilter = "all" | ProjectCategory;
 
-const MAX_TILT = 7;
+const MAX_TILT = 8;
+/** How far (in card-size multiples) the cursor still tilts a card. */
+const INFLUENCE_RADIUS = 1.85;
 
 const gridVariants = {
   show: {
@@ -62,13 +64,21 @@ const cardVariants = {
   },
 };
 
+const tiltSpring = { stiffness: 180, damping: 24, mass: 0.55 };
+
 function sortByDateDesc<T extends { id: string }>(list: T[]) {
   return [...list].sort((a, b) => Number(b.id) - Number(a.id));
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
 }
 
 export function ProjectGrid() {
   const [category, setCategory] = useState<CategoryFilter>("all");
   const reduceMotion = useReducedMotion();
+  const mouseX = useMotionValue(-1);
+  const mouseY = useMotionValue(-1);
 
   const filteredProjects = useMemo(() => {
     const list =
@@ -77,6 +87,19 @@ export function ProjectGrid() {
         : projects.filter((project) => project.category === category);
     return sortByDateDesc(list);
   }, [category]);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
+      mouseX.set(event.clientX);
+      mouseY.set(event.clientY);
+    };
+
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onPointerMove);
+  }, [mouseX, mouseY, reduceMotion]);
 
   return (
     <section className="mx-auto max-w-[1600px] px-5 pb-4 pt-6 md:px-8 md:pt-8">
@@ -143,6 +166,8 @@ export function ProjectGrid() {
                 key={project.slug}
                 project={project}
                 reduceMotion={Boolean(reduceMotion)}
+                mouseX={mouseX}
+                mouseY={mouseY}
               />
             ))}
           </motion.div>
@@ -161,47 +186,106 @@ export function ProjectGrid() {
 function ProjectCard({
   project,
   reduceMotion,
+  mouseX,
+  mouseY,
 }: {
   project: Project;
   reduceMotion: boolean;
+  mouseX: MotionValue<number>;
+  mouseY: MotionValue<number>;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const normalizedX = useMotionValue(0);
-  const normalizedY = useMotionValue(0);
+  const rotateXRaw = useMotionValue(0);
+  const rotateYRaw = useMotionValue(0);
+  const glareX = useMotionValue(50);
+  const glareY = useMotionValue(50);
+  const glareOpacity = useMotionValue(0);
 
-  const spring = { stiffness: 220, damping: 22, mass: 0.6 };
-  const rotateX = useSpring(
-    useTransform(normalizedY, [-0.5, 0.5], [MAX_TILT, -MAX_TILT]),
-    spring,
-  );
-  const rotateY = useSpring(
-    useTransform(normalizedX, [-0.5, 0.5], [-MAX_TILT, MAX_TILT]),
-    spring,
-  );
-  const glareX = useTransform(normalizedX, [-0.5, 0.5], [0, 100]);
-  const glareY = useTransform(normalizedY, [-0.5, 0.5], [0, 100]);
-  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.18), transparent 55%)`;
+  const rotateX = useSpring(rotateXRaw, tiltSpring);
+  const rotateY = useSpring(rotateYRaw, tiltSpring);
+  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.2), transparent 55%)`;
 
-  function handlePointerMove(event: React.PointerEvent<HTMLDivElement>) {
-    if (reduceMotion || event.pointerType !== "mouse") return;
-    const node = cardRef.current;
-    if (!node) return;
-    const rect = node.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    normalizedX.set((event.clientX - rect.left) / rect.width - 0.5);
-    normalizedY.set((event.clientY - rect.top) / rect.height - 0.5);
-  }
+  useEffect(() => {
+    if (reduceMotion) return;
 
-  function handlePointerLeave() {
-    normalizedX.set(0);
-    normalizedY.set(0);
-  }
+    let frame = 0;
+
+    const updateTilt = () => {
+      frame = 0;
+      const node = cardRef.current;
+      if (!node) return;
+
+      const mx = mouseX.get();
+      const my = mouseY.get();
+      if (mx < 0 || my < 0) {
+        rotateXRaw.set(0);
+        rotateYRaw.set(0);
+        glareOpacity.set(0);
+        return;
+      }
+
+      const rect = node.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = mx - centerX;
+      const dy = my - centerY;
+      const distance = Math.hypot(dx, dy);
+      const radius = Math.max(rect.width, rect.height) * INFLUENCE_RADIUS;
+      const influence = clamp(1 - distance / radius, 0, 1);
+
+      if (influence <= 0) {
+        rotateXRaw.set(0);
+        rotateYRaw.set(0);
+        glareOpacity.set(0);
+        return;
+      }
+
+      const nx = clamp(dx / (rect.width / 2), -1.6, 1.6);
+      const ny = clamp(dy / (rect.height / 2), -1.6, 1.6);
+
+      rotateYRaw.set(nx * MAX_TILT * influence);
+      rotateXRaw.set(-ny * MAX_TILT * influence);
+      glareX.set(50 + nx * 35);
+      glareY.set(50 + ny * 35);
+      glareOpacity.set(influence * 0.85);
+    };
+
+    const schedule = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(updateTilt);
+    };
+
+    const unsubX = mouseX.on("change", schedule);
+    const unsubY = mouseY.on("change", schedule);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    schedule();
+
+    return () => {
+      unsubX();
+      unsubY();
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [
+    glareOpacity,
+    glareX,
+    glareY,
+    mouseX,
+    mouseY,
+    reduceMotion,
+    rotateXRaw,
+    rotateYRaw,
+  ]);
 
   return (
     <motion.div
       ref={cardRef}
       variants={reduceMotion ? undefined : cardVariants}
-      className="origin-center will-change-transform hover:z-10"
+      className="origin-center will-change-transform"
       style={
         reduceMotion
           ? undefined
@@ -212,8 +296,6 @@ function ProjectCard({
               transformPerspective: 900,
             }
       }
-      onPointerMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
     >
       <Link
         href={`/projects/${project.slug}`}
@@ -237,8 +319,8 @@ function ProjectCard({
         {!reduceMotion ? (
           <motion.div
             aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-0 mix-blend-soft-light transition-opacity duration-300 group-hover:opacity-100"
-            style={{ background: glareBackground }}
+            className="pointer-events-none absolute inset-0 mix-blend-soft-light"
+            style={{ background: glareBackground, opacity: glareOpacity }}
           />
         ) : null}
 
