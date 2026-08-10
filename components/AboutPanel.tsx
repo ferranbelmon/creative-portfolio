@@ -49,7 +49,7 @@ export function AboutPanel({ open, onClose }: AboutPanelProps) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="about-panel-title"
-            className="about-float-card relative z-10 w-full max-w-6xl overflow-hidden rounded-[1.75rem] border border-white/12 bg-surface/45 shadow-[0_30px_90px_rgba(0,0,0,0.45)] backdrop-blur-2xl md:rounded-[2rem]"
+            className="about-float-card relative z-10 w-full max-w-6xl overflow-hidden rounded-[1.75rem] border border-border bg-surface/80 shadow-[0_30px_90px_rgba(0,0,0,0.28)] backdrop-blur-2xl md:rounded-[2rem]"
             initial={{ x: 96, opacity: 0, scale: 0.96 }}
             animate={{ x: 0, opacity: 1, scale: 1 }}
             exit={{ x: 72, opacity: 0, scale: 0.97 }}
@@ -81,7 +81,7 @@ export function AboutPanel({ open, onClose }: AboutPanelProps) {
                 type="button"
                 onClick={onClose}
                 aria-label="Close"
-                className="shrink-0 rounded-full border border-white/12 bg-white/[0.04] px-3 py-2 font-display text-[0.65rem] font-bold uppercase tracking-[0.2em] text-muted transition-colors hover:border-accent/40 hover:text-accent"
+                className="shrink-0 rounded-full border border-border bg-background/50 px-3 py-2 font-display text-[0.65rem] font-bold uppercase tracking-[0.2em] text-muted transition-colors hover:border-accent/40 hover:text-accent"
               >
                 Close
               </button>
@@ -91,7 +91,7 @@ export function AboutPanel({ open, onClose }: AboutPanelProps) {
               {/* Reserved media column — portrait image will go here */}
               <div
                 aria-hidden
-                className="relative hidden min-h-[24rem] overflow-hidden rounded-[1.35rem] border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.02] lg:block"
+                className="relative hidden min-h-[24rem] overflow-hidden rounded-[1.35rem] border border-border bg-gradient-to-b from-foreground/[0.04] to-transparent lg:block"
               >
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,255,0,0.06),transparent_65%)]" />
               </div>
