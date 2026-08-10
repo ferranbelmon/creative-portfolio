@@ -249,6 +249,8 @@ export const projects: Project[] = [
     ],
     sections: {
       role: "Collaboration",
+      concept:
+        "KIELI is an interactive installation exploring language preservation, cultural hybridization, and artificial intelligence as a tool for linguistic resistance. Developed at ESPRONCEDA Institute of Art & Culture in collaboration with the European project RISE UP and exhibited at Sónar, the work centers on five minoritized European languages: Aranese, Seto, Aromanian, Cornish, and Burgenland Serbo-Croatian.\n\nWhile mainstream generative AI models tend to enforce cultural homogenization, KIELI reconfigures neural networks into tools for language defense. Treating language as an evolving worldview rather than a static code, the installation explores a speculative question: What happens when digital borders dissolve and two endangered languages collide to form a new one?\n\nInteracting with the system, visitors co-create speculative sound avatars. By selecting pairs of words from the archive, the interface generates neologisms with hybrid grammar and synthesizes their pronunciation in real time.",
       information:
         "Sónar+D / Espronceda Art and Culture\nYear - 2024",
     },
