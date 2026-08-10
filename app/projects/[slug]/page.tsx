@@ -41,14 +41,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   const { prev, next } = getAdjacentProjects(slug);
   const fullWidthGallery = project.galleryLayout?.columns === 1;
-  const featuredImage = fullWidthGallery
-    ? undefined
-    : (project.images?.[0] ?? project.thumbnail);
-  const galleryImages = fullWidthGallery
-    ? (project.images ?? [])
-    : (project.images?.length ?? 0) > 1
-      ? (project.images?.slice(1) ?? [])
-      : [];
+  // Prefer thumbnail beside project info; keep full-width galleries for the strip below.
+  const featuredImage =
+    project.thumbnail ??
+    (fullWidthGallery ? undefined : project.images?.[0]);
+  const galleryImages = (() => {
+    const images = project.images ?? [];
+    if (!images.length) return [];
+    if (project.thumbnail) {
+      return images.filter((src) => src !== project.thumbnail);
+    }
+    if (fullWidthGallery) return images;
+    return images.length > 1 ? images.slice(1) : [];
+  })();
+  const showFeaturedBeside = Boolean(featuredImage);
 
   return (
     <main className="mx-auto max-w-[1600px] px-5 py-12 md:px-8 md:py-16">
@@ -68,20 +74,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
       <section
         className={
-          fullWidthGallery
-            ? "mt-10 max-w-3xl lg:mt-12"
-            : "mt-10 grid items-start gap-10 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_minmax(280px,34rem)] lg:gap-12 xl:gap-16"
+          showFeaturedBeside
+            ? "mt-10 grid items-start gap-10 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_minmax(280px,34rem)] lg:gap-12 xl:gap-16"
+            : "mt-10 max-w-3xl lg:mt-12"
         }
       >
         <ProjectAccordion sections={project.sections} />
-        {!fullWidthGallery &&
-          (featuredImage ? (
-            <ProjectFeaturedImage title={project.title} src={featuredImage} />
-          ) : (
-            <div className="flex min-h-[18rem] items-end border border-border bg-surface p-6 text-xs font-bold uppercase tracking-[0.25em] text-muted lg:max-w-[34rem] lg:justify-self-end">
-              Photos coming soon
-            </div>
-          ))}
+        {showFeaturedBeside ? (
+          <ProjectFeaturedImage title={project.title} src={featuredImage!} />
+        ) : null}
       </section>
 
       <ProjectGallery
