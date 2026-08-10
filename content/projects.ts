@@ -208,11 +208,6 @@ export const projects: Project[] = [
     thumbnail: "/images/projects/014-baddance-with-the-badweeds/thumbnail.jpg",
     images: [
       "/images/projects/014-baddance-with-the-badweeds/gallery/01.jpg",
-      "/images/projects/014-baddance-with-the-badweeds/gallery/02.jpg",
-      "/images/projects/014-baddance-with-the-badweeds/gallery/03.jpg",
-      "/images/projects/014-baddance-with-the-badweeds/gallery/04.jpg",
-      "/images/projects/014-baddance-with-the-badweeds/gallery/05.jpg",
-      "/images/projects/014-baddance-with-the-badweeds/gallery/06.jpg",
       "/images/projects/014-baddance-with-the-badweeds/gallery/07.jpg",
       "/images/projects/014-baddance-with-the-badweeds/gallery/08.jpg",
       "/images/projects/014-baddance-with-the-badweeds/gallery/09.jpg",
