@@ -285,6 +285,7 @@ export const projects: Project[] = [
       "/images/projects/018-visuals-for-aitana/gallery/05.jpg",
       "/images/projects/018-visuals-for-aitana/gallery/06.mp4",
       "/images/projects/018-visuals-for-aitana/gallery/07.mp4",
+      "/images/projects/018-visuals-for-aitana/gallery/08.jpg",
     ],
     galleryLayout: {
       columns: 1,
