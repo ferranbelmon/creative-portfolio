@@ -1,17 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useMemo, useRef, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { RemoteImage } from "@/components/RemoteImage";
 import {
   projectCategories,
   projectCategoryLabels,
   projects,
+  type Project,
   type ProjectCategory,
 } from "@/content/projects";
 
 type CategoryFilter = "all" | ProjectCategory;
+
+const MAX_TILT = 7;
 
 const gridVariants = {
   show: {
@@ -117,7 +128,7 @@ export function ProjectGrid() {
 
       {/* Tipology filter will plug in here later (Mapping, Instalación, etc.) */}
 
-      <div className="relative min-h-[12rem]">
+      <div className="relative min-h-[12rem]" style={{ perspective: 1000 }}>
         <AnimatePresence mode="wait">
           <motion.div
             key={category}
@@ -128,58 +139,11 @@ export function ProjectGrid() {
             exit="exit"
           >
             {filteredProjects.map((project) => (
-              <motion.div
+              <ProjectCard
                 key={project.slug}
-                variants={reduceMotion ? undefined : cardVariants}
-                className="origin-center overflow-hidden"
-              >
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="group relative block aspect-square overflow-hidden bg-surface"
-                >
-                  {project.thumbnail ? (
-                    <RemoteImage
-                      src={project.thumbnail}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-all duration-700 group-hover:scale-110 group-hover:opacity-40"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 bg-gradient-to-br from-surface via-[#161616] to-background" />
-                  )}
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60 transition-opacity group-hover:opacity-90" />
-
-                  <div className="absolute inset-0 flex flex-col justify-between p-5 md:p-6">
-                    <div className="flex items-start justify-between gap-3">
-                      <span className="font-display text-xs font-bold text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        {project.id}
-                      </span>
-                      <div className="text-right">
-                        <span className="block font-display text-[0.65rem] font-bold uppercase tracking-[0.2em] text-muted">
-                          {project.year}
-                        </span>
-                        <span className="mt-1 block text-[0.6rem] uppercase tracking-[0.16em] text-muted/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                          {projectCategoryLabels[project.category]}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div>
-                      {project.event ? (
-                        <p className="mb-2 text-[0.65rem] font-medium uppercase tracking-[0.18em] text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                          {project.event}
-                        </p>
-                      ) : null}
-                      <h2 className="font-display text-2xl font-bold uppercase leading-none tracking-tight transition-all duration-300 group-hover:text-accent md:text-3xl lg:text-4xl">
-                        {project.title}
-                      </h2>
-                      <span className="mt-3 inline-block h-0.5 w-0 bg-accent transition-all duration-500 group-hover:w-full" />
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
+                project={project}
+                reduceMotion={Boolean(reduceMotion)}
+              />
             ))}
           </motion.div>
         </AnimatePresence>
@@ -191,6 +155,125 @@ export function ProjectGrid() {
         ) : null}
       </div>
     </section>
+  );
+}
+
+function ProjectCard({
+  project,
+  reduceMotion,
+}: {
+  project: Project;
+  reduceMotion: boolean;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const normalizedX = useMotionValue(0);
+  const normalizedY = useMotionValue(0);
+
+  const spring = { stiffness: 220, damping: 22, mass: 0.6 };
+  const rotateX = useSpring(
+    useTransform(normalizedY, [-0.5, 0.5], [MAX_TILT, -MAX_TILT]),
+    spring,
+  );
+  const rotateY = useSpring(
+    useTransform(normalizedX, [-0.5, 0.5], [-MAX_TILT, MAX_TILT]),
+    spring,
+  );
+  const glareX = useTransform(normalizedX, [-0.5, 0.5], [0, 100]);
+  const glareY = useTransform(normalizedY, [-0.5, 0.5], [0, 100]);
+  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.18), transparent 55%)`;
+
+  function handlePointerMove(event: React.PointerEvent<HTMLDivElement>) {
+    if (reduceMotion || event.pointerType !== "mouse") return;
+    const node = cardRef.current;
+    if (!node) return;
+    const rect = node.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    normalizedX.set((event.clientX - rect.left) / rect.width - 0.5);
+    normalizedY.set((event.clientY - rect.top) / rect.height - 0.5);
+  }
+
+  function handlePointerLeave() {
+    normalizedX.set(0);
+    normalizedY.set(0);
+  }
+
+  return (
+    <motion.div
+      ref={cardRef}
+      variants={reduceMotion ? undefined : cardVariants}
+      className="origin-center will-change-transform hover:z-10"
+      style={
+        reduceMotion
+          ? undefined
+          : {
+              rotateX,
+              rotateY,
+              transformStyle: "preserve-3d",
+              transformPerspective: 900,
+            }
+      }
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+    >
+      <Link
+        href={`/projects/${project.slug}`}
+        className="group relative block aspect-square overflow-hidden bg-surface"
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        {project.thumbnail ? (
+          <RemoteImage
+            src={project.thumbnail}
+            alt={project.title}
+            fill
+            className="object-cover transition-all duration-700 group-hover:scale-110 group-hover:opacity-40"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-surface via-[#161616] to-background" />
+        )}
+
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60 transition-opacity group-hover:opacity-90" />
+
+        {!reduceMotion ? (
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-0 mix-blend-soft-light transition-opacity duration-300 group-hover:opacity-100"
+            style={{ background: glareBackground }}
+          />
+        ) : null}
+
+        <div
+          className="absolute inset-0 flex flex-col justify-between p-5 md:p-6"
+          style={{ transform: "translateZ(24px)" }}
+        >
+          <div className="flex items-start justify-between gap-3">
+            <span className="font-display text-xs font-bold text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              {project.id}
+            </span>
+            <div className="text-right">
+              <span className="block font-display text-[0.65rem] font-bold uppercase tracking-[0.2em] text-muted">
+                {project.year}
+              </span>
+              <span className="mt-1 block text-[0.6rem] uppercase tracking-[0.16em] text-muted/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                {projectCategoryLabels[project.category]}
+              </span>
+            </div>
+          </div>
+
+          <div>
+            {project.event ? (
+              <p className="mb-2 text-[0.65rem] font-medium uppercase tracking-[0.18em] text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                {project.event}
+              </p>
+            ) : null}
+            <h2 className="font-display text-2xl font-bold uppercase leading-none tracking-tight transition-all duration-300 group-hover:text-accent md:text-3xl lg:text-4xl">
+              {project.title}
+            </h2>
+            <span className="mt-3 inline-block h-0.5 w-0 bg-accent transition-all duration-500 group-hover:w-full" />
+          </div>
+        </div>
+      </Link>
+    </motion.div>
   );
 }
 
