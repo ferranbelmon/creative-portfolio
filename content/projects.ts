@@ -60,8 +60,12 @@ export const projects: Project[] = [
     client: "Protopixel",
     event: "Torre Glòries",
     category: "estudio-encargos",
+    thumbnail: "/images/projects/020-torre-glories-content/thumbnail.jpg",
     images: [
-      "/images/projects/020-torre-glories-content/gallery/torreglories_visita_papa.mp4",
+      "/images/projects/020-torre-glories-content/gallery/01.jpg",
+      "/images/projects/020-torre-glories-content/gallery/02.jpg",
+      "/images/projects/020-torre-glories-content/gallery/03.jpg",
+      "/images/projects/020-torre-glories-content/gallery/04.jpg",
     ],
     sections: {
       role: "Content",
