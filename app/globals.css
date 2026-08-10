@@ -12,12 +12,12 @@
 
 html.light {
   color-scheme: light;
-  --background: #f3f3f1;
-  --foreground: #141414;
-  --muted: #6a6a6a;
-  --accent: #6f9200;
-  --border: #dddcd7;
-  --surface: #ffffff;
+  --background: #d8dce2;
+  --foreground: #121418;
+  --muted: #5a6169;
+  --accent: #ff5a00;
+  --border: #c0c5cd;
+  --surface: #f4f6f8;
 }
 
 @theme inline {
