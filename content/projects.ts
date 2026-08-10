@@ -296,7 +296,7 @@ export const projects: Project[] = [
       aspectRatio: "auto",
     },
     sections: {
-      role: "Visuals",
+      role: "Visual content production for two songs of the concert",
       information: "Client - Vampire\nYear - May 2025",
     },
   },
