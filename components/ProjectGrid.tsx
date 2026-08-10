@@ -16,13 +16,13 @@ type CategoryFilter = "all" | ProjectCategory;
 const gridVariants = {
   show: {
     transition: {
-      staggerChildren: 0.055,
-      delayChildren: 0.04,
+      staggerChildren: 0.045,
+      delayChildren: 0.02,
     },
   },
   exit: {
     transition: {
-      staggerChildren: 0.04,
+      staggerChildren: 0.03,
       staggerDirection: -1 as const,
     },
   },
@@ -30,31 +30,41 @@ const gridVariants = {
 
 const cardVariants = {
   hidden: {
-    clipPath: "inset(0 0 100% 0)",
+    opacity: 0,
+    scale: 0.72,
   },
   show: {
-    clipPath: "inset(0 0 0% 0)",
+    opacity: 1,
+    scale: 1,
     transition: {
-      duration: 0.45,
+      duration: 0.38,
       ease: [0.22, 1, 0.36, 1] as const,
     },
   },
   exit: {
-    clipPath: "inset(0 0 100% 0)",
+    opacity: 0,
+    scale: 0.72,
     transition: {
-      duration: 0.32,
+      duration: 0.28,
       ease: [0.4, 0, 1, 1] as const,
     },
   },
 };
+
+function sortByDateDesc<T extends { id: string }>(list: T[]) {
+  return [...list].sort((a, b) => Number(b.id) - Number(a.id));
+}
 
 export function ProjectGrid() {
   const [category, setCategory] = useState<CategoryFilter>("all");
   const reduceMotion = useReducedMotion();
 
   const filteredProjects = useMemo(() => {
-    if (category === "all") return projects;
-    return projects.filter((project) => project.category === category);
+    const list =
+      category === "all"
+        ? projects
+        : projects.filter((project) => project.category === category);
+    return sortByDateDesc(list);
   }, [category]);
 
   return (
@@ -102,7 +112,7 @@ export function ProjectGrid() {
               <motion.div
                 key={project.slug}
                 variants={reduceMotion ? undefined : cardVariants}
-                className="overflow-hidden"
+                className="origin-center overflow-hidden"
               >
                 <Link
                   href={`/projects/${project.slug}`}
