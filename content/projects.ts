@@ -446,7 +446,19 @@ export const projects: Project[] = [
     event: "Llum BCN",
     category: "colaboraciones",
     thumbnail: "/images/projects/005-color-conversations/thumbnail.jpg",
-    images: [],
+    images: [
+      "/images/projects/005-color-conversations/gallery/01.jpg",
+      "/images/projects/005-color-conversations/gallery/02.jpg",
+      "/images/projects/005-color-conversations/gallery/03.jpg",
+      "/images/projects/005-color-conversations/gallery/04.jpg",
+      "/images/projects/005-color-conversations/gallery/05.jpg",
+      "/images/projects/005-color-conversations/gallery/06.jpg",
+      "/images/projects/005-color-conversations/gallery/07.jpg",
+      "/images/projects/005-color-conversations/gallery/08.jpg",
+      "/images/projects/005-color-conversations/gallery/09.jpg",
+      "/images/projects/005-color-conversations/gallery/10.jpg",
+      "/images/projects/005-color-conversations/gallery/11.jpg",
+    ],
     sections: {
       role: "Sound Design",
       concept:
