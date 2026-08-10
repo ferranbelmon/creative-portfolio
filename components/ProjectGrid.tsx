@@ -148,9 +148,11 @@ export function ProjectGrid() {
                     </div>
 
                     <div>
-                      <p className="mb-2 text-[0.65rem] font-medium uppercase tracking-[0.18em] text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        {project.client}
-                      </p>
+                      {project.event ? (
+                        <p className="mb-2 text-[0.65rem] font-medium uppercase tracking-[0.18em] text-muted opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                          {project.event}
+                        </p>
+                      ) : null}
                       <h2 className="font-display text-2xl font-bold uppercase leading-none tracking-tight transition-all duration-300 group-hover:text-accent md:text-3xl lg:text-4xl">
                         {project.title}
                       </h2>

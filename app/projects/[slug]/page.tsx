@@ -68,9 +68,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <h1 className="font-display max-w-5xl text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold uppercase leading-[0.92] tracking-tight">
         {project.title}
       </h1>
-      <p className="mt-4 max-w-2xl text-sm uppercase tracking-[0.18em] text-muted md:text-base">
-        {project.client}
-      </p>
+      {project.client ? (
+        <p className="mt-4 max-w-2xl text-sm uppercase tracking-[0.18em] text-muted md:text-base">
+          {project.client}
+        </p>
+      ) : null}
 
       <section
         className={

@@ -40,7 +40,8 @@ export type Project = {
   slug: string;
   title: string;
   year: string;
-  client: string;
+  client?: string;
+  event?: string;
   category: ProjectCategory;
   typologies?: ProjectTypology[];
   thumbnail?: string;
@@ -57,6 +58,7 @@ export const projects: Project[] = [
     title: "Torre Glories Content",
     year: "2026",
     client: "Protopixel",
+    event: "Torre Glòries",
     category: "estudio-encargos",
     images: [
       "/images/projects/020-torre-glories-content/gallery/torreglories_visita_papa.mp4",
@@ -69,9 +71,10 @@ export const projects: Project[] = [
   {
     id: "021",
     slug: "visuales-para-tayhana",
-    title: "Visuales para Tayhana",
+    title: "Tayhana DJset",
     year: "2026",
     client: "Tayhana",
+    event: "Sónar Festival",
     category: "colaboraciones",
     sections: {
       role: "Visuals",
@@ -84,6 +87,7 @@ export const projects: Project[] = [
     title: "Landscapes at MWC 2026",
     year: "2026",
     client: "Landscapes",
+    event: "Mobile World Congress 2026",
     category: "estudio-encargos",
     externalUrl: "https://landscapes.digital/en/work/landscapes-en-mwc-2026/",
     sections: {
@@ -103,7 +107,7 @@ export const projects: Project[] = [
     slug: "espurna",
     title: "Espurna",
     year: "2025",
-    client: "Turbina (proyecto propio)",
+    event: "Turbina by Mira Festival",
     category: "practica-artistica",
     thumbnail: "/images/projects/016-espurna/thumbnail.jpg",
     images: [
@@ -127,6 +131,7 @@ export const projects: Project[] = [
     title: "Light Tunnel at Sónar by Night",
     year: "2025",
     client: "Landscapes",
+    event: "Sónar by Night",
     category: "estudio-encargos",
     thumbnail: "/images/projects/017-light-tunnel-sonar-by-night/thumbnail.jpg",
     images: [
@@ -154,7 +159,7 @@ export const projects: Project[] = [
     slug: "collide",
     title: "Collide",
     year: "2025",
-    client: "Bahidorá / Akamba (proyecto propio)",
+    event: "Bahidorá Festival",
     category: "practica-artistica",
     thumbnail: "/images/projects/015-collide/thumbnail.jpg",
     images: [
@@ -177,7 +182,7 @@ export const projects: Project[] = [
     slug: "ciclic",
     title: "CíCLIC",
     year: "2024–2025",
-    client: "Lux / Intervals / Mira (proyecto propio)",
+    event: "Intervals Fest",
     category: "practica-artistica",
     thumbnail: "/images/projects/013-ciclic/thumbnail.jpg",
     images: [
@@ -204,6 +209,7 @@ export const projects: Project[] = [
     title: "BADDANCE WITH THE BADWEEDS",
     year: "2025",
     client: "Rocío Berenguer",
+    event: "MUDAC Solar Biennale 2",
     category: "colaboraciones",
     thumbnail: "/images/projects/014-baddance-with-the-badweeds/gallery/08.jpg",
     images: [
@@ -230,7 +236,7 @@ export const projects: Project[] = [
     slug: "kieli",
     title: "Kieli",
     year: "2024",
-    client: "Sónar+D / Espronceda Art and Culture",
+    event: "Sónar +D",
     category: "colaboraciones",
     sections: {
       role: "Collaboration",
@@ -244,6 +250,7 @@ export const projects: Project[] = [
     title: "Cupra Sensorial Capsule",
     year: "2024",
     client: "Tigrelab",
+    event: "Milan Design Week 2024",
     category: "estudio-encargos",
     thumbnail: "/images/projects/010-cupra-sensorial-capsule/thumbnail.jpg",
     images: [
@@ -275,6 +282,7 @@ export const projects: Project[] = [
     title: "Aitana Metamorfosis Season",
     year: "May 2025",
     client: "Vampire",
+    event: "Metamorfosis Season",
     category: "estudio-encargos",
     thumbnail: "/images/projects/018-visuals-for-aitana/thumbnail.jpg",
     images: [
@@ -299,9 +307,10 @@ export const projects: Project[] = [
   {
     id: "012",
     slug: "visuals-for-boiler-room-primavera-sound-2024",
-    title: "Visuals For Boiler Room x Primavera Sound 2024",
+    title: "Boiler Room x Primavera Sound",
     year: "2024",
     client: "Vampire",
+    event: "Boiler Room at Primavera Sound",
     category: "estudio-encargos",
     thumbnail: "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/thumbnail.jpg",
     images: [
@@ -324,7 +333,8 @@ export const projects: Project[] = [
     slug: "ciclic-live-av",
     title: "CíCLIC Live AV",
     year: "2023–2024",
-    client: "Espronceda / Volumens / Intervals",
+    client: "Ferran Belmon",
+    event: "Volumens Festival",
     category: "practica-artistica",
     thumbnail: "/images/projects/009-ciclic-live-av/thumbnail.jpg",
     images: [
@@ -356,7 +366,8 @@ export const projects: Project[] = [
     slug: "moonai-soundwaves-wellness",
     title: "Moonai Soundwaves Wellness",
     year: "2023",
-    client: "Moonai / Mira Festival (Ideal)",
+    client: "Moonai",
+    event: "Mira Festival",
     category: "colaboraciones",
     thumbnail: "/images/projects/008-moonai-soundwaves-wellness/thumbnail.jpg",
     images: [
@@ -380,7 +391,8 @@ export const projects: Project[] = [
     slug: "o",
     title: "O",
     year: "2022",
-    client: "Mira Festival (concepto Tiler Gab / Landscapes)",
+    client: "Landscapes",
+    event: "Mira Festival",
     category: "colaboraciones",
     thumbnail: "/images/projects/007-o/thumbnail.jpeg",
     images: [
@@ -406,6 +418,7 @@ export const projects: Project[] = [
     title: "Mostra Festival 2022",
     year: "2022",
     client: "Mostra Festival",
+    event: "Mostra Festival 2022",
     category: "estudio-encargos",
     thumbnail: "/images/projects/006-mostra-festival-2022/thumbnail.jpg",
     images: [
@@ -429,7 +442,8 @@ export const projects: Project[] = [
     slug: "color-conversations",
     title: "Color Conversations",
     year: "2021",
-    client: "Llum BCN (concepto Tiler Gab / Landscapes)",
+    client: "Landscapes",
+    event: "Llum BCN",
     category: "colaboraciones",
     thumbnail: "/images/projects/005-color-conversations/thumbnail.jpg",
     images: [
@@ -475,9 +489,10 @@ export const projects: Project[] = [
   {
     id: "002",
     slug: "planets-mapping-sharjah-light-festival",
-    title: "Planets Mapping in Sharjah Light Festival",
+    title: "Planets Mapping",
     year: "2020",
     client: "Tigrelab",
+    event: "Sharjah Light Festival",
     category: "estudio-encargos",
     thumbnail: "/images/projects/002-planets-mapping-sharjah-light-festival/thumbnail.jpg",
     images: [
@@ -510,7 +525,7 @@ export const projects: Project[] = [
     slug: "wonders",
     title: "Wonders",
     year: "2020",
-    client: "Moon Ribas / Felix Schoeller",
+    event: "Inmesiva Residence",
     category: "practica-artistica",
     thumbnail: "/images/projects/003-wonders/thumbnail.jpg",
     images: [
@@ -530,9 +545,10 @@ export const projects: Project[] = [
   {
     id: "001",
     slug: "durham-light-festival",
-    title: "Stones — Durham Lumiere",
+    title: "Stones",
     year: "2019",
     client: "Tigrelab",
+    event: "Durham Lumiere",
     category: "estudio-encargos",
     thumbnail: "/images/projects/001-durham-light-festival/thumbnail.jpg",
     images: [
@@ -564,7 +580,8 @@ export const projects: Project[] = [
     slug: "dansa-del-cosmos",
     title: "Dansa del Cosmos",
     year: "2019",
-    client: "Marina Colell (Graphitons) / BAU",
+    client: "Marina Colell (Graphitons)",
+    event: "BAU",
     category: "colaboraciones",
     thumbnail: "/images/projects/000-dansa-del-cosmos/thumbnail.jpg",
     images: [
