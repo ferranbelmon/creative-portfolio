@@ -69,31 +69,50 @@ export function ProjectGrid() {
 
   return (
     <section className="mx-auto max-w-[1600px] px-5 pb-4 pt-6 md:px-8 md:pt-8">
-      <div className="mb-8 border-b border-border pb-5 md:mb-10 md:pb-6">
-        <div
-          role="group"
-          aria-label="Filter projects by category"
-          className="flex flex-wrap items-center gap-2"
-        >
-          <FilterButton
-            active={category === "all"}
-            onClick={() => setCategory("all")}
-            label="All"
-          />
-          {projectCategories.map((value) => (
-            <FilterButton
-              key={value}
-              active={category === value}
-              onClick={() => setCategory(value)}
-              label={projectCategoryLabels[value]}
-            />
-          ))}
-        </div>
+      <div className="mb-8 rounded-2xl border border-border/70 bg-surface/70 p-4 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.03)] md:mb-10 md:p-5">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
+          <div className="shrink-0 md:w-36">
+            <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-muted">
+              Filter
+            </p>
+            <p className="mt-1.5 text-sm text-foreground/75">
+              {filteredProjects.length}{" "}
+              {filteredProjects.length === 1 ? "project" : "projects"}
+            </p>
+          </div>
 
-        <p className="mt-4 text-xs tracking-wide text-muted">
-          {filteredProjects.length}{" "}
-          {filteredProjects.length === 1 ? "project" : "projects"}
-        </p>
+          <div
+            className="hidden h-12 w-px shrink-0 bg-border/80 md:block"
+            aria-hidden
+          />
+          <div className="h-px w-full bg-border/70 md:hidden" aria-hidden />
+
+          <div
+            role="group"
+            aria-label="Filter projects by category"
+            className="flex min-w-0 flex-1 flex-wrap items-center gap-2"
+          >
+            <FilterButton
+              active={category === "all"}
+              onClick={() => setCategory("all")}
+              label="All"
+            />
+
+            <span
+              className="mx-1 hidden h-5 w-px bg-border/80 sm:block"
+              aria-hidden
+            />
+
+            {projectCategories.map((value) => (
+              <FilterButton
+                key={value}
+                active={category === value}
+                onClick={() => setCategory(value)}
+                label={projectCategoryLabels[value]}
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Tipology filter will plug in here later (Mapping, Instalación, etc.) */}
@@ -189,10 +208,10 @@ function FilterButton({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`border px-3 py-1.5 text-sm font-medium tracking-normal transition-colors ${
+      className={`rounded-xl border px-3.5 py-2 text-[0.8rem] font-medium tracking-wide transition-colors ${
         active
-          ? "border-accent bg-accent/10 text-accent"
-          : "border-border text-muted hover:border-foreground/35 hover:text-foreground"
+          ? "border-accent/55 bg-accent/10 text-accent"
+          : "border-border/70 bg-background/40 text-muted hover:border-foreground/25 hover:bg-background/70 hover:text-foreground"
       }`}
     >
       {label}
