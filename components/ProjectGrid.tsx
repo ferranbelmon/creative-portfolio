@@ -155,7 +155,7 @@ export function ProjectGrid() {
         <AnimatePresence mode="wait">
           <motion.div
             key={category}
-            className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7"
+            className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-9 lg:grid-cols-3 lg:gap-10"
             variants={reduceMotion ? undefined : gridVariants}
             initial={reduceMotion ? false : "hidden"}
             animate="show"
@@ -285,7 +285,7 @@ function ProjectCard({
     <motion.div
       ref={cardRef}
       variants={reduceMotion ? undefined : cardVariants}
-      className="origin-center pb-4 pr-4 will-change-transform"
+      className="origin-center pb-11 pr-11 will-change-transform"
       style={
         reduceMotion
           ? undefined
