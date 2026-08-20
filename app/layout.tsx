@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Suspense } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -19,9 +20,38 @@ const syne = Syne({
   weight: ["600", "700", "800"],
 });
 
+const siteTitle = `${site.name} - ${site.title}`;
+
 export const metadata: Metadata = {
-  title: `${site.name} - ${site.title}`,
+  metadataBase: new URL(site.url),
+  title: {
+    default: siteTitle,
+    template: `%s — ${site.name}`,
+  },
   description: site.bio[0],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: site.name,
+    title: siteTitle,
+    description: site.bio[0],
+    images: [
+      {
+        url: site.logo,
+        alt: site.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: site.bio[0],
+    images: [site.logo],
+  },
 };
 
 export default function RootLayout({
@@ -42,6 +72,7 @@ export default function RootLayout({
         <Script id="theme-init" strategy="beforeInteractive">
           {`(function(){try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light");}catch(e){}})();`}
         </Script>
+        <ScrollToTop />
         <Suspense fallback={null}>
           <Header />
         </Suspense>

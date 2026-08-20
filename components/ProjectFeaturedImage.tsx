@@ -1,4 +1,6 @@
+import { GalleryVideo } from "@/components/GalleryVideo";
 import { RemoteImage } from "@/components/RemoteImage";
+import { isGifSrc, isVideoSrc } from "@/lib/media-src";
 
 type ProjectFeaturedImageProps = {
   title: string;
@@ -6,21 +8,17 @@ type ProjectFeaturedImageProps = {
 };
 
 export function ProjectFeaturedImage({ title, src }: ProjectFeaturedImageProps) {
-  const isVideo = /\.(mp4|webm|mov)$/i.test(src);
-  const isGif = src.endsWith(".gif");
+  const isVideo = isVideoSrc(src);
+  const isGif = isGifSrc(src);
 
   return (
     <div className="relative w-full overflow-hidden bg-surface lg:max-w-[34rem] lg:justify-self-end">
       {isVideo ? (
-        <video
+        <GalleryVideo
           src={src}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
           className="h-auto w-full"
-          aria-label={`${title} — featured video`}
+          label={`${title} — featured video`}
+          priority
         />
       ) : isGif ? (
         // eslint-disable-next-line @next/next/no-img-element

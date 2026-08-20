@@ -1,6 +1,8 @@
 export const site = {
   name: "Ferran Belmon",
   title: "New Media Artist | Creative Coder",
+  /** Canonical production origin (used for metadataBase / Open Graph). */
+  url: "https://creative-portfolio-chi-five.vercel.app",
   location: "Barcelona - 2025",
   logo: "/images/site/logo.png",
   email: "ferran.belmon@gmail.com",

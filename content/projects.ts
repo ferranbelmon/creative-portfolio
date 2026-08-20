@@ -47,11 +47,43 @@ export type Project = {
   thumbnail?: string;
   images?: string[];
   externalUrl?: string;
+  /** Vimeo video ID for hero embed (e.g. 334427448). */
+  heroVimeoId?: string;
+  /** YouTube video ID for hero embed (e.g. cNBvDARO8yg). */
+  heroYoutubeId?: string;
+  /** Local public path to hero video (e.g. /images/projects/.../gallery/videos/foo.mp4). */
+  heroVideoUrl?: string;
   galleryLayout?: GalleryLayout;
   sections: ProjectSection;
 };
 
 export const projects: Project[] = [
+  {
+    id: "022",
+    slug: "ciclic-installation-live-av",
+    title: "CíCLIC Installation & Live AV",
+    year: "2024–2025",
+    event: "Intervals Fest / Mira Festival",
+    category: "practica-artistica",
+    thumbnail:
+      "/images/projects/022-ciclic-installation-live-av/gallery/01-3-1.jpeg",
+    images: [
+      "/images/projects/022-ciclic-installation-live-av/gallery/01-3-1.jpeg",
+      "/images/projects/022-ciclic-installation-live-av/gallery/01-3-2.jpeg",
+      "/images/projects/022-ciclic-installation-live-av/gallery/01-3-3.jpg",
+      "/images/projects/022-ciclic-installation-live-av/gallery/02-3-1.jpg",
+      "/images/projects/022-ciclic-installation-live-av/gallery/02-3-2.jpg",
+      "/images/projects/022-ciclic-installation-live-av/gallery/02-3-3.jpg",
+    ],
+    sections: {
+      concept:
+        "CíCLIC Installation & Live AV brings together documentation of the light sculpture installation and the generative live audiovisual performance.\n\nThrough laser light and pure tones, the work explores how simple frequencies interact to create complex behaviors, transforming space into a field of rhythmic patterns, color and geometry.",
+      tools: "Laser projection\nHaze machine\nLED strips\nTouchDesigner\nAbleton Live",
+      credits: "Concept, visuals and sound by Ferran Belmon",
+      information:
+        "Presented at:\n\nIntervals Festival, Nizhny Novgorod, Russia, 2024.\n\nMira Festival, Spain, 2025",
+    },
+  },
   {
     id: "020",
     slug: "torre-glories-content",
@@ -62,10 +94,10 @@ export const projects: Project[] = [
     category: "estudio-encargos",
     thumbnail: "/images/projects/020-torre-glories-content/thumbnail.jpg",
     images: [
-      "/images/projects/020-torre-glories-content/gallery/01.jpg",
-      "/images/projects/020-torre-glories-content/gallery/02.jpg",
-      "/images/projects/020-torre-glories-content/gallery/03.jpg",
-      "/images/projects/020-torre-glories-content/gallery/04.jpg",
+      "/images/projects/020-torre-glories-content/gallery/01-3-1.jpg",
+      "/images/projects/020-torre-glories-content/gallery/01-3-2.jpg",
+      "/images/projects/020-torre-glories-content/gallery/01-3-3.jpg",
+      "/images/projects/020-torre-glories-content/gallery/02-1-1.jpg",
     ],
     sections: {
       role: "Content",
@@ -115,10 +147,10 @@ export const projects: Project[] = [
     category: "practica-artistica",
     thumbnail: "/images/projects/016-espurna/thumbnail.jpg",
     images: [
-      "/images/projects/016-espurna/gallery/01.jpg",
-      "/images/projects/016-espurna/gallery/02.jpg",
-      "/images/projects/016-espurna/gallery/03.jpg",
-      "/images/projects/016-espurna/gallery/04.jpg",
+      "/images/projects/016-espurna/gallery/01-3-1.jpg",
+      "/images/projects/016-espurna/gallery/01-3-2.jpg",
+      "/images/projects/016-espurna/gallery/01-3-3.jpg",
+      "/images/projects/016-espurna/gallery/02-1-1.jpg",
     ],
     sections: {
       concept:
@@ -137,22 +169,21 @@ export const projects: Project[] = [
     client: "Landscapes",
     event: "Sónar by Night",
     category: "estudio-encargos",
-    thumbnail: "/images/projects/017-light-tunnel-sonar-by-night/thumbnail.jpg",
+    thumbnail: "/images/projects/017-light-tunnel-sonar-by-night/gallery/01-1-1.jpg",
     images: [
-      "/images/projects/017-light-tunnel-sonar-by-night/gallery/01.jpg",
-      "/images/projects/017-light-tunnel-sonar-by-night/gallery/02.jpg",
-      "/images/projects/017-light-tunnel-sonar-by-night/gallery/03.jpg",
-      "/images/projects/017-light-tunnel-sonar-by-night/gallery/04.jpg",
-      "/images/projects/017-light-tunnel-sonar-by-night/gallery/05.jpg",
-      "/images/projects/017-light-tunnel-sonar-by-night/gallery/06.jpg",
-      "/images/projects/017-light-tunnel-sonar-by-night/gallery/07.jpg",
+      "/images/projects/017-light-tunnel-sonar-by-night/gallery/01-1-1.jpg",
+      "/images/projects/017-light-tunnel-sonar-by-night/gallery/02-2-1.jpg",
+      "/images/projects/017-light-tunnel-sonar-by-night/gallery/02-2-2.jpg",
+      "/images/projects/017-light-tunnel-sonar-by-night/gallery/03-1-1.jpg",
+      "/images/projects/017-light-tunnel-sonar-by-night/gallery/04-1-1.jpg",
+      "/images/projects/017-light-tunnel-sonar-by-night/gallery/05-1-1.jpg",
     ],
     externalUrl: "https://landscapes.digital/en/work/lasers-at-sonar-festival/",
     sections: {
       role: "Lasers, lighting",
       concept:
         "A hypnotic light tunnel at Sónar by Night.\n\nLandscapes transformed the space with laser installations, blending light, silence, and emotion to create an immersive and contemplative passage. Indoor laser installations reshape how people perceive space through light, silence, and emotion. At Sónar by Night, a key passage at Fira Gran Via 2 became a contemplative corridor of light and mist. Thousands of visitors walked through, many pausing to disconnect from noise and simply observe — a test of spatial storytelling through laser technology for festivals, institutions, and brands.",
-      tools: "Lasers\nLighting\nSpatial design\nAtmospheric haze",
+      tools: "Lasers\nLight design\nSpatial design\nAtmospheric haze",
       credits: "Agency - Landscapes\nEvent - Sónar by Night\nPhotography - Leafhopper",
       information:
         "Client - Landscapes\nEvent - Sónar by Night 2025\nVenue - Fira Gran Via 2, Barcelona\nType - Events / Immersive\nYear - 2025\nProject page - https://landscapes.digital/en/work/lasers-at-sonar-festival/",
@@ -167,9 +198,9 @@ export const projects: Project[] = [
     category: "practica-artistica",
     thumbnail: "/images/projects/015-collide/thumbnail.jpg",
     images: [
-      "/images/projects/015-collide/gallery/01.jpg",
-      "/images/projects/015-collide/gallery/02.gif",
-      "/images/projects/015-collide/gallery/03.gif",
+      "/images/projects/015-collide/gallery/01-3-1.jpg",
+      "/images/projects/015-collide/gallery/01-3-2.gif",
+      "/images/projects/015-collide/gallery/01-3-3.gif",
     ],
     sections: {
       concept:
@@ -190,18 +221,22 @@ export const projects: Project[] = [
     category: "practica-artistica",
     thumbnail: "/images/projects/013-ciclic/thumbnail.jpg",
     images: [
-      "/images/projects/013-ciclic/gallery/01.jpg",
-      "/images/projects/013-ciclic/gallery/02.jpg",
-      "/images/projects/013-ciclic/gallery/03.jpg",
-      "/images/projects/013-ciclic/gallery/04.jpg",
-      "/images/projects/013-ciclic/gallery/05.jpg",
-      "/images/projects/013-ciclic/gallery/06.jpg",
-      "/images/projects/013-ciclic/gallery/07.jpg",
+      "/images/projects/013-ciclic/gallery/01-2-1.jpg",
+      "/images/projects/013-ciclic/gallery/01-2-2.jpg",
+      "/images/projects/013-ciclic/gallery/02-2-1.jpg",
+      "/images/projects/013-ciclic/gallery/02-2-2.jpg",
+      "/images/projects/013-ciclic/gallery/03-1-1.jpg",
+      "/images/projects/013-ciclic/gallery/04-3-1.jpg",
+      "/images/projects/013-ciclic/gallery/04-3-2.jpg",
+      "/images/projects/013-ciclic/gallery/04-3-3.jpg",
+      "/images/projects/013-ciclic/gallery/05-2-1.jpg",
+      "/images/projects/013-ciclic/gallery/05-2-2.jpg",
+      "/images/projects/013-ciclic/gallery/05-3-3.jpg",
     ],
     sections: {
       concept:
         "The idea behind the installation is to reimagine the CICLIC live AV concept as a light sculpture, emphasizing in a distinctive manner how simple waves modulate our perception of our surroundings, altering both the tangible and intangible.\n\nThe concept explores how the interaction of simple frequencies can become complex behaviors, and their ability to transform the space around them.\n\nThe visual research begins with light's particular nature, with a minimalist view through laser light. This narrow monochromatic light beam represents the minimum expression of light, despite its technical complexity: a point and a color.\n\nThe sound emphasizes the same approach by using only pure tones. These synthetic sounds allow us to capture the physical properties of sound and its connection with light and space.\n\nThe sequence and movement of these two elements generates different effects, colors and geometric patterns. Chaos and harmony reflected in space with aesthetic perception and symbolic potential.",
-      tools: "2 lasers 10W 40Kpps\nHaze machine\nLED strips\nFrame Structure",
+      tools: "Laser projection\nHaze machine\nLED strips\nFrame Structure",
       credits: "Concept, visuals and sound by Ferran Belmon",
       information:
         "Presented at:\n\nLux, Malaga, Spain, 2024.\n\nIntervals Festival, Nizhny Novgorod, Russia, 2024.\n\nMira Festival, Spain, 2025",
@@ -215,22 +250,21 @@ export const projects: Project[] = [
     client: "Rocío Berenguer",
     event: "MUDAC Solar Biennale 2",
     category: "colaboraciones",
-    thumbnail: "/images/projects/014-baddance-with-the-badweeds/gallery/08.jpg",
+    thumbnail: "/images/projects/014-baddance-with-the-badweeds/thumbnail.jpg",
     images: [
-      "/images/projects/014-baddance-with-the-badweeds/gallery/01.jpg",
-      "/images/projects/014-baddance-with-the-badweeds/gallery/07.jpg",
-      "/images/projects/014-baddance-with-the-badweeds/gallery/08.jpg",
-      "/images/projects/014-baddance-with-the-badweeds/gallery/09.jpg",
-      "/images/projects/014-baddance-with-the-badweeds/gallery/10.jpg",
+      "/images/projects/014-baddance-with-the-badweeds/gallery/01-2-1.jpg",
+      "/images/projects/014-baddance-with-the-badweeds/gallery/01-2-2.jpg",
+      "/images/projects/014-baddance-with-the-badweeds/gallery/02-1-1.jpg",
+      "/images/projects/014-baddance-with-the-badweeds/gallery/03-1-1.jpg",
     ],
     externalUrl: "https://badweeds.live/",
     sections: {
-      role: "Game design on Unreal Engine",
+      role: "Game Development",
       concept:
         "MAKE YOUR MUTANT BODY BADDANCE AND EARN SEEDS OF FUTURES.\n\nWith this participatory installation, visitors are invited to mutate, to join THEBADWEEDS — a trans-species music group that is part-human, part-plant. Its hybrid members embody a queer ecological transition: they grow from oblivion, cracks, and the most inhospitable places, humorously demonstrating the resilience and resistance of weeds.\n\nThe immersive experience invites the audience to transform and mutate through dance, offering a festive and playful perspective on ecological transition. The installation offers a three-part journey: discovering the universe of THEBADWEEDS through a video; dancing to mutate as a new plant body forms; and finding one's new mutant body.\n\nA project by Rocio Berenguer commissioned by mudac for Soleil.s / Solar Biennale 2.",
-      tools: "Unreal Engine\nMotion detection\nInteractive installation",
+      tools: "Game Development\nSkeleton tracking",
       credits:
-        "Original work - Rocio Berenguer\nGame design on Unreal Engine - Ferran Belda\nWeb design - Pere Calopa Piedra\n3D motion design - Guillaume Gravier\nMotion detection analysis - Leo Chedin\nMusic - HERBICIDE by Killason; EATTHESUN and TAKOMAK by Baptiste Malgoire, written by Rocio Berenguer",
+        "Original work - Rocio Berenguer\nGame Development - Ferran Belda\nWeb design - Pere Calopa Piedra\n3D motion design - Guillaume Gravier\nMotion detection analysis - Leo Chedin\nMusic - HERBICIDE by Killason; EATTHESUN and TAKOMAK by Baptiste Malgoire, written by Rocio Berenguer",
       information:
         "Client - Rocío Berenguer / mudac\nType - Participatory installation\nDuration - 5 minutes\nPresented at - Soleil.s, Solar Biennale 2, mudac, Lausanne, 2025\nAlso - Milano Design Week 2025; Malta Biennale 2026\nProject site - https://badweeds.live/",
     },
@@ -242,10 +276,10 @@ export const projects: Project[] = [
     year: "2024",
     event: "Sónar +D",
     category: "colaboraciones",
-    thumbnail: "/images/projects/011-kieli/gallery/01.jpg",
+    thumbnail: "/images/projects/011-kieli/gallery/01-2-1.jpg",
     images: [
-      "/images/projects/011-kieli/gallery/01.jpg",
-      "/images/projects/011-kieli/gallery/02.jpg",
+      "/images/projects/011-kieli/gallery/01-2-1.jpg",
+      "/images/projects/011-kieli/gallery/01-2-2.jpg",
     ],
     sections: {
       role: "Collaboration",
@@ -265,14 +299,14 @@ export const projects: Project[] = [
     category: "estudio-encargos",
     thumbnail: "/images/projects/010-cupra-sensorial-capsule/thumbnail.jpg",
     images: [
-      "/images/projects/010-cupra-sensorial-capsule/gallery/01.jpg",
-      "/images/projects/010-cupra-sensorial-capsule/gallery/02.jpg",
-      "/images/projects/010-cupra-sensorial-capsule/gallery/03.jpg",
-      "/images/projects/010-cupra-sensorial-capsule/gallery/04.jpg",
-      "/images/projects/010-cupra-sensorial-capsule/gallery/05.jpg",
-      "/images/projects/010-cupra-sensorial-capsule/gallery/06.jpg",
-      "/images/projects/010-cupra-sensorial-capsule/gallery/07.jpg",
-      "/images/projects/010-cupra-sensorial-capsule/gallery/08.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/01-3-1.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/01-3-2.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/01-3-3.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/02-3-1.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/02-3-2.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/02-3-3.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/03-2-1.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/03-2-2.jpg",
     ],
     externalUrl: "https://tigrelab.com/project/cupra-sensorial-capsule/",
     sections: {
@@ -284,7 +318,7 @@ export const projects: Project[] = [
       credits:
         "Client - CUPRA\nAgency - Tigrelab\nCreative Directors - Federico Gonzalez, Mathieu Felix, Javier Pinto\nCreative Coders - Daniel Guillen, Ferran Belda\nNotch & Smode Artist - Antonio Nieto\nSound Design - Jhon Christian Cardenas\nProject Manager - Laura Gómez\nEvent Agency - Dicom Events\nPrototype & Engineering - ÚNIC Works\nProjection & Technical Setup - Custom Projects Vioso GmbH",
       information:
-        "Industry - Automobile\nType - Event / Immersive / Installation / Projection Mapping\nPresented at - Milan Design Week 2024, Piazza XXV Aprile\nYear - 2024\nProject page - https://tigrelab.com/project/cupra-sensorial-capsule/",
+        "Type - Event / Immersive / Installation / Projection Mapping\nPresented at - Milan Design Week 2024, Piazza XXV Aprile\nYear - 2024\nProject page - https://tigrelab.com/project/cupra-sensorial-capsule/",
     },
   },
   {
@@ -297,14 +331,14 @@ export const projects: Project[] = [
     category: "estudio-encargos",
     thumbnail: "/images/projects/018-visuals-for-aitana/thumbnail.jpg",
     images: [
-      "/images/projects/018-visuals-for-aitana/gallery/01.jpg",
-      "/images/projects/018-visuals-for-aitana/gallery/02.jpg",
-      "/images/projects/018-visuals-for-aitana/gallery/03.jpg",
-      "/images/projects/018-visuals-for-aitana/gallery/04.jpg",
-      "/images/projects/018-visuals-for-aitana/gallery/05.jpg",
-      "/images/projects/018-visuals-for-aitana/gallery/06.mp4",
-      "/images/projects/018-visuals-for-aitana/gallery/07.mp4",
-      "/images/projects/018-visuals-for-aitana/gallery/08.jpg",
+      "/images/projects/018-visuals-for-aitana/gallery/01-1-1.jpg",
+      "/images/projects/018-visuals-for-aitana/gallery/02-1-1.jpg",
+      "/images/projects/018-visuals-for-aitana/gallery/03-1-1.jpg",
+      "/images/projects/018-visuals-for-aitana/gallery/04-1-1.jpg",
+      "/images/projects/018-visuals-for-aitana/gallery/05-1-1.jpg",
+      "/images/projects/018-visuals-for-aitana/gallery/06-1-1.mp4",
+      "/images/projects/018-visuals-for-aitana/gallery/07-1-1.mp4",
+      "/images/projects/018-visuals-for-aitana/gallery/08-1-1.jpg",
     ],
     galleryLayout: {
       columns: 1,
@@ -325,13 +359,13 @@ export const projects: Project[] = [
     category: "estudio-encargos",
     thumbnail: "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/thumbnail.jpg",
     images: [
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/01.jpg",
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/02.jpg",
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/03.jpg",
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/05.jpg",
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/09.mp4",
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/10.mp4",
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/11.mp4",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/01-3-1.jpg",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/01-3-2.jpg",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/01-3-3.jpg",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/02-3-1.jpg",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/02-3-2.mp4",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/02-3-3.mp4",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/03-1-1.mp4",
     ],
     sections: {
       role: "Visuals",
@@ -349,15 +383,13 @@ export const projects: Project[] = [
     category: "practica-artistica",
     thumbnail: "/images/projects/009-ciclic-live-av/thumbnail.jpg",
     images: [
-      "/images/projects/009-ciclic-live-av/gallery/01.jpg",
-      "/images/projects/009-ciclic-live-av/gallery/02.gif",
-      "/images/projects/009-ciclic-live-av/gallery/03.gif",
-      "/images/projects/009-ciclic-live-av/gallery/04.gif",
-      "/images/projects/009-ciclic-live-av/gallery/05.gif",
-      "/images/projects/009-ciclic-live-av/gallery/07.jpg",
-      "/images/projects/009-ciclic-live-av/gallery/09.jpg",
-      "/images/projects/009-ciclic-live-av/gallery/10.jpeg",
-      "/images/projects/009-ciclic-live-av/gallery/11.jpeg",
+      "/images/projects/009-ciclic-live-av/gallery/01-1-1.gif",
+      "/images/projects/009-ciclic-live-av/gallery/02-2-1.jpg",
+      "/images/projects/009-ciclic-live-av/gallery/02-2-2.gif",
+      "/images/projects/009-ciclic-live-av/gallery/03-2-1.gif",
+      "/images/projects/009-ciclic-live-av/gallery/03-2-2.gif",
+      "/images/projects/009-ciclic-live-av/gallery/04-1-1.jpg",
+      "/images/projects/009-ciclic-live-av/gallery/05-1-1.jpeg",
     ],
     sections: {
       concept:
@@ -380,16 +412,17 @@ export const projects: Project[] = [
     category: "colaboraciones",
     thumbnail: "/images/projects/008-moonai-soundwaves-wellness/thumbnail.jpg",
     images: [
-      "/images/projects/008-moonai-soundwaves-wellness/gallery/01.jpg",
-      "/images/projects/008-moonai-soundwaves-wellness/gallery/02.jpg",
-      "/images/projects/008-moonai-soundwaves-wellness/gallery/03.jpg",
-      "/images/projects/008-moonai-soundwaves-wellness/gallery/04.jpg",
+      "/images/projects/008-moonai-soundwaves-wellness/gallery/01-3-1.jpg",
+      "/images/projects/008-moonai-soundwaves-wellness/gallery/01-3-2.jpg",
+      "/images/projects/008-moonai-soundwaves-wellness/gallery/01-3-3.jpg",
+      "/images/projects/008-moonai-soundwaves-wellness/gallery/02-1-1.jpg",
     ],
     sections: {
       role: "Visuals",
       concept:
         "Moonai is a sound wellness app designed to relieve menstrual pain and enhance mental clarity through frequencies supported by neuroscience and cognitive-behavioral therapy. The platform fuses immersive digital art, psychedelic therapeutic experiences and functional music, creating a technology with a significant social impact. During the event at IDEAL, we will enjoy a stunning audiovisual live show by the artist and functional music Fernanda Aleman. In this performance, Fernanda will use synthesizers, modular instruments and acoustic elements to enhance the feeling of well-being in the public. The sound will be transmitted through wireless Bluetooth headphones, thus creating an immersive environment that fuses sound, visual and atmospheric landscapes, and that establishes connections between nature, welfare science and audiovisual art.",
-      tools: "TouchDesigner Software",
+      tools:
+        "Immersive Room\nTouchDesigner\nRealtime Visuals",
       credits:
         "Concept - Laura June Clarke\nMusic - Fernanda Aleman\nVisuals - Ferran Belmon\nSound - Ivan Ferrigno\nProduction - Catalina Joy",
       information: "Mira Festival, Ideal Centre d'Art Digitals,\n\nBarcelona, 2023",
@@ -401,13 +434,15 @@ export const projects: Project[] = [
     title: "O",
     year: "2022",
     client: "Landscapes",
-    event: "Mira Festival",
+    event: "Llum BCN",
     category: "colaboraciones",
+    heroVimeoId: "1031950881",
+    externalUrl: "https://tilergab.com/o-3",
     thumbnail: "/images/projects/007-o/thumbnail.jpeg",
     images: [
-      "/images/projects/007-o/gallery/01.jpg",
-      "/images/projects/007-o/gallery/02.jpg",
-      "/images/projects/007-o/gallery/03.jpeg",
+      "/images/projects/007-o/gallery/01-3-1.jpg",
+      "/images/projects/007-o/gallery/01-3-2.jpg",
+      "/images/projects/007-o/gallery/01-3-3.jpeg",
     ],
     sections: {
       role: "Sound Design",
@@ -418,7 +453,7 @@ export const projects: Project[] = [
       credits:
         "Concept - Tiler Gab\nDesign - Tiler Gab\nProduction - Landscapes agency\nSound Design - Ferran Bemon\nPhotography - Jean-Marc Joseph",
       information:
-        "Venue - Nau Revolució\nLocation - Barcelona\nEvent - Mira Festival\nYear - 2022",
+        "Venue - Nau Revolució\nLocation - Barcelona\nEvent - Llum BCN\nYear - 2022",
     },
   },
   {
@@ -429,12 +464,15 @@ export const projects: Project[] = [
     client: "Mostra Festival",
     event: "Mostra Festival 2022",
     category: "estudio-encargos",
+    externalUrl: "https://www.stupe.digital/gallery/mostra22-livevisuals",
+    heroVideoUrl:
+      "/images/projects/006-mostra-festival-2022/gallery/videos/mostra22-livevisuals.mp4",
     thumbnail: "/images/projects/006-mostra-festival-2022/thumbnail.jpg",
     images: [
-      "/images/projects/006-mostra-festival-2022/gallery/01.jpg",
-      "/images/projects/006-mostra-festival-2022/gallery/02.jpg",
-      "/images/projects/006-mostra-festival-2022/gallery/03.jpg",
-      "/images/projects/006-mostra-festival-2022/gallery/04.jpg",
+      "/images/projects/006-mostra-festival-2022/gallery/01-3-1.jpg",
+      "/images/projects/006-mostra-festival-2022/gallery/01-3-2.jpg",
+      "/images/projects/006-mostra-festival-2022/gallery/01-3-3.jpg",
+      "/images/projects/006-mostra-festival-2022/gallery/02-1-1.jpg",
     ],
     sections: {
       role: "Visuals",
@@ -454,19 +492,20 @@ export const projects: Project[] = [
     client: "Landscapes",
     event: "Llum BCN",
     category: "colaboraciones",
+    heroVimeoId: "1031959241",
+    externalUrl: "https://tilergab.com/colorconversations",
     thumbnail: "/images/projects/005-color-conversations/thumbnail.jpg",
     images: [
-      "/images/projects/005-color-conversations/gallery/01.jpg",
-      "/images/projects/005-color-conversations/gallery/02.jpg",
-      "/images/projects/005-color-conversations/gallery/03.jpg",
-      "/images/projects/005-color-conversations/gallery/04.jpg",
-      "/images/projects/005-color-conversations/gallery/05.jpg",
-      "/images/projects/005-color-conversations/gallery/06.jpg",
-      "/images/projects/005-color-conversations/gallery/07.jpg",
-      "/images/projects/005-color-conversations/gallery/08.jpg",
-      "/images/projects/005-color-conversations/gallery/09.jpg",
-      "/images/projects/005-color-conversations/gallery/10.jpg",
-      "/images/projects/005-color-conversations/gallery/11.jpg",
+      "/images/projects/005-color-conversations/gallery/01-1-1.jpg",
+      "/images/projects/005-color-conversations/gallery/02-2-1.jpg",
+      "/images/projects/005-color-conversations/gallery/02-2-2.jpg",
+      "/images/projects/005-color-conversations/gallery/03-1-1.jpg",
+      "/images/projects/005-color-conversations/gallery/03-3-1.jpg",
+      "/images/projects/005-color-conversations/gallery/03-3-2.jpg",
+      "/images/projects/005-color-conversations/gallery/03-3-3.jpg",
+      "/images/projects/005-color-conversations/gallery/04-1-1.jpg",
+      "/images/projects/005-color-conversations/gallery/05-2-1.jpg",
+      "/images/projects/005-color-conversations/gallery/05-2-2.jpg",
     ],
     sections: {
       role: "Sound Design",
@@ -489,10 +528,10 @@ export const projects: Project[] = [
     category: "estudio-encargos",
     thumbnail: "/images/projects/004-centrifuge-nft/thumbnail.jpg",
     images: [
-      "/images/projects/004-centrifuge-nft/gallery/01.jpg",
-      "/images/projects/004-centrifuge-nft/gallery/02.jpg",
-      "/images/projects/004-centrifuge-nft/gallery/03.jpg",
-      "/images/projects/004-centrifuge-nft/gallery/04.jpg",
+      "/images/projects/004-centrifuge-nft/gallery/01-3-1.jpg",
+      "/images/projects/004-centrifuge-nft/gallery/01-3-2.jpg",
+      "/images/projects/004-centrifuge-nft/gallery/01-3-3.jpg",
+      "/images/projects/004-centrifuge-nft/gallery/02-1-1.jpg",
     ],
     sections: {
       role: "Visuals",
@@ -513,28 +552,26 @@ export const projects: Project[] = [
     category: "estudio-encargos",
     thumbnail: "/images/projects/002-planets-mapping-sharjah-light-festival/thumbnail.jpg",
     images: [
-      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/01.jpg",
-      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/02.jpg",
-      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/03.jpg",
-      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/04.jpg",
-      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/05.jpg",
-      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/06.jpg",
-      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/07.jpg",
-      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/08.jpg",
-      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/09.jpg",
-      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/10.jpg",
+      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/01-1-1.jpg",
+      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/02-2-1.jpg",
+      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/02-2-2.jpg",
+      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/03-1-1.jpg",
+      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/03-2-1.jpg",
+      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/03-2-2.jpg",
+      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/05-1-1.jpg",
+      "/images/projects/002-planets-mapping-sharjah-light-festival/gallery/07-1-1.jpg",
     ],
     externalUrl: "https://tigrelab.com/project/planets/",
     sections: {
-      role: "Creative Coder",
+      role: "Creative Technologist",
       concept:
         "Embark on an interactive journey of Planets at Sharjah Light Festival with an augmented reality installation.\n\nInvited by Nomada for the 10th Sharjah Light Festival 2020, Planets was presented at University City Hall as a combination of video mapping and AR. Visitors stretched the boundaries of the building beyond its walls, interacting with planets and modifying the characteristics of the show, while the rest of the public enjoyed the uninterrupted augmented experience through a mobile app.",
       tools:
-        "Creative Code\nReal-Time Graphics\nNotch\nAbleton\nLeap Motion\nFirebase\nAR mobile app (Android & iOS)\nProjection Mapping",
+        "Creative Code\nReal-Time Graphics\nNotch\nAbleton\nLeap Motion\nProjection Mapping",
       credits:
-        "Client - Nomada / Sharjah Light Festival\nAgency - Tigrelab\nCreative Direction - Federico Gonzalez, Mathieu Felix, Javier Pinto\nNotch Designer - Dan Garotte, Daniel Guillén, Filip Roca\nProducer - Vanesa Palmeri\nCreative Coder - Ferran Belda, Daniel Guillén\nApp Designer - Daniel Guillén\nAR Developer - Nacho Cosio",
+        "Client - Nomada / Sharjah Light Festival\nAgency - Tigrelab\nCreative Direction - Federico Gonzalez, Mathieu Felix, Javier Pinto\nNotch Designer - Dan Garotte, Daniel Guillén, Filip Roca\nProducer - Vanesa Palmeri\nCreative Technologist - Ferran Belda, Daniel Guillén\nApp Designer - Daniel Guillén\nAR Developer - Nacho Cosio",
       information:
-        "Industry - Arts & Culture\nType - Immersive / Interactive / Installation / Projection Mapping\nFestival - Sharjah Light Festival 2020\nVenue - University City Hall\nYear - 2020\nProject page - https://tigrelab.com/project/planets/",
+        "Type - Immersive / Interactive / Installation / Projection Mapping\nFestival - Sharjah Light Festival 2020\nVenue - University City Hall\nYear - 2020\nProject page - https://tigrelab.com/project/planets/",
     },
   },
   {
@@ -544,9 +581,11 @@ export const projects: Project[] = [
     year: "2020",
     event: "Inmesiva Residence",
     category: "practica-artistica",
+    heroYoutubeId: "Ldr5u7AiyTs",
+    externalUrl: "https://www.youtube.com/watch?v=Ldr5u7AiyTs",
     thumbnail: "/images/projects/003-wonders/thumbnail.jpg",
     images: [
-      "/images/projects/003-wonders/gallery/01.jpg",
+      "/images/projects/003-wonders/gallery/01-1-1.jpg",
     ],
     sections: {
       concept:
@@ -567,17 +606,16 @@ export const projects: Project[] = [
     client: "Tigrelab",
     event: "Durham Lumiere",
     category: "estudio-encargos",
+    heroYoutubeId: "cNBvDARO8yg",
     thumbnail: "/images/projects/001-durham-light-festival/thumbnail.jpg",
     images: [
-      "/images/projects/001-durham-light-festival/gallery/01.jpg",
-      "/images/projects/001-durham-light-festival/gallery/02.jpg",
-      "/images/projects/001-durham-light-festival/gallery/03.jpg",
-      "/images/projects/001-durham-light-festival/gallery/04.jpg",
-      "/images/projects/001-durham-light-festival/gallery/05.jpg",
-      "/images/projects/001-durham-light-festival/gallery/06.jpg",
-      "/images/projects/001-durham-light-festival/gallery/07.jpg",
-      "/images/projects/001-durham-light-festival/gallery/08.jpg",
-      "/images/projects/001-durham-light-festival/gallery/09.mp4",
+      "/images/projects/001-durham-light-festival/gallery/01-1-1.jpg",
+      "/images/projects/001-durham-light-festival/gallery/02-2-1.jpg",
+      "/images/projects/001-durham-light-festival/gallery/02-2-2.jpg",
+      "/images/projects/001-durham-light-festival/gallery/03-1-1.jpg",
+      "/images/projects/001-durham-light-festival/gallery/04-3-1.jpg",
+      "/images/projects/001-durham-light-festival/gallery/06-1-1.jpg",
+      "/images/projects/001-durham-light-festival/gallery/07-1-1.jpg",
     ],
     externalUrl: "https://tigrelab.com/project/stones/",
     sections: {
@@ -589,7 +627,7 @@ export const projects: Project[] = [
       credits:
         "Client - Artichoke / Durham Lumiere\nAgency - Tigrelab\nCreative Direction - Federico Gonzalez, Mathieu Felix, Javier Pinto\nNotch Designer - Dan Garote, Antonio Nieto\nProducer - Camila Araujo Vasquez\nCreative Coder - Ferran Belda\nGraphic Design - Daniel Guillén\n3D Modeler - Gerard Foix\nEdit - WeLoveMarta\nSound Design - Mathieu Bosi",
       information:
-        "Industry - Arts & Culture\nType - Immersive / Interactive / Installation / Projection Mapping\nFestival - Durham Lumiere 2019\nVenue - Durham Cathedral\nYear - 2019\nProject page - https://tigrelab.com/project/stones/",
+        "Type - Immersive / Interactive / Installation / Projection Mapping\nFestival - Durham Lumiere 2019\nVenue - Durham Cathedral\nYear - 2019\nProject page - https://tigrelab.com/project/stones/",
     },
   },
   {
@@ -600,11 +638,13 @@ export const projects: Project[] = [
     client: "Marina Colell (Graphitons)",
     event: "BAU",
     category: "colaboraciones",
+    heroVimeoId: "334427448",
+    externalUrl: "https://vimeo.com/334427448",
     thumbnail: "/images/projects/000-dansa-del-cosmos/thumbnail.jpg",
     images: [
-      "/images/projects/000-dansa-del-cosmos/gallery/01.jpg",
-      "/images/projects/000-dansa-del-cosmos/gallery/02.jpg",
-      "/images/projects/000-dansa-del-cosmos/gallery/03.jpg",
+      "/images/projects/000-dansa-del-cosmos/gallery/01-3-1.jpg",
+      "/images/projects/000-dansa-del-cosmos/gallery/01-3-2.jpg",
+      "/images/projects/000-dansa-del-cosmos/gallery/01-3-3.jpg",
     ],
     sections: {
       role: "Creative Coding",

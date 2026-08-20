@@ -1,25 +1,53 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ProjectAccordion } from "@/components/ProjectAccordion";
-import { ProjectFeaturedImage } from "@/components/ProjectFeaturedImage";
-import { ProjectGallery } from "@/components/ProjectGallery";
+import { ProjectGallery, ProjectGalleryHero } from "@/components/ProjectGallery";
+import { ProjectInfo } from "@/components/ProjectInfo";
+import { ProjectVimeoHero } from "@/components/ProjectVimeoHero";
+import { ProjectYoutubeHero } from "@/components/ProjectYoutubeHero";
 import {
   getAdjacentProjects,
   getProjectBySlug,
   projectCategoryLabels,
   projects,
+  type Project,
 } from "@/content/projects";
-import { galleryWithoutThumbnail } from "@/lib/project-media";
+import { site } from "@/content/site";
+import { splitGalleryForDisplay } from "@/lib/gallery-layout";
+import {
+  galleryWithoutThumbnail,
+  listGalleryHeroVideoFromDisk,
+  listGalleryImagesFromDisk,
+  resolveConfiguredHeroVideoUrl,
+} from "@/lib/project-media";
 
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+function projectShareDescription(project: Project) {
+  const concept = project.sections.concept?.trim();
+  if (concept) {
+    const firstParagraph = concept.split(/\n\n+/)[0].replace(/\s+/g, " ").trim();
+    return firstParagraph.length > 160
+      ? `${firstParagraph.slice(0, 157).trimEnd()}…`
+      : firstParagraph;
+  }
+
+  const bits = [project.sections.role, project.client, project.event, project.year]
+    .filter(Boolean)
+    .join(" · ");
+
+  return bits || `${project.title} by ${site.name}`;
+}
+
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
 }
 
-export async function generateMetadata({ params }: ProjectPageProps) {
+export async function generateMetadata({
+  params,
+}: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
 
@@ -27,8 +55,39 @@ export async function generateMetadata({ params }: ProjectPageProps) {
     return { title: "Project not found" };
   }
 
+  const title = project.title;
+  const description = projectShareDescription(project);
+  const url = `/projects/${project.slug}`;
+  const image = project.thumbnail
+    ? {
+        url: project.thumbnail,
+        alt: project.title,
+      }
+    : {
+        url: site.logo,
+        alt: site.name,
+      };
+
   return {
-    title: `${project.title} — FB`,
+    title,
+    description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      type: "article",
+      url,
+      title,
+      description,
+      siteName: site.name,
+      images: [image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image.url],
+    },
   };
 }
 
@@ -41,23 +100,30 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   const { prev, next } = getAdjacentProjects(slug);
-  const fullWidthGallery = project.galleryLayout?.columns === 1;
-  // Prefer thumbnail beside project info; keep full-width galleries for the strip below.
-  const featuredImage =
-    project.thumbnail ??
-    (fullWidthGallery ? undefined : project.images?.[0]);
-  const galleryImages = (() => {
-    const images = project.images ?? [];
-    if (!images.length) return [];
-    if (project.thumbnail) {
-      // Never repeat the thumbnail (same path or identical file) in the gallery.
-      return galleryWithoutThumbnail(images, project.thumbnail);
-    }
-    if (fullWidthGallery) return images;
-    // Featured uses images[0]; keep it out of the strip below.
-    return images.length > 1 ? images.slice(1) : [];
+  const heroVideo = listGalleryHeroVideoFromDisk(project);
+  const configuredHeroVideo = resolveConfiguredHeroVideoUrl(project.heroVideoUrl);
+  const localHeroVideo = configuredHeroVideo ?? heroVideo;
+  const hasLocalHeroVideo = Boolean(localHeroVideo);
+  const allGalleryImages = listGalleryImagesFromDisk(project);
+  const hasEmbedHero = Boolean(project.heroVimeoId || project.heroYoutubeId);
+  const { hero, rest } = splitGalleryForDisplay(
+    allGalleryImages,
+    project.galleryLayout,
+  );
+  const heroRow =
+    hasEmbedHero || hasLocalHeroVideo
+      ? null
+      : hero ??
+        (project.thumbnail
+          ? { columns: 1 as const, items: [project.thumbnail] }
+          : null);
+  const galleryRest = (() => {
+    const images = hasEmbedHero || hasLocalHeroVideo ? allGalleryImages : rest;
+    if (!project.thumbnail) return images;
+    return galleryWithoutThumbnail(images, project.thumbnail);
   })();
-  const showFeaturedBeside = Boolean(featuredImage);
+
+  const subtitle = [project.client, project.event].filter(Boolean).join(" · ");
 
   return (
     <main className="mx-auto max-w-[1600px] px-5 py-12 md:px-8 md:py-16">
@@ -71,29 +137,54 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <h1 className="font-display max-w-5xl text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold uppercase leading-[0.92] tracking-tight">
         {project.title}
       </h1>
-      {project.client ? (
+      {subtitle ? (
         <p className="mt-4 max-w-2xl text-sm uppercase tracking-[0.18em] text-muted md:text-base">
-          {project.client}
+          {subtitle}
+        </p>
+      ) : null}
+      {project.sections.role ? (
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground/80 md:text-base">
+          {project.sections.role}
         </p>
       ) : null}
 
-      <section
-        className={
-          showFeaturedBeside
-            ? "mt-10 grid items-start gap-10 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_minmax(280px,34rem)] lg:gap-12 xl:gap-16"
-            : "mt-10 max-w-3xl lg:mt-12"
-        }
-      >
-        <ProjectAccordion sections={project.sections} />
-        {showFeaturedBeside ? (
-          <ProjectFeaturedImage title={project.title} src={featuredImage!} />
-        ) : null}
-      </section>
+      {project.heroVimeoId ? (
+        <ProjectVimeoHero
+          title={project.title}
+          vimeoId={project.heroVimeoId}
+        />
+      ) : project.heroYoutubeId ? (
+        <ProjectYoutubeHero
+          title={project.title}
+          youtubeId={project.heroYoutubeId}
+        />
+      ) : heroRow ? (
+        <ProjectGalleryHero
+          title={project.title}
+          row={heroRow}
+          layout={project.galleryLayout}
+        />
+      ) : localHeroVideo ? (
+        <ProjectGalleryHero
+          title={project.title}
+          row={{
+            columns: 1,
+            items: [localHeroVideo],
+          }}
+          layout={project.galleryLayout}
+        />
+      ) : null}
+
+      <ProjectInfo
+        sections={project.sections}
+        externalUrl={project.externalUrl}
+      />
 
       <ProjectGallery
         title={project.title}
-        images={galleryImages}
+        images={galleryRest}
         layout={project.galleryLayout}
+        variant="continuation"
       />
 
       <section className="mt-16 border-t border-border pt-10 md:mt-20">
