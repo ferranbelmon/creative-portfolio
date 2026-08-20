@@ -2,7 +2,8 @@
  * Sync gallery folders → content/projects.ts
  *
  * 1. Renames messy uploads (e.g. WhatsApp Video …) to the next free NN.ext
- * 2. Rewrites each project's `images: [...]` from files on disk
+ * 2. Keeps layout names as-is (e.g. 01-1-1.jpg, 02-2-1.jpg, 02-2-2.jpg)
+ * 3. Rewrites each project's `images: [...]` from files on disk
  *
  * Usage: npm run sync-galleries
  * Optional: npm run sync-galleries -- --dry-run
@@ -26,10 +27,59 @@ const MEDIA_EXT = new Set([
   ".mov",
 ]);
 
-const NORMALIZED = /^(\d{2})\.[a-z0-9]+$/i;
+const LEGACY_NAME = /^(\d{2})\.[a-z0-9]+$/i;
+/** Row layout: 01-2-1.jpg → row 1, 2 columns, slot 1 */
+const LAYOUT_NAME = /^(\d{2})-([1-4])-([1-4])\.[a-z0-9]+$/i;
+
+function normalizeGalleryFileName(name) {
+  return name.trim().replace(/\s+\./, ".");
+}
+
+function isNormalizedName(name) {
+  const normalized = normalizeGalleryFileName(name);
+  return LEGACY_NAME.test(normalized) || LAYOUT_NAME.test(normalized);
+}
 
 function naturalSort(a, b) {
   return a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" });
+}
+
+function warnIncompleteLayoutRows(folderKey, fileNames) {
+  const layoutFiles = fileNames.filter((name) => LAYOUT_NAME.test(name));
+  if (!layoutFiles.length) return;
+  if (layoutFiles.length !== fileNames.length) {
+    console.warn(
+      `${folderKey}: mixed layout + legacy names — use either 01-2-1.jpg or 01.jpg, not both`,
+    );
+    return;
+  }
+
+  const byRow = new Map();
+  for (const name of layoutFiles) {
+    const match = name.match(LAYOUT_NAME);
+    const row = match[1];
+    const columns = Number.parseInt(match[2], 10);
+    const slot = Number.parseInt(match[3], 10);
+    const list = byRow.get(row) ?? [];
+    list.push({ name, columns, slot });
+    byRow.set(row, list);
+  }
+
+  for (const [row, entries] of byRow) {
+    const columns = entries[0].columns;
+    const slots = new Set(entries.map((entry) => entry.slot));
+    const expected = Array.from({ length: columns }, (_, i) => i + 1);
+    const complete =
+      entries.length === columns &&
+      expected.every((slot) => slots.has(slot)) &&
+      entries.every((entry) => entry.columns === columns);
+
+    if (!complete) {
+      console.warn(
+        `${folderKey}: incomplete row ${row} — expected ${columns} file(s) like ${row}-${columns}-1 … ${row}-${columns}-${columns}`,
+      );
+    }
+  }
 }
 
 async function listProjects(content) {
@@ -37,22 +87,160 @@ async function listProjects(content) {
   const re = /id:\s*"([^"]+)"[\s\S]*?slug:\s*"([^"]+)"/g;
   let match;
   while ((match = re.exec(content))) {
-    projects.push({ id: match[1], slug: match[2] });
+    const start = match.index;
+    const afterSlug = content.slice(start);
+    const nextProject = afterSlug.search(/\r?\n  \},\r?\n  \{/);
+    const projectSlice =
+      nextProject === -1 ? afterSlug : afterSlug.slice(0, nextProject + 5);
+    const columnsMatch = projectSlice.match(
+      /galleryLayout:\s*\{[\s\S]*?columns:\s*([1-4])/,
+    );
+    const columns = columnsMatch ? Number.parseInt(columnsMatch[1], 10) : 3;
+    projects.push({ id: match[1], slug: match[2], columns });
   }
   return projects;
+}
+
+/**
+ * Converts legacy 01.jpg names to row layout: 01-3-1.jpg, 01-3-2.jpg, …
+ * Skips folders that already contain layout-named files.
+ */
+async function migrateLegacyGalleryToLayout(
+  folderKey,
+  galleryDir,
+  columns,
+) {
+  const entries = (await fs.readdir(galleryDir, { withFileTypes: true }))
+    .filter((entry) => entry.isFile())
+    .map((entry) => normalizeGalleryFileName(entry.name))
+    .filter((name) =>
+      MEDIA_EXT.has(path.extname(name).toLowerCase()),
+    );
+
+  const legacy = entries
+    .filter((name) => LEGACY_NAME.test(name))
+    .sort(naturalSort);
+  const layout = entries.filter((name) => LAYOUT_NAME.test(name));
+
+  if (!legacy.length || layout.length > 0) {
+    if (legacy.length && layout.length) {
+      console.warn(
+        `${folderKey}: mixed layout + legacy names — migrate legacy files manually or remove layout names first`,
+      );
+    }
+    return {};
+  }
+
+  const plan = [];
+  let rowNum = 1;
+  let index = 0;
+
+  while (index < legacy.length) {
+    const remaining = legacy.length - index;
+    const rowColumns = remaining >= columns ? columns : remaining;
+
+    for (let slot = 1; slot <= rowColumns; slot += 1) {
+      const from = legacy[index];
+      const ext = path.extname(from);
+      const to = `${String(rowNum).padStart(2, "0")}-${rowColumns}-${slot}${ext}`;
+      plan.push({ from, to });
+      index += 1;
+    }
+
+    rowNum += 1;
+  }
+
+  const renameMap = {};
+
+  for (let i = 0; i < plan.length; i += 1) {
+    const { from, to } = plan[i];
+    const tmp = `.__layout_${i}_${to}`;
+    console.log(`${folderKey}: ${from} -> ${to}`);
+    renameMap[from] = to;
+    if (!dryRun) {
+      await fs.rename(
+        path.join(galleryDir, from),
+        path.join(galleryDir, tmp),
+      );
+    }
+  }
+
+  if (!dryRun) {
+    for (let i = 0; i < plan.length; i += 1) {
+      const { to } = plan[i];
+      const tmp = `.__layout_${i}_${to}`;
+      await fs.rename(
+        path.join(galleryDir, tmp),
+        path.join(galleryDir, to),
+      );
+    }
+  }
+
+  return renameMap;
+}
+
+function replaceProjectThumbnails(content, slug, renameMap) {
+  if (!Object.keys(renameMap).length) return content;
+
+  const slugAnchor = `slug: "${slug}"`;
+  const slugIndex = content.indexOf(slugAnchor);
+  if (slugIndex === -1) return content;
+
+  const afterSlug = content.slice(slugIndex);
+  const nextProject = afterSlug.search(/\r?\n  \},\r?\n  \{/);
+  const projectSlice =
+    nextProject === -1 ? afterSlug : afterSlug.slice(0, nextProject + 5);
+
+  let updatedSlice = projectSlice;
+  for (const [from, to] of Object.entries(renameMap)) {
+    updatedSlice = updatedSlice.replace(
+      `/gallery/${from}`,
+      `/gallery/${to}`,
+    );
+  }
+
+  if (updatedSlice === projectSlice) return content;
+
+  return (
+    content.slice(0, slugIndex) +
+    updatedSlice +
+    content.slice(slugIndex + projectSlice.length)
+  );
 }
 
 async function ensureNormalizedNames(folderKey, galleryDir) {
   const entries = (await fs.readdir(galleryDir, { withFileTypes: true }))
     .filter((entry) => entry.isFile())
     .map((entry) => entry.name)
-    .filter((name) => MEDIA_EXT.has(path.extname(name).toLowerCase()));
+    .filter((name) =>
+      MEDIA_EXT.has(path.extname(normalizeGalleryFileName(name)).toLowerCase()),
+    );
+
+  // Fix accidental spaces before extensions (e.g. "03-2-2 .jpg").
+  for (const name of entries) {
+    const fixed = normalizeGalleryFileName(name);
+    if (fixed !== name) {
+      console.log(`${folderKey}: ${name} -> ${fixed}`);
+      if (!dryRun) {
+        await fs.rename(
+          path.join(galleryDir, name),
+          path.join(galleryDir, fixed),
+        );
+      }
+    }
+  }
+
+  const afterSpaceFix = (await fs.readdir(galleryDir))
+    .filter((name) =>
+      MEDIA_EXT.has(path.extname(normalizeGalleryFileName(name)).toLowerCase()),
+    )
+    .map(normalizeGalleryFileName);
 
   const normalized = [];
   const messy = [];
 
-  for (const name of entries) {
-    if (NORMALIZED.test(name)) normalized.push(name);
+  for (const name of afterSpaceFix) {
+    if (isNormalizedName(name)) normalized.push(name);
     else messy.push(name);
   }
 
@@ -79,11 +267,6 @@ async function ensureNormalizedNames(folderKey, galleryDir) {
       await fs.rename(path.join(galleryDir, from), path.join(galleryDir, to));
     }
   }
-
-  const finalNames = [
-    ...normalized,
-    ...renames.map((r) => (dryRun ? r.to : r.to)),
-  ];
 
   // In dry-run, disk still has old names; report intended final list.
   if (dryRun) {
@@ -114,11 +297,11 @@ function replaceProjectImages(content, slug, imagesBlock) {
 
   // Limit search to this project object (until next top-level `{` project or end of array).
   const afterSlug = content.slice(slugIndex);
-  const nextProject = afterSlug.search(/\n  \},\n  \{/);
+  const nextProject = afterSlug.search(/\r?\n  \},\r?\n  \{/);
   const projectSlice =
     nextProject === -1 ? afterSlug : afterSlug.slice(0, nextProject + 5);
 
-  const imagesMatch = projectSlice.match(/images:\s*\[[\s\S]*?\],\n/);
+  const imagesMatch = projectSlice.match(/images:\s*\[[\s\S]*?\],\r?\n/);
   if (imagesMatch) {
     const updatedSlice = projectSlice.replace(
       imagesMatch[0],
@@ -167,7 +350,7 @@ const projects = await listProjects(content);
 
 let changedProjects = 0;
 
-for (const { id, slug } of projects) {
+for (const { id, slug, columns } of projects) {
   const folderKey = `${id}-${slug}`;
   const galleryDir = path.join(projectsRoot, folderKey, "gallery");
 
@@ -177,8 +360,19 @@ for (const { id, slug } of projects) {
     continue;
   }
 
+  const renameMap = await migrateLegacyGalleryToLayout(
+    folderKey,
+    galleryDir,
+    columns,
+  );
+  if (Object.keys(renameMap).length) {
+    content = replaceProjectThumbnails(content, slug, renameMap);
+  }
+
   const fileNames = await ensureNormalizedNames(folderKey, galleryDir);
   if (!fileNames.length) continue;
+
+  warnIncompleteLayoutRows(folderKey, fileNames);
 
   const imagesBlock = buildImagesBlock(folderKey, fileNames);
   const next = replaceProjectImages(content, slug, imagesBlock);

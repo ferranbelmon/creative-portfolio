@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local video backups (Vimeo archive; not served on site)
+public/images/projects/**/gallery/videos/backup/**
+!public/images/projects/**/gallery/videos/backup/.gitkeep
+
+# yt-dlp binary (downloaded locally)
+scripts/bin/
+
+# exported browser cookies (never commit)
+scripts/cookies/*.txt
