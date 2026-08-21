@@ -2,12 +2,12 @@
 
 :root {
   color-scheme: dark;
-  --background: #090909;
+  --background: #050505;
   --foreground: #f5f5f5;
   --muted: #888888;
   --accent: #d4ff00;
-  --border: #222222;
-  --surface: #111111;
+  --border: #1c1c1c;
+  --surface: #0c0c0c;
 }
 
 html.light {
@@ -41,6 +41,12 @@ body {
   color: var(--foreground);
   font-family: var(--font-dm-sans), system-ui, sans-serif;
 }
+
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
+}
+
 
 ::selection {
   background: var(--accent);

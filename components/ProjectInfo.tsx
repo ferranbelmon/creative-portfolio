@@ -90,7 +90,7 @@ export function ProjectInfo({ sections, externalUrl }: ProjectInfoProps) {
           <h2 className="mb-5 font-display text-xs font-bold uppercase tracking-[0.25em] text-muted">
             Concept
           </h2>
-          <p className="text-lg leading-relaxed whitespace-pre-line md:text-xl md:leading-relaxed">
+          <p className="text-base leading-relaxed whitespace-pre-line text-foreground/85 md:text-lg md:leading-relaxed">
             {concept}
           </p>
         </div>

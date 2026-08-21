@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Suspense } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { CustomCursor } from "@/components/CustomCursor";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { site } from "@/content/site";
 import "./globals.css";
@@ -73,6 +74,7 @@ export default function RootLayout({
           {`(function(){try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light");}catch(e){}})();`}
         </Script>
         <ScrollToTop />
+        <CustomCursor />
         <Suspense fallback={null}>
           <Header />
         </Suspense>

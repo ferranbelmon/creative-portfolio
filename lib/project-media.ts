@@ -1,7 +1,6 @@
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
-import { unstable_noStore as noStore } from "next/cache";
 import type { Project } from "@/content/projects";
 
 const MEDIA_EXT = new Set([
@@ -49,8 +48,6 @@ function normalizeGalleryFileName(name: string) {
 export function listGalleryImagesFromDisk(
   project: Pick<Project, "id" | "slug" | "images">,
 ): string[] {
-  noStore();
-
   const folderKey = `${project.id}-${project.slug}`;
   const galleryDir = path.join(
     process.cwd(),
@@ -100,8 +97,6 @@ function projectFolderKey(project: Pick<Project, "id" | "slug">) {
 export function listGalleryHeroVideoFromDisk(
   project: Pick<Project, "id" | "slug">,
 ): string | null {
-  noStore();
-
   const folderKey = projectFolderKey(project);
   const videosDir = path.join(
     process.cwd(),
@@ -147,6 +142,14 @@ export function resolveConfiguredHeroVideoUrl(
   return `${pathOnly}?v=${mtime}`;
 }
 
+function fileSize(src: string): number | null {
+  try {
+    return statSync(publicFilePath(src)).size;
+  } catch {
+    return null;
+  }
+}
+
 function fileHash(src: string): string | null {
   try {
     return createHash("sha1")
@@ -159,7 +162,7 @@ function fileHash(src: string): string | null {
 
 /**
  * Gallery images must never repeat the featured thumbnail.
- * Filters by path and by identical file contents (e.g. thumbnail.jpg copied from 01.jpg).
+ * Filters by path; only hashes when file size matches (avoids reading every image).
  */
 export function galleryWithoutThumbnail(
   images: string[] | undefined,
@@ -169,12 +172,21 @@ export function galleryWithoutThumbnail(
   if (!list.length) return [];
   if (!thumbnail) return list;
 
-  const thumbnailHash = fileHash(thumbnail);
+  const thumbPath = mediaPath(thumbnail);
+  const thumbSize = fileSize(thumbnail);
+  let thumbHash: string | null | undefined;
 
   return list.filter((src) => {
-    if (src === thumbnail) return false;
-    if (!thumbnailHash) return true;
+    if (mediaPath(src) === thumbPath) return false;
+    if (thumbSize == null) return true;
+
+    const size = fileSize(src);
+    if (size == null || size !== thumbSize) return true;
+
+    if (thumbHash === undefined) thumbHash = fileHash(thumbnail);
+    if (!thumbHash) return true;
+
     const hash = fileHash(src);
-    return !hash || hash !== thumbnailHash;
+    return !hash || hash !== thumbHash;
   });
 }

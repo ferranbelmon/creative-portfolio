@@ -70,10 +70,10 @@ function MediaTile({
 
   return (
     <div
-      className={`relative w-full overflow-hidden bg-surface ${
+      className={`relative w-full overflow-hidden ${
         constrainToViewport
-          ? "flex max-h-[min(85dvh,56rem)] items-center justify-center"
-          : aspectClass
+          ? "flex max-h-[min(85dvh,56rem)] items-center justify-center bg-transparent"
+          : `bg-surface ${aspectClass}`
       }`}
     >
       {showFileLabel ? (

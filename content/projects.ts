@@ -12,17 +12,15 @@ export type GalleryLayout = {
 };
 
 export const projectCategories = [
-  "practica-artistica",
-  "estudio-encargos",
-  "colaboraciones",
+  "artistic-practice",
+  "commissions",
 ] as const;
 
 export type ProjectCategory = (typeof projectCategories)[number];
 
 export const projectCategoryLabels: Record<ProjectCategory, string> = {
-  "practica-artistica": "Personal projects",
-  "estudio-encargos": "Comissions and studios",
-  colaboraciones: "Colaborations",
+  "artistic-practice": "Artistic practice",
+  commissions: "Commissions",
 };
 
 /** Work modalities shown as icons on cards and project pages. */
@@ -76,7 +74,7 @@ export const projects: Project[] = [
     title: "CíCLIC Installation & Live AV",
     year: "2024–2025",
     event: "Intervals Fest / Mira Festival",
-    category: "practica-artistica",
+    category: "artistic-practice",
     skills: ["sound", "visuals", "hardware"],
     thumbnail:
       "/images/projects/022-ciclic-installation-live-av/gallery/01-3-1.jpeg",
@@ -104,7 +102,7 @@ export const projects: Project[] = [
     year: "2026",
     client: "Protopixel",
     event: "Torre Glòries",
-    category: "estudio-encargos",
+    category: "commissions",
     skills: ["visuals"],
     thumbnail: "/images/projects/020-torre-glories-content/thumbnail.jpg",
     images: [
@@ -125,7 +123,7 @@ export const projects: Project[] = [
     year: "2026",
     client: "Tayhana",
     event: "Sónar Festival",
-    category: "colaboraciones",
+    category: "commissions",
     skills: ["visuals"],
     sections: {
       role: "Visuals",
@@ -139,7 +137,7 @@ export const projects: Project[] = [
     year: "2026",
     client: "Landscapes",
     event: "Mobile World Congress 2026",
-    category: "estudio-encargos",
+    category: "commissions",
     skills: ["visuals"],
     externalUrl: "https://landscapes.digital/en/work/landscapes-en-mwc-2026/",
     sections: {
@@ -160,7 +158,7 @@ export const projects: Project[] = [
     title: "Espurna",
     year: "2025",
     event: "Turbina by Mira Festival",
-    category: "practica-artistica",
+    category: "artistic-practice",
     skills: ['sound','visuals','hardware'],
     thumbnail: "/images/projects/016-espurna/thumbnail.jpg",
     images: [
@@ -185,7 +183,7 @@ export const projects: Project[] = [
     year: "2025",
     client: "Landscapes",
     event: "Sónar by Night",
-    category: "estudio-encargos",
+    category: "commissions",
     skills: ['hardware'],
     thumbnail: "/images/projects/017-light-tunnel-sonar-by-night/gallery/01-1-1.jpg",
     images: [
@@ -213,7 +211,7 @@ export const projects: Project[] = [
     title: "Collide",
     year: "2025",
     event: "Bahidorá Festival",
-    category: "practica-artistica",
+    category: "artistic-practice",
     skills: ['sound','visuals','hardware'],
     thumbnail: "/images/projects/015-collide/thumbnail.jpg",
     images: [
@@ -237,7 +235,7 @@ export const projects: Project[] = [
     title: "CíCLIC",
     year: "2024–2025",
     event: "Intervals Fest",
-    category: "practica-artistica",
+    category: "artistic-practice",
     skills: ['sound','visuals','hardware'],
     thumbnail: "/images/projects/013-ciclic/thumbnail.jpg",
     images: [
@@ -269,7 +267,7 @@ export const projects: Project[] = [
     year: "2025",
     client: "Rocío Berenguer",
     event: "MUDAC Solar Biennale 2",
-    category: "colaboraciones",
+    category: "commissions",
     skills: ['coding'],
     thumbnail: "/images/projects/014-baddance-with-the-badweeds/thumbnail.jpg",
     images: [
@@ -296,7 +294,7 @@ export const projects: Project[] = [
     title: "Kieli",
     year: "2024",
     event: "Sónar +D",
-    category: "colaboraciones",
+    category: "commissions",
     skills: ['coding'],
     thumbnail: "/images/projects/011-kieli/gallery/01-2-1.jpg",
     images: [
@@ -318,7 +316,7 @@ export const projects: Project[] = [
     year: "2024",
     client: "Tigrelab",
     event: "Milan Design Week 2024",
-    category: "estudio-encargos",
+    category: "commissions",
     skills: ['coding'],
     thumbnail: "/images/projects/010-cupra-sensorial-capsule/thumbnail.jpg",
     images: [
@@ -351,7 +349,7 @@ export const projects: Project[] = [
     year: "May 2025",
     client: "Vampire",
     event: "Metamorfosis Season",
-    category: "estudio-encargos",
+    category: "commissions",
     skills: ['visuals'],
     thumbnail: "/images/projects/018-visuals-for-aitana/thumbnail.jpg",
     images: [
@@ -380,7 +378,7 @@ export const projects: Project[] = [
     year: "2024",
     client: "Vampire",
     event: "Boiler Room at Primavera Sound",
-    category: "estudio-encargos",
+    category: "commissions",
     skills: ['visuals'],
     thumbnail: "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/thumbnail.jpg",
     images: [
@@ -405,7 +403,7 @@ export const projects: Project[] = [
     year: "2023–2024",
     client: "Ferran Belmon",
     event: "Volumens Festival",
-    category: "practica-artistica",
+    category: "artistic-practice",
     skills: ['sound','visuals','coding'],
     thumbnail: "/images/projects/009-ciclic-live-av/thumbnail.jpg",
     images: [
@@ -435,7 +433,7 @@ export const projects: Project[] = [
     year: "2023",
     client: "Moonai",
     event: "Mira Festival",
-    category: "colaboraciones",
+    category: "artistic-practice",
     skills: ['visuals'],
     thumbnail: "/images/projects/008-moonai-soundwaves-wellness/thumbnail.jpg",
     images: [
@@ -462,7 +460,7 @@ export const projects: Project[] = [
     year: "2022",
     client: "Landscapes",
     event: "Llum BCN",
-    category: "colaboraciones",
+    category: "commissions",
     skills: ['sound'],
     heroVimeoId: "1031950881",
     externalUrl: "https://tilergab.com/o-3",
@@ -491,7 +489,7 @@ export const projects: Project[] = [
     year: "2022",
     client: "Mostra Festival",
     event: "Mostra Festival 2022",
-    category: "estudio-encargos",
+    category: "artistic-practice",
     skills: ['visuals'],
     externalUrl: "https://www.stupe.digital/gallery/mostra22-livevisuals",
     heroVideoUrl:
@@ -520,7 +518,7 @@ export const projects: Project[] = [
     year: "2021",
     client: "Landscapes",
     event: "Llum BCN",
-    category: "colaboraciones",
+    category: "commissions",
     skills: ['sound'],
     heroVimeoId: "1031959241",
     externalUrl: "https://tilergab.com/colorconversations",
@@ -555,7 +553,7 @@ export const projects: Project[] = [
     title: "Centrifuge NFT",
     year: "2021",
     client: "Centrifuge",
-    category: "estudio-encargos",
+    category: "artistic-practice",
     skills: ['visuals'],
     thumbnail: "/images/projects/004-centrifuge-nft/thumbnail.jpg",
     images: [
@@ -580,7 +578,7 @@ export const projects: Project[] = [
     year: "2020",
     client: "Tigrelab",
     event: "Sharjah Light Festival",
-    category: "estudio-encargos",
+    category: "commissions",
     skills: ['coding'],
     thumbnail: "/images/projects/002-planets-mapping-sharjah-light-festival/thumbnail.jpg",
     images: [
@@ -612,7 +610,7 @@ export const projects: Project[] = [
     title: "Wonders",
     year: "2020",
     event: "Inmesiva Residence",
-    category: "practica-artistica",
+    category: "artistic-practice",
     skills: ['visuals','sound'],
     heroYoutubeId: "Ldr5u7AiyTs",
     externalUrl: "https://www.youtube.com/watch?v=Ldr5u7AiyTs",
@@ -638,7 +636,7 @@ export const projects: Project[] = [
     year: "2019",
     client: "Tigrelab",
     event: "Durham Lumiere",
-    category: "estudio-encargos",
+    category: "commissions",
     skills: ['coding'],
     heroYoutubeId: "cNBvDARO8yg",
     thumbnail: "/images/projects/001-durham-light-festival/thumbnail.jpg",
@@ -671,7 +669,7 @@ export const projects: Project[] = [
     year: "2019",
     client: "Marina Colell (Graphitons)",
     event: "BAU",
-    category: "colaboraciones",
+    category: "commissions",
     skills: ['coding'],
     heroVimeoId: "334427448",
     externalUrl: "https://vimeo.com/334427448",
