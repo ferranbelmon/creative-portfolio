@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   AnimatePresence,
   motion,
@@ -12,7 +12,6 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { RemoteImage } from "@/components/RemoteImage";
-import { InteractiveDotGrid } from "@/components/InteractiveDotGrid";
 import { ProjectListView } from "@/components/ProjectListView";
 import { ProjectSkills } from "@/components/ProjectSkills";
 import {
@@ -28,21 +27,6 @@ type ViewMode = "grid" | "list";
 
 const MAX_TILT = 1;
 const INFLUENCE_RADIUS = 1.85;
-
-const gridVariants = {
-  show: {
-    transition: {
-      staggerChildren: 0.04,
-      delayChildren: 0.02,
-    },
-  },
-  exit: {
-    transition: {
-      staggerChildren: 0.025,
-      staggerDirection: -1 as const,
-    },
-  },
-};
 
 const cardVariants = {
   hidden: {
@@ -107,7 +91,6 @@ export function ProjectGrid() {
 
   return (
     <section className="relative w-full pb-20 pt-6">
-      <InteractiveDotGrid />
       <div className="relative mx-auto max-w-[1600px] px-5 md:px-8">
       <div className="mb-8 border border-border bg-background/80 backdrop-blur-[2px] md:mb-10">
         <div className="flex flex-col gap-4 border-b border-border px-4 py-3 md:flex-row md:items-center md:justify-between md:gap-6 md:px-5">
@@ -148,18 +131,22 @@ export function ProjectGrid() {
             <div
               role="group"
               aria-label="Layout view"
-              className="flex items-center gap-1.5"
+              className="flex items-center gap-0.5 border border-border p-0.5"
             >
-              <FilterButton
+              <ViewIconButton
                 active={view === "grid"}
                 onClick={() => setView("grid")}
-                label="GRID"
-              />
-              <FilterButton
+                label="Grid view"
+              >
+                <GridViewIcon />
+              </ViewIconButton>
+              <ViewIconButton
                 active={view === "list"}
                 onClick={() => setView("list")}
-                label="LIST"
-              />
+                label="List view"
+              >
+                <ListViewIcon />
+              </ViewIconButton>
             </div>
           </div>
         </div>
@@ -175,15 +162,8 @@ export function ProjectGrid() {
         </div>
       ) : (
         <div className="relative min-h-[12rem]" style={{ perspective: 1200 }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={category}
-              className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5"
-              variants={reduceMotion ? undefined : gridVariants}
-              initial={reduceMotion ? false : "hidden"}
-              animate="show"
-              exit="exit"
-            >
+          <motion.div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+            <AnimatePresence initial={false}>
               {filteredProjects.map((project, index) => (
                 <ProjectCard
                   key={project.slug}
@@ -194,8 +174,8 @@ export function ProjectGrid() {
                   mouseY={mouseY}
                 />
               ))}
-            </motion.div>
-          </AnimatePresence>
+            </AnimatePresence>
+          </motion.div>
 
           {filteredProjects.length === 0 ? (
             <p className="border border-border bg-background/80 py-16 text-center font-mono text-xs uppercase tracking-[0.28em] text-muted">
@@ -314,7 +294,11 @@ function ProjectCard({
   return (
     <motion.div
       ref={cardRef}
+      layout={false}
       variants={reduceMotion ? undefined : cardVariants}
+      initial={reduceMotion ? false : "hidden"}
+      animate="show"
+      exit="exit"
       className="origin-center will-change-transform"
       style={
         reduceMotion
@@ -329,7 +313,8 @@ function ProjectCard({
     >
       <Link
         href={`/projects/${project.slug}`}
-        className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface outline-none transition-colors duration-300 hover:border-accent/60 focus-visible:border-accent"
+        data-ui-tone="tonic"
+        className="group relative flex h-full flex-col rounded-lg border border-border bg-surface outline-none transition-colors duration-300 hover:border-accent/60 focus-visible:border-accent"
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Media window */}
@@ -362,7 +347,7 @@ function ProjectCard({
 
         {/* Label block */}
         <div
-          className="m-2 mt-1.5 flex flex-1 flex-col rounded-md border border-border bg-background/80 p-2.5 md:p-3"
+          className="relative m-2 mt-1.5 flex flex-1 flex-col overflow-visible rounded-md border border-border bg-background/80 p-2.5 md:p-3"
           style={{ transform: "translateZ(18px)" }}
         >
           <div className="flex items-baseline justify-between gap-3 font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted">
@@ -412,6 +397,7 @@ function FilterButton({
   return (
     <button
       type="button"
+      data-ui-tone="vapor"
       aria-pressed={active}
       onClick={onClick}
       className={`border px-3 py-1.5 font-mono text-[0.68rem] uppercase tracking-[0.16em] transition-colors ${
@@ -422,5 +408,71 @@ function FilterButton({
     >
       {label}
     </button>
+  );
+}
+
+function ViewIconButton({
+  active,
+  onClick,
+  label,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      data-ui-tone="classic"
+      aria-label={label}
+      aria-pressed={active}
+      title={label}
+      onClick={onClick}
+      className={`flex h-8 w-8 items-center justify-center transition-colors ${
+        active
+          ? "bg-accent text-background"
+          : "bg-transparent text-foreground/70 hover:bg-foreground/10 hover:text-foreground"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function GridViewIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="currentColor"
+      aria-hidden
+    >
+      <rect x="1" y="1" width="6" height="6" />
+      <rect x="9" y="1" width="6" height="6" />
+      <rect x="1" y="9" width="6" height="6" />
+      <rect x="9" y="9" width="6" height="6" />
+    </svg>
+  );
+}
+
+function ListViewIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="currentColor"
+      aria-hidden
+    >
+      <rect x="1" y="2" width="3" height="3" />
+      <rect x="6" y="2.75" width="9" height="1.5" />
+      <rect x="1" y="6.5" width="3" height="3" />
+      <rect x="6" y="7.25" width="9" height="1.5" />
+      <rect x="1" y="11" width="3" height="3" />
+      <rect x="6" y="11.75" width="9" height="1.5" />
+    </svg>
   );
 }

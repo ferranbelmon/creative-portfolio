@@ -1,15 +1,24 @@
 import path from "node:path";
 import type { GalleryLayout } from "@/content/projects";
 
-/** e.g. 01-2-1.jpg → row 1, 2 columns, slot 1 */
-const LAYOUT_NAME = /^(\d{2})-([1-4])-([1-4])\.[a-z0-9]+$/i;
+/** e.g. 01-2-1.jpg → row 1, 2 equal columns, slot 1 */
+const EQUAL_NAME = /^(\d{2})-([1-4])-([1-4])\.[a-z0-9]+$/i;
+
+/** e.g. 03-v2h-1.jpg → mosaic: vertical left + 2 horizontals right */
+const V2H_NAME = /^(\d{2})-v2h-([1-3])\.[a-z0-9]+$/i;
+
+/** e.g. 04-vh-1.jpg → mosaic: vertical left + horizontal right, same height */
+const VH_NAME = /^(\d{2})-vh-([1-2])\.[a-z0-9]+$/i;
 
 /** Legacy flat gallery: 01.jpg */
 const LEGACY_NAME = /^(\d{2})\.[a-z0-9]+$/i;
 
+export type GalleryRowPattern = "equal" | "v2h" | "vh";
+
 export type GalleryRow = {
   columns: 1 | 2 | 3 | 4;
   items: string[];
+  pattern?: GalleryRowPattern;
 };
 
 export type ParsedGallery =
@@ -21,6 +30,27 @@ export type ParsedGallery =
       aspectRatio: NonNullable<GalleryLayout["aspectRatio"]>;
     };
 
+type ParsedEntry =
+  | {
+      kind: "equal";
+      src: string;
+      row: number;
+      columns: 1 | 2 | 3 | 4;
+      slot: number;
+    }
+  | {
+      kind: "v2h";
+      src: string;
+      row: number;
+      slot: number;
+    }
+  | {
+      kind: "vh";
+      src: string;
+      row: number;
+      slot: number;
+    };
+
 function normalizeBasename(name: string) {
   return name.trim().replace(/\s+\./, ".");
 }
@@ -30,28 +60,55 @@ function basename(src: string) {
 }
 
 export function isLayoutGalleryName(name: string) {
-  return LAYOUT_NAME.test(normalizeBasename(name));
+  const base = normalizeBasename(name);
+  return EQUAL_NAME.test(base) || V2H_NAME.test(base) || VH_NAME.test(base);
 }
 
 export function isLegacyGalleryName(name: string) {
   return LEGACY_NAME.test(normalizeBasename(name));
 }
 
-function parseLayoutEntry(src: string) {
-  const match = basename(src).match(LAYOUT_NAME);
-  if (!match) return null;
+function parseLayoutEntry(src: string): ParsedEntry | null {
+  const name = basename(src);
 
-  const row = Number.parseInt(match[1], 10);
-  const columns = Number.parseInt(match[2], 10) as 1 | 2 | 3 | 4;
-  const slot = Number.parseInt(match[3], 10);
+  const v2h = name.match(V2H_NAME);
+  if (v2h) {
+    return {
+      kind: "v2h",
+      src,
+      row: Number.parseInt(v2h[1], 10),
+      slot: Number.parseInt(v2h[2], 10),
+    };
+  }
 
+  const vh = name.match(VH_NAME);
+  if (vh) {
+    return {
+      kind: "vh",
+      src,
+      row: Number.parseInt(vh[1], 10),
+      slot: Number.parseInt(vh[2], 10),
+    };
+  }
+
+  const equal = name.match(EQUAL_NAME);
+  if (!equal) return null;
+
+  const columns = Number.parseInt(equal[2], 10) as 1 | 2 | 3 | 4;
+  const slot = Number.parseInt(equal[3], 10);
   if (slot < 1 || slot > columns) return null;
 
-  return { src, row, columns, slot };
+  return {
+    kind: "equal",
+    src,
+    row: Number.parseInt(equal[1], 10),
+    columns,
+    slot,
+  };
 }
 
-function buildRows(entries: NonNullable<ReturnType<typeof parseLayoutEntry>>[]) {
-  const byRow = new Map<number, typeof entries>();
+function buildRows(entries: ParsedEntry[]): GalleryRow[] {
+  const byRow = new Map<number, ParsedEntry[]>();
 
   for (const entry of entries) {
     const list = byRow.get(entry.row) ?? [];
@@ -63,20 +120,44 @@ function buildRows(entries: NonNullable<ReturnType<typeof parseLayoutEntry>>[]) 
 
   for (const rowNum of [...byRow.keys()].sort((a, b) => a - b)) {
     const rowEntries = byRow.get(rowNum)!;
-    const byColumns = new Map<number, typeof rowEntries>();
+    const v2hEntries = rowEntries.filter((e) => e.kind === "v2h");
+    const vhEntries = rowEntries.filter((e) => e.kind === "vh");
+    const equalEntries = rowEntries.filter((e) => e.kind === "equal");
 
-    for (const entry of rowEntries) {
+    if (v2hEntries.length > 0) {
+      const sorted = [...v2hEntries].sort((a, b) => a.slot - b.slot);
+      rows.push({
+        columns: 2,
+        pattern: "v2h",
+        items: sorted.map((entry) => entry.src),
+      });
+    }
+
+    if (vhEntries.length > 0) {
+      const sorted = [...vhEntries].sort((a, b) => a.slot - b.slot);
+      rows.push({
+        columns: 2,
+        pattern: "vh",
+        items: sorted.map((entry) => entry.src),
+      });
+    }
+
+    if (equalEntries.length === 0) continue;
+
+    const byColumns = new Map<number, Extract<ParsedEntry, { kind: "equal" }>[]>();
+    for (const entry of equalEntries) {
+      if (entry.kind !== "equal") continue;
       const list = byColumns.get(entry.columns) ?? [];
       list.push(entry);
       byColumns.set(entry.columns, list);
     }
 
     for (const columns of [...byColumns.keys()].sort((a, b) => a - b)) {
-      const entries = byColumns.get(columns)!;
-      const sorted = [...entries].sort((a, b) => a.slot - b.slot);
-
+      const group = byColumns.get(columns)!;
+      const sorted = [...group].sort((a, b) => a.slot - b.slot);
       rows.push({
         columns: columns as GalleryRow["columns"],
+        pattern: "equal",
         items: sorted.map((entry) => entry.src),
       });
     }
@@ -88,8 +169,10 @@ function buildRows(entries: NonNullable<ReturnType<typeof parseLayoutEntry>>[]) 
 /**
  * Parses gallery image paths into row-based or legacy grid layout.
  *
- * Row naming: `{row}-{columns}-{slot}.ext` (e.g. `02-2-1.jpg`, `02-2-2.jpg`)
- * Legacy naming: `{nn}.ext` (e.g. `01.jpg`) → uniform grid from galleryLayout.
+ * Equal columns: `{row}-{columns}-{slot}.ext` (e.g. `02-2-1.jpg`, `02-2-2.jpg`)
+ * Mosaic v2h: `{row}-v2h-{slot}.ext` — slot 1 vertical left, 2 top-right, 3 bottom-right
+ * Mosaic vh: `{row}-vh-{slot}.ext` — slot 1 vertical left, 2 horizontal right (same height)
+ * Legacy: `{nn}.ext` → uniform grid from galleryLayout.
  */
 export function parseGallery(
   images: string[],
@@ -105,7 +188,7 @@ export function parseGallery(
 
   const layoutEntries = list
     .map(parseLayoutEntry)
-    .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+    .filter((entry): entry is ParsedEntry => entry !== null);
 
   const legacyEntries = list.filter(
     (src) => parseLayoutEntry(src) === null && LEGACY_NAME.test(basename(src)),
@@ -144,7 +227,7 @@ export function splitGalleryForDisplay(
 
   if (parsed.mode === "grid" && parsed.images.length > 0) {
     return {
-      hero: { columns: 1, items: [parsed.images[0]] },
+      hero: { columns: 1, pattern: "equal", items: [parsed.images[0]] },
       rest: parsed.images.slice(1),
     };
   }

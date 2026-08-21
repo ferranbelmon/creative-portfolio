@@ -51,7 +51,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
+      <header className="fixed top-0 right-0 left-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 md:px-8 md:py-5">
           <Link href="/" className="group flex items-center gap-3">
             <span className="relative block h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-border transition-all group-hover:ring-accent">
@@ -65,19 +65,21 @@ export function Header() {
               />
             </span>
             <span className="hidden font-display text-sm font-bold uppercase tracking-[0.15em] sm:inline">
-              {site.name.split(" ")[0]}
+              {site.name}
             </span>
           </Link>
 
           <nav className="flex items-center gap-5 md:gap-8">
             <Link
               href="/"
+              data-ui-tone="classic"
               className="font-display text-xs font-bold uppercase tracking-[0.2em] transition-colors hover:text-accent md:text-sm"
             >
               Work
             </Link>
             <button
               type="button"
+              data-ui-tone="classic"
               onClick={openAbout}
               aria-expanded={aboutOpen}
               aria-controls="about-panel-title"

@@ -2,7 +2,7 @@
  * Sync gallery folders → content/projects.ts
  *
  * 1. Renames messy uploads (e.g. WhatsApp Video …) to the next free NN.ext
- * 2. Keeps layout names as-is (e.g. 01-1-1.jpg, 02-2-1.jpg, 02-2-2.jpg)
+ * 2. Keeps layout names as-is (e.g. 01-1-1.jpg, 02-2-1.jpg, 03-v2h-1.jpg, 04-vh-1.jpg)
  * 3. Rewrites each project's `images: [...]` from files on disk
  *
  * Usage: npm run sync-galleries
@@ -29,15 +29,23 @@ const MEDIA_EXT = new Set([
 
 const LEGACY_NAME = /^(\d{2})\.[a-z0-9]+$/i;
 /** Row layout: 01-2-1.jpg → row 1, 2 columns, slot 1 */
-const LAYOUT_NAME = /^(\d{2})-([1-4])-([1-4])\.[a-z0-9]+$/i;
+const EQUAL_NAME = /^(\d{2})-([1-4])-([1-4])\.[a-z0-9]+$/i;
+/** Mosaic: 03-v2h-1.jpg → vertical left + 2 horizontals right */
+const V2H_NAME = /^(\d{2})-v2h-([1-3])\.[a-z0-9]+$/i;
+/** Mosaic: 04-vh-1.jpg → vertical left + horizontal right, same height */
+const VH_NAME = /^(\d{2})-vh-([1-2])\.[a-z0-9]+$/i;
 
 function normalizeGalleryFileName(name) {
   return name.trim().replace(/\s+\./, ".");
 }
 
+function isLayoutName(name) {
+  return EQUAL_NAME.test(name) || V2H_NAME.test(name) || VH_NAME.test(name);
+}
+
 function isNormalizedName(name) {
   const normalized = normalizeGalleryFileName(name);
-  return LEGACY_NAME.test(normalized) || LAYOUT_NAME.test(normalized);
+  return LEGACY_NAME.test(normalized) || isLayoutName(normalized);
 }
 
 function naturalSort(a, b) {
@@ -45,27 +53,73 @@ function naturalSort(a, b) {
 }
 
 function warnIncompleteLayoutRows(folderKey, fileNames) {
-  const layoutFiles = fileNames.filter((name) => LAYOUT_NAME.test(name));
+  const layoutFiles = fileNames.filter((name) => isLayoutName(name));
   if (!layoutFiles.length) return;
   if (layoutFiles.length !== fileNames.length) {
     console.warn(
-      `${folderKey}: mixed layout + legacy names — use either 01-2-1.jpg or 01.jpg, not both`,
+      `${folderKey}: mixed layout + legacy names — use either 01-2-1.jpg / 01-v2h-1.jpg / 01-vh-1.jpg or 01.jpg, not both`,
     );
     return;
   }
 
-  const byRow = new Map();
+  const equalByRow = new Map();
+  const v2hByRow = new Map();
+  const vhByRow = new Map();
+
   for (const name of layoutFiles) {
-    const match = name.match(LAYOUT_NAME);
+    const v2h = name.match(V2H_NAME);
+    if (v2h) {
+      const row = v2h[1];
+      const slot = Number.parseInt(v2h[2], 10);
+      const list = v2hByRow.get(row) ?? [];
+      list.push({ name, slot });
+      v2hByRow.set(row, list);
+      continue;
+    }
+
+    const vh = name.match(VH_NAME);
+    if (vh) {
+      const row = vh[1];
+      const slot = Number.parseInt(vh[2], 10);
+      const list = vhByRow.get(row) ?? [];
+      list.push({ name, slot });
+      vhByRow.set(row, list);
+      continue;
+    }
+
+    const match = name.match(EQUAL_NAME);
+    if (!match) continue;
     const row = match[1];
     const columns = Number.parseInt(match[2], 10);
     const slot = Number.parseInt(match[3], 10);
-    const list = byRow.get(row) ?? [];
+    const list = equalByRow.get(row) ?? [];
     list.push({ name, columns, slot });
-    byRow.set(row, list);
+    equalByRow.set(row, list);
   }
 
-  for (const [row, entries] of byRow) {
+  for (const [row, entries] of v2hByRow) {
+    const slots = new Set(entries.map((entry) => entry.slot));
+    const complete =
+      entries.length === 3 && [1, 2, 3].every((slot) => slots.has(slot));
+    if (!complete) {
+      console.warn(
+        `${folderKey}: incomplete mosaic row ${row} — expected ${row}-v2h-1, ${row}-v2h-2, ${row}-v2h-3`,
+      );
+    }
+  }
+
+  for (const [row, entries] of vhByRow) {
+    const slots = new Set(entries.map((entry) => entry.slot));
+    const complete =
+      entries.length === 2 && [1, 2].every((slot) => slots.has(slot));
+    if (!complete) {
+      console.warn(
+        `${folderKey}: incomplete mosaic row ${row} — expected ${row}-vh-1, ${row}-vh-2`,
+      );
+    }
+  }
+
+  for (const [row, entries] of equalByRow) {
     const columns = entries[0].columns;
     const slots = new Set(entries.map((entry) => entry.slot));
     const expected = Array.from({ length: columns }, (_, i) => i + 1);
@@ -120,7 +174,7 @@ async function migrateLegacyGalleryToLayout(
   const legacy = entries
     .filter((name) => LEGACY_NAME.test(name))
     .sort(naturalSort);
-  const layout = entries.filter((name) => LAYOUT_NAME.test(name));
+  const layout = entries.filter((name) => isLayoutName(name));
 
   if (!legacy.length || layout.length > 0) {
     if (legacy.length && layout.length) {

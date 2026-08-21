@@ -75,35 +75,35 @@ export function ProjectSkills({
 }: ProjectSkillsProps) {
   if (!skills?.length) return null;
 
-  const showTooltip = size === "md";
   const iconBox =
     size === "md" ? "h-8 w-8 text-muted" : "h-6 w-6 text-foreground/85";
 
   return (
     <ul
-      className={`flex flex-wrap items-center gap-2 ${className}`}
+      className={`relative z-10 flex flex-wrap items-center gap-2 ${className}`}
       aria-label="Project skills"
     >
       {skills.map((skill) => {
         const label = skillLabels[skill];
 
         return (
-          <li key={skill} className="relative">
-            <button
-              type="button"
+          <li
+            key={skill}
+            className="group/skill relative z-0 hover:z-50 focus-within:z-50"
+          >
+            <span
+              tabIndex={0}
               aria-label={label}
-              className={`group relative inline-flex items-center justify-center outline-none ${iconBox}`}
+              className={`inline-flex items-center justify-center outline-none ${iconBox}`}
             >
               <SkillIcon skill={skill} />
-              {showTooltip ? (
-                <span
-                  role="tooltip"
-                  className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-border bg-background px-2.5 py-1 font-display text-[0.65rem] font-bold uppercase tracking-[0.14em] text-foreground opacity-0 shadow-sm transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
-                >
-                  {label}
-                </span>
-              ) : null}
-            </button>
+            </span>
+            <span
+              role="tooltip"
+              className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-border bg-background px-2.5 py-1 font-display text-[0.65rem] font-bold uppercase tracking-[0.14em] text-foreground opacity-0 shadow-sm transition-opacity duration-150 group-hover/skill:opacity-100 group-focus-within/skill:opacity-100"
+            >
+              {label}
+            </span>
           </li>
         );
       })}

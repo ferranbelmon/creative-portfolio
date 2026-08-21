@@ -1,18 +1,14 @@
-import { site } from "@/content/site";
+"use client";
+
+import { LocalTimeStatus } from "@/components/LocalTimeStatus";
+import { SoundControl } from "@/components/SoundControl";
 
 export function Footer() {
   return (
-    <footer className="mt-8 border-t border-border px-5 py-8 md:px-8">
-      <div className="mx-auto flex max-w-[1600px] flex-col items-center justify-between gap-4 sm:flex-row">
-        <p className="font-display text-xs font-bold uppercase tracking-[0.3em] text-muted">
-          {site.location}
-        </p>
-        <a
-          href={`mailto:${site.email}`}
-          className="font-display text-xs font-bold uppercase tracking-[0.2em] transition-colors hover:text-accent"
-        >
-          Get in touch
-        </a>
+    <footer className="fixed right-0 bottom-0 left-0 z-50 border-t border-border bg-background/90 px-5 py-4 backdrop-blur-md md:px-8 md:py-5">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4">
+        <LocalTimeStatus />
+        <SoundControl placement="footer" />
       </div>
     </footer>
   );

@@ -5,7 +5,10 @@ import { Suspense } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { CustomCursor } from "@/components/CustomCursor";
+import { InteractiveDotGrid } from "@/components/InteractiveDotGrid";
+import { ScrollRail } from "@/components/ScrollRail";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { UiInteractionSound } from "@/components/UiInteractionSound";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -74,12 +77,24 @@ export default function RootLayout({
           {`(function(){try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light");}catch(e){}})();`}
         </Script>
         <ScrollToTop />
+        <ScrollRail />
+        <UiInteractionSound />
         <CustomCursor />
+        <InteractiveDotGrid />
         <Suspense fallback={null}>
-          <Header />
+          <div className="relative z-50">
+            <Header />
+          </div>
         </Suspense>
-        {children}
-        <Footer />
+        <div
+          id="main-scroll"
+          className="relative z-10 pt-[4.5rem] pb-[4.5rem] md:pt-[5.25rem] md:pb-[5rem]"
+        >
+          {children}
+        </div>
+        <div className="relative z-50">
+          <Footer />
+        </div>
       </body>
     </html>
   );

@@ -70,9 +70,14 @@ export function listGalleryImagesFromDisk(
       naturalSort(normalizeGalleryFileName(a), normalizeGalleryFileName(b)),
     );
 
-  const layoutFiles = files.filter((name) =>
-    /^\d{2}-[1-4]-[1-4]\.[a-z0-9]+$/i.test(normalizeGalleryFileName(name)),
-  );
+  const layoutFiles = files.filter((name) => {
+    const base = normalizeGalleryFileName(name);
+    return (
+      /^\d{2}-[1-4]-[1-4]\.[a-z0-9]+$/i.test(base) ||
+      /^\d{2}-v2h-[1-3]\.[a-z0-9]+$/i.test(base) ||
+      /^\d{2}-vh-[1-2]\.[a-z0-9]+$/i.test(base)
+    );
+  });
 
   const galleryFiles = layoutFiles.length > 0 ? layoutFiles : files;
 

@@ -131,6 +131,89 @@ function GalleryRowSection({
   showFileLabels: boolean;
   priority?: boolean;
 }) {
+  if (row.pattern === "v2h") {
+    const [left, topRight, bottomRight] = row.items;
+    const tiles = [
+      {
+        src: left,
+        className: "md:row-span-2",
+        aspectClass: "aspect-[3/4] md:aspect-auto md:h-full",
+      },
+      {
+        src: topRight,
+        className: "",
+        aspectClass: "aspect-[16/10] md:aspect-auto md:h-full",
+      },
+      {
+        src: bottomRight,
+        className: "",
+        aspectClass: "aspect-[16/10] md:aspect-auto md:h-full",
+      },
+    ].filter((tile) => Boolean(tile.src));
+
+    return (
+      <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:grid-rows-2 md:aspect-[3/2]">
+        {tiles.map((tile, index) => (
+          <div key={tile.src} className={`min-h-0 ${tile.className}`}>
+            <MediaTile
+              title={title}
+              src={tile.src!}
+              index={rowIndex * 10 + index}
+              aspectClass={tile.aspectClass}
+              objectFit="h-full w-full object-cover"
+              imageWidth={index === 0 ? 900 : 1200}
+              imageHeight={index === 0 ? 1350 : 750}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              showFileLabel={showFileLabels}
+              priority={priority && index === 0}
+              aspectRatio="portrait"
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (row.pattern === "vh") {
+    const [left, right] = row.items;
+    const tiles = [
+      {
+        src: left,
+        aspectClass: "aspect-[3/4] md:aspect-auto md:h-full",
+        imageWidth: 900,
+        imageHeight: 1350,
+      },
+      {
+        src: right,
+        aspectClass: "aspect-[16/10] md:aspect-auto md:h-full",
+        imageWidth: 1400,
+        imageHeight: 900,
+      },
+    ].filter((tile) => Boolean(tile.src));
+
+    return (
+      <div className="grid grid-cols-1 gap-1 md:grid-cols-[2fr_3fr] md:aspect-[5/3]">
+        {tiles.map((tile, index) => (
+          <div key={tile.src} className="min-h-0">
+            <MediaTile
+              title={title}
+              src={tile.src!}
+              index={rowIndex * 10 + index}
+              aspectClass={tile.aspectClass}
+              objectFit="h-full w-full object-cover"
+              imageWidth={tile.imageWidth}
+              imageHeight={tile.imageHeight}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              showFileLabel={showFileLabels}
+              priority={priority && index === 0}
+              aspectRatio="portrait"
+            />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   const aspectClass = aspectClasses[aspectRatio];
   const objectFit =
     aspectRatio === "auto" ? "h-auto w-full" : "h-full w-full object-cover";
@@ -216,7 +299,7 @@ export function ProjectGallery({
         <div className="flex flex-col gap-1 md:gap-1">
           {parsed.rows.map((row, rowIndex) => (
             <GalleryRowSection
-              key={`${row.columns}-${rowIndex}-${row.items[0]}`}
+              key={`${row.pattern ?? "equal"}-${row.columns}-${rowIndex}-${row.items[0]}`}
               title={title}
               row={row}
               rowIndex={rowIndex}

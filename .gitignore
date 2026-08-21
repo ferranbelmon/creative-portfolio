@@ -44,6 +44,9 @@ next-env.d.ts
 public/images/projects/**/gallery/videos/backup/**
 !public/images/projects/**/gallery/videos/backup/.gitkeep
 
+# raw show recording, 2+ GB — too large for GitHub (100 MB limit)
+public/images/projects/008-moonai-soundwaves-wellness/gallery/videos/LIVE FER ALEMAN - 1.mp4
+
 # yt-dlp binary (downloaded locally)
 scripts/bin/
 

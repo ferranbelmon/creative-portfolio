@@ -100,6 +100,7 @@ function ProjectRow({
     >
       <Link
         href={`/projects/${project.slug}`}
+        data-ui-tone="tonic"
         className="group relative grid grid-cols-[auto_1fr_auto] items-start gap-x-4 gap-y-3 px-4 py-5 outline-none md:grid-cols-[5.5rem_minmax(0,1fr)_7rem_auto] md:items-center md:gap-x-8 md:px-5 md:py-6"
       >
         <span
