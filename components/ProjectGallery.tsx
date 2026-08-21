@@ -43,6 +43,7 @@ type MediaTileProps = {
   sizes: string;
   showFileLabel: boolean;
   priority?: boolean;
+  aspectRatio: NonNullable<GalleryLayout["aspectRatio"]>;
 };
 
 function galleryFileLabel(src: string) {
@@ -61,13 +62,19 @@ function MediaTile({
   sizes,
   showFileLabel,
   priority,
+  aspectRatio,
 }: MediaTileProps) {
   const isVideo = isVideoSrc(src);
   const isGif = isGifSrc(src);
+  const constrainToViewport = isVideo && aspectRatio === "auto";
 
   return (
     <div
-      className={`relative w-full overflow-hidden bg-surface ${aspectClass}`}
+      className={`relative w-full overflow-hidden bg-surface ${
+        constrainToViewport
+          ? "flex max-h-[min(85dvh,56rem)] items-center justify-center"
+          : aspectClass
+      }`}
     >
       {showFileLabel ? (
         <span className="pointer-events-none absolute bottom-2 left-2 z-10 bg-background/80 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-muted">
@@ -77,7 +84,11 @@ function MediaTile({
       {isVideo ? (
         <GalleryVideo
           src={src}
-          className={objectFit}
+          className={
+            constrainToViewport
+              ? "max-h-[min(85dvh,56rem)] w-auto max-w-full object-contain"
+              : objectFit
+          }
           label={`${title} — video ${index + 1}`}
           priority={priority}
         />
@@ -146,6 +157,7 @@ function GalleryRowSection({
           sizes={sizes}
           showFileLabel={showFileLabels}
           priority={priority && index === 0}
+          aspectRatio={aspectRatio}
         />
       ))}
     </div>
@@ -244,6 +256,7 @@ export function ProjectGallery({
             imageHeight={imageHeight}
             sizes={sizes}
             showFileLabel={showFileLabels}
+            aspectRatio={aspectRatio}
           />
         ))}
       </div>

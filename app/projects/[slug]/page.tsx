@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProjectGallery, ProjectGalleryHero } from "@/components/ProjectGallery";
 import { ProjectInfo } from "@/components/ProjectInfo";
+import { ProjectSkills } from "@/components/ProjectSkills";
 import { ProjectVimeoHero } from "@/components/ProjectVimeoHero";
 import { ProjectYoutubeHero } from "@/components/ProjectYoutubeHero";
 import {
@@ -147,6 +148,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {project.sections.role}
         </p>
       ) : null}
+      <ProjectSkills skills={project.skills} size="md" className="mt-5" />
 
       {project.heroVimeoId ? (
         <ProjectVimeoHero

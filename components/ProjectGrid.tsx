@@ -12,6 +12,7 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { RemoteImage } from "@/components/RemoteImage";
+import { ProjectSkills } from "@/components/ProjectSkills";
 import {
   projectCategories,
   projectCategoryLabels,
@@ -329,9 +330,15 @@ function ProjectCard({
           style={{ transform: "translateZ(24px)" }}
         >
           <div className="flex items-start justify-between gap-3">
-            <span className="font-display text-xs font-bold text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              {project.id}
-            </span>
+            <div className="flex flex-col gap-2">
+              <span className="font-display text-xs font-bold text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                {project.id}
+              </span>
+              <ProjectSkills
+                skills={project.skills}
+                className="opacity-90 transition-opacity duration-300 group-hover:opacity-100"
+              />
+            </div>
             <div className="text-right">
               <span className="block font-display text-[0.65rem] font-bold uppercase tracking-[0.2em] text-muted">
                 {project.year}
