@@ -60,11 +60,6 @@ body::-webkit-scrollbar {
   height: 0;
 }
 
-html.custom-cursor,
-html.custom-cursor * {
-  cursor: none !important;
-}
-
 html.theme-transition,
 html.theme-transition *,
 html.theme-transition *::before,
