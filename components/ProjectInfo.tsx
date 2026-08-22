@@ -40,7 +40,7 @@ function SectionBlock({
       <h2 className="mb-5 font-display text-xs font-bold uppercase tracking-[0.25em] text-muted">
         {title}
       </h2>
-      <dl className="space-y-3 text-xs leading-relaxed md:text-base">
+      <dl className="space-y-3 text-sm leading-relaxed md:text-base">
         {lines.map((line, index) =>
           line.label ? (
             <div key={`${line.label}-${index}`} className="grid gap-1 sm:grid-cols-[7rem_1fr]">
@@ -89,7 +89,7 @@ export function ProjectInfo({ sections }: ProjectInfoProps) {
           <h2 className="mb-5 font-display text-xs font-bold uppercase tracking-[0.25em] text-muted">
             Concept
           </h2>
-          <p className="text-sm leading-relaxed whitespace-pre-line text-foreground/85 md:text-lg md:leading-relaxed">
+          <p className="text-base leading-relaxed whitespace-pre-line text-foreground/85 md:text-lg md:leading-relaxed">
             {concept}
           </p>
         </div>
@@ -115,7 +115,7 @@ export function ProjectInfo({ sections }: ProjectInfoProps) {
             {toolTags.map((tag) => (
               <li
                 key={tag}
-                className="relative border border-border bg-surface py-1 pl-3.5 pr-2.5 text-[0.62rem] uppercase tracking-[0.1em] text-foreground/85 md:py-1.5 md:pl-4 md:pr-3 md:text-[0.7rem] md:tracking-[0.12em]"
+                className="relative border border-border bg-surface py-1 pl-3.5 pr-2.5 text-[0.68rem] uppercase tracking-[0.1em] text-foreground/85 md:py-1.5 md:pl-4 md:pr-3 md:text-[0.7rem] md:tracking-[0.12em]"
               >
                 <span
                   aria-hidden

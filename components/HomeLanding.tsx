@@ -66,39 +66,41 @@ export function HomeLanding() {
         </h1>
 
         <div className="mt-4 flex flex-col gap-6 md:mt-8 md:flex-row md:items-end md:justify-between md:gap-12">
-          <p className="max-w-5xl font-sans text-[clamp(1rem,min(3.6vw,2.8dvh),2.45rem)] font-medium lowercase leading-[1.28] tracking-[-0.02em] text-foreground">
-            media artist & creative technologist working across{" "}
+          <p className="max-w-5xl font-sans text-[clamp(1.2rem,min(4.4vw,3.6dvh),2.45rem)] font-medium lowercase leading-[1.3] tracking-[-0.02em] md:text-[clamp(1.2rem,min(3.6vw,2.8dvh),2.45rem)]">
+            <span className="text-black">
+              media artist & creative technologist working across{" "}
+            </span>
             <HotspotWord
               hotspot={hotspots.light}
               activeId={active?.id ?? null}
               onReveal={reveal}
               onHide={() => setActive(null)}
             />
-            , spatial{" "}
+            <span className="text-black">, spatial </span>
             <HotspotWord
               hotspot={hotspots.installation}
               activeId={active?.id ?? null}
               onReveal={reveal}
               onHide={() => setActive(null)}
             />
-            , through to{" "}
+            <span className="text-black">, through to </span>
             <HotspotWord
               hotspot={hotspots.immersive}
               activeId={active?.id ?? null}
               onReveal={reveal}
               onHide={() => setActive(null)}
             />
-            , and real-time{" "}
+            <span className="text-black">, and real-time </span>
             <HotspotWord
               hotspot={hotspots.realtime}
               activeId={active?.id ?? null}
               onReveal={reveal}
               onHide={() => setActive(null)}
             />
-            .
+            <span className="text-black">.</span>
           </p>
 
-          <div className="flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-5 md:shrink-0">
+          <div className="flex w-full flex-col items-end gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-5 md:w-auto md:shrink-0">
             <Link
               href="/work"
               data-ui-tone="classic"
