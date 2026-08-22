@@ -5,9 +5,19 @@ import { Lightbulb } from "lucide-react";
 
 type Theme = "dark" | "light";
 
+let transitionTimer: ReturnType<typeof setTimeout> | undefined;
+
 function applyTheme(theme: Theme) {
-  document.documentElement.classList.toggle("light", theme === "light");
+  const root = document.documentElement;
+  // Enable color transitions only while switching, so normal hover
+  // effects keep their own timings.
+  root.classList.add("theme-transition");
+  root.classList.toggle("light", theme === "light");
   localStorage.setItem("theme", theme);
+  clearTimeout(transitionTimer);
+  transitionTimer = setTimeout(() => {
+    root.classList.remove("theme-transition");
+  }, 650);
 }
 
 export function ThemeToggle() {

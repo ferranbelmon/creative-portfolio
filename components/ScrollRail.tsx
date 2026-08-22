@@ -151,7 +151,12 @@ export function ScrollRail() {
       aria-valuenow={valueNow}
       aria-label="Page scroll position"
       onPointerDown={onTrackPointerDown}
-      className="pointer-events-auto fixed top-[10.5rem] right-24 bottom-[10.5rem] z-40 hidden w-3 sm:block md:right-36 md:top-[12rem] md:bottom-[11.5rem]"
+      className="pointer-events-auto fixed top-[10.5rem] bottom-[10.5rem] z-40 hidden w-3 lg:block lg:top-[12rem] lg:bottom-[11.5rem]"
+      style={{
+        // Sit in the gutter beside the 1600px content column; on narrow
+        // viewports hug the edge inside the page padding, never over content.
+        right: "max(0.5rem, calc((100vw - 1600px) / 2 - 1rem))",
+      }}
     >
       <span
         aria-hidden

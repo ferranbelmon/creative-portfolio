@@ -4,6 +4,7 @@ import sharp from "sharp";
 
 const imagesRoot = path.join(process.cwd(), "public", "images");
 const pathUpdates = new Map();
+let skipped = 0;
 
 async function walk(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -36,6 +37,18 @@ async function compressFile(filePath) {
   const image = sharp(filePath, { failOn: "none" });
   const meta = await image.metadata();
   const hasAlpha = meta.hasAlpha;
+
+  // Skip files that look already optimized: within max width and low
+  // bytes-per-pixel (previous q84 outputs land around 0.05–0.2 B/px).
+  // Re-encoding them again only degrades quality.
+  const pixels = (meta.width ?? 0) * (meta.height ?? 0);
+  const ext0 = path.extname(filePath).toLowerCase();
+  const withinWidth = (meta.width ?? Infinity) <= maxWidth;
+  const bytesPerPixel = pixels > 0 ? before / pixels : Infinity;
+  if (withinWidth && ext0 !== ".jfif" && bytesPerPixel <= 0.25) {
+    skipped += 1;
+    return;
+  }
 
   let pipeline = image.rotate().resize({
     width: maxWidth,
@@ -123,4 +136,4 @@ for (const file of files) {
 }
 
 await updateContentPaths();
-console.log("\nDone.");
+console.log(`\nDone. Skipped ${skipped} already-optimized image(s).`);

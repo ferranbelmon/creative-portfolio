@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Syne } from "next/font/google";
 import Script from "next/script";
 import { Suspense } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { CustomCursor } from "@/components/CustomCursor";
@@ -88,13 +89,14 @@ export default function RootLayout({
         </Suspense>
         <div
           id="main-scroll"
-          className="relative z-10 pt-[4.5rem] pb-[4.5rem] md:pt-[5.25rem] md:pb-[5rem]"
+          className="relative z-10 min-w-0 overflow-x-hidden pt-[4.5rem] pb-[4.5rem] md:pt-[5.25rem] md:pb-[5rem]"
         >
           {children}
         </div>
         <div className="relative z-50">
           <Footer />
         </div>
+        <Analytics />
       </body>
     </html>
   );

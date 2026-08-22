@@ -80,10 +80,34 @@ export function InteractiveDotGrid() {
 
     window.addEventListener("resize", rebuild, { passive: true });
 
-    const themeObserver = new MutationObserver(() => {
-      readColor();
-      paint();
-    });
+    let fadeRaf = 0;
+
+    /** Lerp dot color to the new theme over ~600ms (matches CSS switch). */
+    const fadeToThemeColor = () => {
+      const from = { ...color };
+      const isLight = document.documentElement.classList.contains("light");
+      const to: Rgb = isLight
+        ? { r: 18, g: 20, b: 24 }
+        : { r: 255, g: 255, b: 255 };
+      const start = performance.now();
+      const DURATION = 600;
+
+      cancelAnimationFrame(fadeRaf);
+      const step = (now: number) => {
+        const t = Math.min(1, (now - start) / DURATION);
+        const e = t * (2 - t);
+        color = {
+          r: Math.round(from.r + (to.r - from.r) * e),
+          g: Math.round(from.g + (to.g - from.g) * e),
+          b: Math.round(from.b + (to.b - from.b) * e),
+        };
+        paint();
+        if (t < 1) fadeRaf = requestAnimationFrame(step);
+      };
+      fadeRaf = requestAnimationFrame(step);
+    };
+
+    const themeObserver = new MutationObserver(fadeToThemeColor);
     themeObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class"],
@@ -91,6 +115,7 @@ export function InteractiveDotGrid() {
 
     return () => {
       window.removeEventListener("resize", rebuild);
+      cancelAnimationFrame(fadeRaf);
       themeObserver.disconnect();
     };
   }, []);

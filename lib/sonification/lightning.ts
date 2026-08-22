@@ -43,6 +43,41 @@ const STORM_RADIUS_KM = 250;
 const EVENT_MIN_GAP_MS = 10_000;
 const EVENT_MAX_GAP_MS = 24_000;
 const RECONNECT_DELAY_MS = 5_000;
+/** If no dense cluster after this long, adopt the best weak cell instead. */
+const FALLBACK_AFTER_MS = 12_000;
+const FALLBACK_MIN_STRIKES = 2;
+/** Last locked storm is restored on load while the live search warms up. */
+const STORM_CACHE_KEY = "sonification-last-storm";
+const STORM_CACHE_MAX_AGE_MS = 24 * 60 * 60_000;
+
+type CachedStorm = { lat: number; lon: number; name: string | null; at: number };
+
+function readCachedStorm(): CachedStorm | null {
+  try {
+    const raw = localStorage.getItem(STORM_CACHE_KEY);
+    if (!raw) return null;
+    const data = JSON.parse(raw) as CachedStorm;
+    if (
+      typeof data.lat !== "number" ||
+      typeof data.lon !== "number" ||
+      typeof data.at !== "number" ||
+      Date.now() - data.at > STORM_CACHE_MAX_AGE_MS
+    ) {
+      return null;
+    }
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function writeCachedStorm(cache: CachedStorm) {
+  try {
+    localStorage.setItem(STORM_CACHE_KEY, JSON.stringify(cache));
+  } catch {
+    // storage unavailable — ignore
+  }
+}
 
 type BufferedStrike = { lat: number; lon: number; at: number };
 
@@ -104,6 +139,11 @@ export class LightningService {
   private buffer: BufferedStrike[] = [];
   private storm: StormSnapshot = { ...EMPTY_STORM };
   private geocodeToken = 0;
+  private startedAtMs = 0;
+  /** True once a dense (non-fallback) cluster has been locked. */
+  private hasRealCluster = false;
+  /** Storm restored from localStorage; kept until live data replaces it. */
+  private seededFromCache = false;
 
   private lastEventAt = 0;
   private nextGapMs = EVENT_MIN_GAP_MS;
@@ -138,10 +178,27 @@ export class LightningService {
   start() {
     if (this.active || typeof window === "undefined") return;
     this.active = true;
+    this.startedAtMs = Date.now();
+    this.restoreCachedStorm();
     this.connect();
     this.clusterTimer = window.setInterval(() => {
       this.evaluateStorm();
     }, CLUSTER_INTERVAL_MS);
+  }
+
+  /** Bring back the last known storm instantly while the live search warms up. */
+  private restoreCachedStorm() {
+    const cached = readCachedStorm();
+    if (!cached || this.storm.active) return;
+    this.seededFromCache = true;
+    this.storm = {
+      ...this.storm,
+      active: true,
+      center: { lat: cached.lat, lon: cached.lon, source: "storm" },
+      locationName: cached.name,
+      strikesPerMin: 0,
+    };
+    this.notifyStorm();
   }
 
   stop() {
@@ -296,13 +353,20 @@ export class LightningService {
         };
       }
     }
-    if (!best || best.count < MIN_CLUSTER_STRIKES) {
-      if (this.storm.active) {
-        this.storm = { ...this.storm, active: false, strikesPerMin: 0 };
-        this.notifyStorm();
-      }
+    if (!best) return;
+
+    // Accept dense clusters right away; after a short wait with no dense
+    // cluster anywhere, adopt the best weak cell so a storm always loads.
+    const acceptFallback =
+      !this.hasRealCluster &&
+      Date.now() - this.startedAtMs >= FALLBACK_AFTER_MS &&
+      best.count >= FALLBACK_MIN_STRIKES;
+    if (best.count < MIN_CLUSTER_STRIKES && !acceptFallback) {
+      // Keep whatever storm we have (cached seed or a previous lock).
       return;
     }
+    if (best.count >= MIN_CLUSTER_STRIKES) this.hasRealCluster = true;
+    this.seededFromCache = false;
 
     // Hysteresis: stick with the current storm while it stays comparable.
     let center: GeoCoords;
@@ -342,6 +406,12 @@ export class LightningService {
       locationName: moved ? null : this.storm.locationName,
     };
     this.notifyStorm();
+    writeCachedStorm({
+      lat: center.lat,
+      lon: center.lon,
+      name: this.storm.locationName,
+      at: Date.now(),
+    });
 
     if (moved) {
       const token = (this.geocodeToken += 1);
@@ -349,6 +419,10 @@ export class LightningService {
         if (token !== this.geocodeToken || !name) return;
         this.storm = { ...this.storm, locationName: name };
         this.notifyStorm();
+        const c = this.storm.center;
+        if (c) {
+          writeCachedStorm({ lat: c.lat, lon: c.lon, name, at: Date.now() });
+        }
       });
     }
   }

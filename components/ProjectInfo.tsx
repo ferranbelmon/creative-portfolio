@@ -2,7 +2,6 @@ import type { ProjectSection } from "@/content/projects";
 
 type ProjectInfoProps = {
   sections: ProjectSection;
-  externalUrl?: string;
 };
 
 type ParsedLine = {
@@ -41,7 +40,7 @@ function SectionBlock({
       <h2 className="mb-5 font-display text-xs font-bold uppercase tracking-[0.25em] text-muted">
         {title}
       </h2>
-      <dl className="space-y-3 text-sm leading-relaxed md:text-base">
+      <dl className="space-y-3 text-xs leading-relaxed md:text-base">
         {lines.map((line, index) =>
           line.label ? (
             <div key={`${line.label}-${index}`} className="grid gap-1 sm:grid-cols-[7rem_1fr]">
@@ -70,7 +69,7 @@ function SectionBlock({
   );
 }
 
-export function ProjectInfo({ sections, externalUrl }: ProjectInfoProps) {
+export function ProjectInfo({ sections }: ProjectInfoProps) {
   const { concept, tools, credits, information } = sections;
   const contextLines = information ? parseSectionLines(information) : [];
   const collaborationLines = credits ? parseSectionLines(credits) : [];
@@ -90,7 +89,7 @@ export function ProjectInfo({ sections, externalUrl }: ProjectInfoProps) {
           <h2 className="mb-5 font-display text-xs font-bold uppercase tracking-[0.25em] text-muted">
             Concept
           </h2>
-          <p className="text-base leading-relaxed whitespace-pre-line text-foreground/85 md:text-lg md:leading-relaxed">
+          <p className="text-sm leading-relaxed whitespace-pre-line text-foreground/85 md:text-lg md:leading-relaxed">
             {concept}
           </p>
         </div>
@@ -116,8 +115,12 @@ export function ProjectInfo({ sections, externalUrl }: ProjectInfoProps) {
             {toolTags.map((tag) => (
               <li
                 key={tag}
-                className="border border-border px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-muted"
+                className="relative border border-border bg-surface py-1 pl-3.5 pr-2.5 text-[0.62rem] uppercase tracking-[0.1em] text-foreground/85 md:py-1.5 md:pl-4 md:pr-3 md:text-[0.7rem] md:tracking-[0.12em]"
               >
+                <span
+                  aria-hidden
+                  className="absolute inset-y-0 left-0 w-[2px] bg-accent md:w-[3px]"
+                />
                 {tag}
               </li>
             ))}
@@ -125,18 +128,6 @@ export function ProjectInfo({ sections, externalUrl }: ProjectInfoProps) {
         </div>
       ) : null}
 
-      {externalUrl ? (
-        <p className="mt-10 md:mt-12">
-          <a
-            href={externalUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-display text-sm font-bold uppercase tracking-[0.2em] transition-colors hover:text-accent"
-          >
-            View project →
-          </a>
-        </p>
-      ) : null}
     </section>
   );
 }

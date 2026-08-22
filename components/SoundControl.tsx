@@ -170,22 +170,22 @@ export function SoundControl({ placement = "header" }: SoundControlProps) {
 
   const titleBlock = (
     <div
-      className={`flex-col leading-tight ${isFooter ? "flex max-w-[12rem] text-right" : "hidden max-w-[11rem] md:flex"}`}
+      className={`items-center leading-tight ${isFooter ? "flex text-right" : "hidden md:flex"}`}
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
-      <p className="font-mono text-[0.58rem] uppercase tracking-[0.14em] text-foreground/85">
+      <p className="max-w-[9.5rem] truncate font-mono text-[0.58rem] uppercase tracking-[0.14em] text-foreground/85 sm:max-w-none sm:whitespace-nowrap">
         {storm.active
           ? `Storm in ${code}`
           : storm.connected
             ? "Storm locating…"
             : "Storm offline"}
+        {storm.active && coords ? (
+          <span className="tabular-nums text-muted">
+            {" "}· {formatLatLon(coords.lat, coords.lon)}
+          </span>
+        ) : null}
         {!running ? " · muted" : ""}
-      </p>
-      <p className="font-mono text-[0.52rem] tracking-[0.08em] text-muted tabular-nums">
-        {storm.active && coords
-          ? formatLatLon(coords.lat, coords.lon)
-          : "— —"}
       </p>
     </div>
   );

@@ -127,28 +127,28 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const subtitle = [project.client, project.event].filter(Boolean).join(" · ");
 
   return (
-    <main className="mx-auto max-w-[1600px] px-5 py-12 md:px-8 md:py-16">
-      <p className="mb-4 font-display text-xs font-bold uppercase tracking-[0.3em] text-accent">
+    <main className="mx-auto min-w-0 max-w-[1600px] overflow-x-hidden px-5 py-12 md:px-8 md:py-16">
+      <p className="mb-3 font-display text-[0.65rem] font-bold uppercase tracking-[0.28em] text-accent md:mb-4 md:text-xs md:tracking-[0.3em]">
         {project.id}
-        <span className="mx-3 text-border">/</span>
+        <span className="mx-2 text-border md:mx-3">/</span>
         {project.year}
-        <span className="mx-3 text-border">/</span>
+        <span className="mx-2 text-border md:mx-3">/</span>
         {projectCategoryLabels[project.category]}
       </p>
-      <h1 className="font-display max-w-5xl text-[clamp(2.5rem,7vw,5.5rem)] font-extrabold uppercase leading-[0.92] tracking-tight">
+      <h1 className="font-display w-full min-w-0 max-w-full text-[clamp(1.35rem,6.5vw,5.5rem)] font-extrabold uppercase leading-[0.95] tracking-tight break-words [overflow-wrap:anywhere]">
         {project.title}
       </h1>
       {subtitle ? (
-        <p className="mt-4 max-w-2xl text-sm uppercase tracking-[0.18em] text-muted md:text-base">
+        <p className="mt-3 max-w-2xl text-[0.7rem] uppercase tracking-[0.16em] text-muted md:mt-4 md:text-base md:tracking-[0.18em]">
           {subtitle}
         </p>
       ) : null}
       {project.sections.role ? (
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-foreground/80 md:text-base">
+        <p className="mt-2 max-w-2xl text-[0.8rem] leading-relaxed text-foreground/80 md:mt-3 md:text-base">
           {project.sections.role}
         </p>
       ) : null}
-      <ProjectSkills skills={project.skills} size="md" className="mt-5" />
+      <ProjectSkills skills={project.skills} size="md" className="mt-4 md:mt-5" />
 
       {project.heroVimeoId ? (
         <ProjectVimeoHero
@@ -177,10 +177,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         />
       ) : null}
 
-      <ProjectInfo
-        sections={project.sections}
-        externalUrl={project.externalUrl}
-      />
+      <ProjectInfo sections={project.sections} />
 
       <ProjectGallery
         title={project.title}
@@ -196,7 +193,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <p className="mb-3 font-display text-xs font-bold uppercase tracking-[0.25em] text-muted">
                 ← Previous
               </p>
-              <h2 className="font-display text-2xl font-bold uppercase transition-colors group-hover:text-accent md:text-3xl">
+              <h2 className="font-display break-words text-2xl font-bold uppercase transition-colors group-hover:text-accent md:text-3xl">
                 {prev.title}
               </h2>
             </Link>
@@ -211,7 +208,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <p className="mb-3 font-display text-xs font-bold uppercase tracking-[0.25em] text-muted">
                 Next →
               </p>
-              <h2 className="font-display text-2xl font-bold uppercase transition-colors group-hover:text-accent md:text-3xl">
+              <h2 className="font-display break-words text-2xl font-bold uppercase transition-colors group-hover:text-accent md:text-3xl">
                 {next.title}
               </h2>
             </Link>

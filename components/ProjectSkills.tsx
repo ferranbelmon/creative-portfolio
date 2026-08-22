@@ -9,8 +9,7 @@ const skillLabels: Record<ProjectSkill, string> = {
 
 function SkillIcon({ skill }: { skill: ProjectSkill }) {
   const common = {
-    width: 18,
-    height: 18,
+    className: "h-full w-full",
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
@@ -65,7 +64,7 @@ type ProjectSkillsProps = {
   skills?: ProjectSkill[];
   className?: string;
   /** Larger icons on project pages */
-  size?: "sm" | "md";
+  size?: "xs" | "sm" | "md";
 };
 
 export function ProjectSkills({
@@ -76,11 +75,21 @@ export function ProjectSkills({
   if (!skills?.length) return null;
 
   const iconBox =
-    size === "md" ? "h-8 w-8 text-muted" : "h-6 w-6 text-foreground/85";
+    size === "md"
+      ? "h-5 w-5 text-muted md:h-8 md:w-8"
+      : size === "xs"
+        ? "h-3 w-3 text-foreground/85"
+        : "h-3 w-3 text-foreground/85 md:h-6 md:w-6";
 
   return (
     <ul
-      className={`relative z-10 flex flex-wrap items-center gap-2 ${className}`}
+      className={`relative z-10 flex flex-nowrap items-center ${
+        size === "xs"
+          ? "gap-0.5"
+          : size === "md"
+            ? "gap-1.5 md:gap-2"
+            : "gap-0.5 md:gap-2"
+      } ${className}`}
       aria-label="Project skills"
     >
       {skills.map((skill) => {
@@ -89,7 +98,11 @@ export function ProjectSkills({
         return (
           <li
             key={skill}
-            className="group/skill relative z-0 hover:z-50 focus-within:z-50"
+            className={`group/skill relative z-0 hover:z-50 focus-within:z-50 ${
+              size === "xs"
+                ? "-mx-0.5 px-0.5 py-1"
+                : "-mx-0.5 px-0.5 py-1 md:-mx-1 md:px-1 md:-my-2 md:py-2"
+            }`}
           >
             <span
               tabIndex={0}

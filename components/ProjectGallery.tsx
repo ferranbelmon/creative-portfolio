@@ -66,14 +66,18 @@ function MediaTile({
 }: MediaTileProps) {
   const isVideo = isVideoSrc(src);
   const isGif = isGifSrc(src);
-  const constrainToViewport = isVideo && aspectRatio === "auto";
+  // With "auto" ratio, cap media height to the viewport so portrait
+  // images don't blow up to full width (and thus enormous height).
+  const constrainToViewport = aspectRatio === "auto";
+  const constrainedMediaClass =
+    "max-h-[min(85dvh,56rem)] h-auto w-auto max-w-full object-contain";
 
   return (
     <div
       className={`relative w-full overflow-hidden ${
         constrainToViewport
           ? "flex max-h-[min(85dvh,56rem)] items-center justify-center bg-transparent"
-          : `bg-surface ${aspectClass}`
+          : `bg-transparent ${aspectClass}`
       }`}
     >
       {showFileLabel ? (
@@ -84,11 +88,7 @@ function MediaTile({
       {isVideo ? (
         <GalleryVideo
           src={src}
-          className={
-            constrainToViewport
-              ? "max-h-[min(85dvh,56rem)] w-auto max-w-full object-contain"
-              : objectFit
-          }
+          className={constrainToViewport ? constrainedMediaClass : objectFit}
           label={`${title} — video ${index + 1}`}
           priority={priority}
         />
@@ -97,7 +97,7 @@ function MediaTile({
         <img
           src={src}
           alt={`${title} — image ${index + 1}`}
-          className={objectFit}
+          className={constrainToViewport ? constrainedMediaClass : objectFit}
           loading={priority ? "eager" : "lazy"}
         />
       ) : (
@@ -106,7 +106,7 @@ function MediaTile({
           alt={`${title} — image ${index + 1}`}
           width={imageWidth}
           height={imageHeight}
-          className={objectFit}
+          className={constrainToViewport ? constrainedMediaClass : objectFit}
           sizes={sizes}
           unoptimized
           priority={priority}

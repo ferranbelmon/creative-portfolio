@@ -79,13 +79,12 @@ export const projects: Project[] = [
     thumbnail:
       "/images/projects/022-ciclic-installation-live-av/gallery/01-3-1.jpeg",
     images: [
-      "/images/projects/022-ciclic-installation-live-av/gallery/01-1-1.jpeg",
       "/images/projects/022-ciclic-installation-live-av/gallery/02-v2h-1.jpg",
-      "/images/projects/022-ciclic-installation-live-av/gallery/02-v2h-2.jpg",
+      "/images/projects/022-ciclic-installation-live-av/gallery/02-v2h-2.jpeg",
       "/images/projects/022-ciclic-installation-live-av/gallery/02-v2h-3.jpg",
-      "/images/projects/022-ciclic-installation-live-av/gallery/03-1-1.jpeg",
-      "/images/projects/022-ciclic-installation-live-av/gallery/04-3-2.jpeg",
-      "/images/projects/022-ciclic-installation-live-av/gallery/05-3-3.jpg",
+      "/images/projects/022-ciclic-installation-live-av/gallery/05-1-1.jpeg",
+      "/images/projects/022-ciclic-installation-live-av/gallery/06-2-1.jpg",
+      "/images/projects/022-ciclic-installation-live-av/gallery/06-2-2.jpg",
     ],
     sections: {
       concept:
@@ -219,8 +218,8 @@ export const projects: Project[] = [
       "/images/projects/015-collide/gallery/02-3-1.gif",
       "/images/projects/015-collide/gallery/02-3-2.gif",
       "/images/projects/015-collide/gallery/02-3-3.gif",
-      "/images/projects/015-collide/gallery/03-2-1.png",
-      "/images/projects/015-collide/gallery/03-2-2.jpg",
+      "/images/projects/015-collide/gallery/03-1-1.jpg",
+      "/images/projects/015-collide/gallery/04-1-1.jpg",
     ],
     sections: {
       concept:
@@ -507,8 +506,7 @@ export const projects: Project[] = [
     sections: {
       role: "Visuals",
       concept: "Live Visuals.",
-      tools:
-        "Projection - Projector\nSound System - 2.1\nVisuals - TouchDesigner Software",
+      tools: "Projection\nTouchDesigner\nRealtime",
       credits: "Visuals - Ferran Belmon",
       information:
         "Mostra Festival, Sala Ricson Hangar\nBarcelona, Spain, 2022",

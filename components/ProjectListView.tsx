@@ -101,19 +101,19 @@ function ProjectRow({
       <Link
         href={`/projects/${project.slug}`}
         data-ui-tone="tonic"
-        className="group relative grid grid-cols-[auto_1fr_auto] items-start gap-x-4 gap-y-3 px-4 py-5 outline-none md:grid-cols-[5.5rem_minmax(0,1fr)_7rem_auto] md:items-center md:gap-x-8 md:px-5 md:py-6"
+        className="group relative flex flex-col gap-1.5 px-3 py-3.5 outline-none md:grid md:grid-cols-[5.5rem_minmax(0,1fr)_7rem_auto] md:items-center md:gap-x-8 md:px-5 md:py-6"
       >
         <span
           aria-hidden
           className="absolute inset-y-0 left-0 w-0 bg-accent transition-[width] duration-300 ease-out group-hover:w-1 group-focus-visible:w-1"
         />
 
-        <span className="font-mono text-[0.7rem] tabular-nums tracking-[0.14em] text-accent md:text-xs">
+        <span className="hidden font-mono text-xs tabular-nums tracking-[0.14em] text-accent md:inline">
           [{project.id}]
         </span>
 
-        <div className="col-span-2 min-w-0 md:col-span-1">
-          <h2 className="font-display text-[clamp(1.25rem,3vw,2.15rem)] font-extrabold uppercase leading-[0.92] tracking-tight transition-colors duration-200 group-hover:text-accent">
+        <div className="min-w-0">
+          <h2 className="line-clamp-2 text-left font-display text-[0.92rem] font-extrabold uppercase leading-[1.08] tracking-tight transition-colors duration-200 group-hover:text-accent md:line-clamp-none md:text-[clamp(1.25rem,3vw,2.15rem)] md:leading-[0.92]">
             <span
               aria-hidden
               className="mr-2 hidden font-mono text-sm font-normal text-accent opacity-0 transition-opacity duration-200 group-hover:opacity-100 md:inline"
@@ -123,12 +123,12 @@ function ProjectRow({
             {project.title}
           </h2>
           {meta ? (
-            <p className="mt-2 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted md:text-[0.7rem]">
+            <p className="mt-2 hidden font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted md:block">
               {meta}
             </p>
           ) : null}
           {project.sections.role ? (
-            <p className="mt-2 max-w-2xl text-sm leading-snug text-foreground/60">
+            <p className="mt-2 hidden max-w-2xl text-sm leading-snug text-foreground/60 md:block">
               {project.sections.role}
             </p>
           ) : null}
@@ -138,20 +138,29 @@ function ProjectRow({
           {project.year}
         </span>
 
-        <div className="flex items-center justify-end gap-4 md:justify-self-end">
-          <span className="font-mono text-[0.65rem] tabular-nums tracking-[0.18em] text-foreground/75 md:hidden">
-            {project.year}
-          </span>
+        <div className="flex items-center justify-between gap-3 md:justify-end md:justify-self-end">
+          <p className="font-mono text-[0.58rem] tabular-nums tracking-[0.14em] text-muted md:hidden">
+            <span className="text-accent">[{project.id}]</span>
+            <span className="mx-1.5 text-border">/</span>
+            <span className="text-foreground/80">{project.year}</span>
+          </p>
           <ProjectSkills
             skills={project.skills}
-            className="text-foreground/65 transition-colors group-hover:text-foreground"
+            size="xs"
+            className="shrink-0 justify-end text-foreground/65 transition-colors group-hover:text-foreground md:hidden"
           />
-          <span
-            aria-hidden
-            className="font-mono text-xs text-accent opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-          >
-            ↗
-          </span>
+          <div className="hidden items-center gap-4 md:flex">
+            <ProjectSkills
+              skills={project.skills}
+              className="text-foreground/65 transition-colors group-hover:text-foreground"
+            />
+            <span
+              aria-hidden
+              className="font-mono text-xs text-accent opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+            >
+              ↗
+            </span>
+          </div>
         </div>
       </Link>
     </motion.li>

@@ -92,61 +92,64 @@ export function ProjectGrid() {
   return (
     <section className="relative w-full pb-20 pt-6">
       <div className="relative mx-auto max-w-[1600px] px-5 md:px-8">
-      <div className="mb-8 border border-border bg-background/80 backdrop-blur-[2px] md:mb-10">
-        <div className="flex flex-col gap-4 border-b border-border px-4 py-3 md:flex-row md:items-center md:justify-between md:gap-6 md:px-5">
-          <div className="flex flex-wrap items-baseline gap-3">
-            <span className="font-mono text-[0.65rem] uppercase tracking-[0.28em] text-accent">
-              // index
-            </span>
+      <div className="mb-8 md:mb-10">
+        <div className="flex items-center justify-between gap-3 md:hidden">
+          <p className="font-mono text-[0.65rem] tabular-nums tracking-wide text-muted">
+            {String(filteredProjects.length).padStart(2, "0")}_
+            {filteredProjects.length === 1 ? "PROJECT" : "PROJECTS"}
+          </p>
+          <ViewToggle view={view} onChange={setView} compact />
+        </div>
+
+        <div
+          role="group"
+          aria-label="Filter projects by category"
+          className="mt-3 flex flex-wrap items-center gap-1.5 md:hidden"
+        >
+          <FilterButton
+            active={category === "all"}
+            onClick={() => setCategory("all")}
+            label="ALL"
+          />
+          {projectCategories.map((value) => (
+            <FilterButton
+              key={value}
+              active={category === value}
+              onClick={() => setCategory(value)}
+              label={projectCategoryLabels[value].toUpperCase()}
+            />
+          ))}
+        </div>
+
+        <div className="hidden border border-border bg-background/80 backdrop-blur-[2px] md:block">
+          <div className="flex items-center justify-between gap-6 px-5 py-3">
             <p className="font-mono text-[0.7rem] tabular-nums tracking-wide text-muted">
               {String(filteredProjects.length).padStart(2, "0")}_
               {filteredProjects.length === 1 ? "PROJECT" : "PROJECTS"}
             </p>
-          </div>
 
-          <div className="flex min-w-0 flex-wrap items-center gap-3 md:justify-end">
-            <div
-              role="group"
-              aria-label="Filter projects by category"
-              className="flex min-w-0 flex-wrap items-center gap-1.5"
-            >
-              <FilterButton
-                active={category === "all"}
-                onClick={() => setCategory("all")}
-                label="ALL"
-              />
-
-              {projectCategories.map((value) => (
+            <div className="flex min-w-0 flex-wrap items-center justify-end gap-3">
+              <div
+                role="group"
+                aria-label="Filter projects by category"
+                className="flex min-w-0 flex-wrap items-center gap-1.5"
+              >
                 <FilterButton
-                  key={value}
-                  active={category === value}
-                  onClick={() => setCategory(value)}
-                  label={projectCategoryLabels[value].toUpperCase()}
+                  active={category === "all"}
+                  onClick={() => setCategory("all")}
+                  label="ALL"
                 />
-              ))}
-            </div>
-
-            <span className="hidden h-5 w-px bg-border sm:block" aria-hidden />
-
-            <div
-              role="group"
-              aria-label="Layout view"
-              className="flex items-center gap-0.5 border border-border p-0.5"
-            >
-              <ViewIconButton
-                active={view === "grid"}
-                onClick={() => setView("grid")}
-                label="Grid view"
-              >
-                <GridViewIcon />
-              </ViewIconButton>
-              <ViewIconButton
-                active={view === "list"}
-                onClick={() => setView("list")}
-                label="List view"
-              >
-                <ListViewIcon />
-              </ViewIconButton>
+                {projectCategories.map((value) => (
+                  <FilterButton
+                    key={value}
+                    active={category === value}
+                    onClick={() => setCategory(value)}
+                    label={projectCategoryLabels[value].toUpperCase()}
+                  />
+                ))}
+              </div>
+              <span className="h-5 w-px bg-border" aria-hidden />
+              <ViewToggle view={view} onChange={setView} />
             </div>
           </div>
         </div>
@@ -314,7 +317,7 @@ function ProjectCard({
       <Link
         href={`/projects/${project.slug}`}
         data-ui-tone="tonic"
-        className="group relative flex h-full flex-col rounded-lg border border-border bg-surface outline-none transition-colors duration-300 hover:border-accent/60 focus-visible:border-accent"
+        className="group relative flex h-full flex-col rounded-lg border border-border bg-surface outline-none transition-colors duration-300 hover:border-accent/60 hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-accent/60 focus-visible:border-accent"
         style={{ transformStyle: "preserve-3d" }}
       >
         {/* Media window */}
@@ -360,7 +363,7 @@ function ProjectCard({
             className="mt-1.5 h-px w-full bg-[repeating-linear-gradient(90deg,var(--border)_0_4px,transparent_4px_8px)]"
           />
 
-          <h2 className="mt-2 font-display text-[clamp(1.05rem,2.2vw,1.45rem)] font-extrabold uppercase leading-[0.95] tracking-tight transition-colors duration-300 group-hover:text-accent">
+          <h2 className="mt-2 min-w-0 break-words font-display text-[clamp(1.05rem,2.2vw,1.45rem)] font-extrabold uppercase leading-[0.95] tracking-tight transition-colors duration-300 group-hover:text-accent">
             {project.title}
           </h2>
 
@@ -382,6 +385,45 @@ function ProjectCard({
         </div>
       </Link>
     </motion.div>
+  );
+}
+
+function ViewToggle({
+  view,
+  onChange,
+  compact = false,
+}: {
+  view: ViewMode;
+  onChange: (view: ViewMode) => void;
+  compact?: boolean;
+}) {
+  return (
+    <div
+      role="group"
+      aria-label="Layout view"
+      className={
+        compact
+          ? "flex items-center gap-0.5 rounded-full border border-foreground/20 bg-foreground/[0.04] p-0.5"
+          : "flex items-center gap-0.5 border border-border p-0.5"
+      }
+    >
+      <ViewIconButton
+        active={view === "grid"}
+        onClick={() => onChange("grid")}
+        label="Grid view"
+        round={compact}
+      >
+        <GridViewIcon />
+      </ViewIconButton>
+      <ViewIconButton
+        active={view === "list"}
+        onClick={() => onChange("list")}
+        label="List view"
+        round={compact}
+      >
+        <ListViewIcon />
+      </ViewIconButton>
+    </div>
   );
 }
 
@@ -416,11 +458,13 @@ function ViewIconButton({
   onClick,
   label,
   children,
+  round = false,
 }: {
   active: boolean;
   onClick: () => void;
   label: string;
   children: ReactNode;
+  round?: boolean;
 }) {
   return (
     <button
@@ -430,7 +474,9 @@ function ViewIconButton({
       aria-pressed={active}
       title={label}
       onClick={onClick}
-      className={`flex h-8 w-8 items-center justify-center transition-colors ${
+      className={`flex items-center justify-center transition-colors ${
+        round ? "h-7 w-7 rounded-full" : "h-8 w-8"
+      } ${
         active
           ? "bg-accent text-background"
           : "bg-transparent text-foreground/70 hover:bg-foreground/10 hover:text-foreground"

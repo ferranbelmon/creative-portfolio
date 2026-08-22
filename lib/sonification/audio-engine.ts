@@ -237,6 +237,9 @@ export class AudioEngine {
   private stormLive = false;
 
   private status: EngineStatus = "idle";
+  /** User unmuted — resume when the window comes back. */
+  private userWantsAudio = false;
+  private visibilityBound = false;
   private raf = 0;
   private onFrame: ((now: number) => void) | null = null;
   private lastFundamental = 140;
@@ -292,6 +295,8 @@ export class AudioEngine {
     }
 
     this.onFrame = onFrame ?? null;
+    this.userWantsAudio = true;
+    this.bindVisibility();
 
     // Autoplay policies can leave the context suspended until a gesture.
     if (this.ctx.state !== "running") {
@@ -306,7 +311,9 @@ export class AudioEngine {
 
   async pause() {
     if (!this.ctx) return;
+    this.userWantsAudio = false;
     this.status = "suspended";
+    this.dumpFeedback();
     if (this.raf) {
       cancelAnimationFrame(this.raf);
       this.raf = 0;
@@ -376,12 +383,99 @@ export class AudioEngine {
     void this.ctx?.close();
     this.ctx = null;
     this.status = "idle";
+    this.userWantsAudio = false;
+    if (typeof window !== "undefined" && this.visibilityBound) {
+      document.removeEventListener("visibilitychange", this.onPageHideShow);
+      window.removeEventListener("pagehide", this.onPageHideShow);
+      window.removeEventListener("blur", this.onWindowInactive);
+      window.removeEventListener("focus", this.onWindowActive);
+      this.visibilityBound = false;
+    }
+  }
+
+  private bindVisibility() {
+    if (this.visibilityBound || typeof window === "undefined") return;
+    this.visibilityBound = true;
+    document.addEventListener("visibilitychange", this.onPageHideShow);
+    window.addEventListener("pagehide", this.onPageHideShow);
+    window.addEventListener("blur", this.onWindowInactive);
+    window.addEventListener("focus", this.onWindowActive);
+  }
+
+  private onPageHideShow = () => {
+    if (typeof document !== "undefined" && document.hidden) {
+      this.onWindowInactive();
+    } else {
+      this.onWindowActive();
+    }
+  };
+
+  private onWindowInactive = () => {
+    if (!this.userWantsAudio) return;
+    this.dumpFeedback();
+    if (this.ctx?.state === "running") {
+      void this.ctx.suspend();
+    }
+  };
+
+  private onWindowActive = () => {
+    if (!this.userWantsAudio || this.status !== "running" || !this.ctx) return;
+    if (this.ctx.state === "suspended") {
+      void this.ctx.resume().then(() => {
+        if (this.userWantsAudio && this.status === "running") this.kickLoop();
+      });
+    }
+  };
+
+  /** Kill delay loops / pad tails so nothing rings while the tab is backgrounded. */
+  private dumpFeedback() {
+    const ctx = this.ctx;
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const kill = (param: AudioParam | undefined | null) => {
+      if (!param) return;
+      param.cancelScheduledValues(now);
+      param.setValueAtTime(0.0001, now);
+    };
+    kill(this.dropDelayFeedback?.gain);
+    kill(this.dropDelayWet?.gain);
+    kill(this.strikeFbGain?.gain);
+    kill(this.strikeBedGain?.gain);
+    kill(this.howlFeedback?.gain);
+    kill(this.howlDryGain?.gain);
+    kill(this.howlWetSend?.gain);
+    kill(this.howlGain?.gain);
+    kill(this.howlNoiseGain?.gain);
+    kill(this.masterGain?.gain);
+    this.howlSwell = "wait";
+    this.howlSwellLevel = 0;
+    this.howlSwellUntil = performance.now() + 6000;
+    this.howlPitchApplied = false;
+    this.strikeBedLevel = 0;
+    this.strikeGlow = 0;
+    this.strikeGlowTarget = 0;
+  }
+
+  private pageIsInactive() {
+    if (typeof document === "undefined") return false;
+    return document.hidden || !document.hasFocus();
   }
 
   private kickLoop() {
     if (this.raf) cancelAnimationFrame(this.raf);
     const tick = (now: number) => {
       if (this.status !== "running") return;
+      if (this.pageIsInactive()) {
+        this.dumpFeedback();
+        if (this.ctx?.state === "running") void this.ctx.suspend();
+        this.raf = requestAnimationFrame(tick);
+        return;
+      }
+      if (this.ctx?.state === "suspended" && this.userWantsAudio) {
+        void this.ctx.resume();
+        this.raf = requestAnimationFrame(tick);
+        return;
+      }
       this.onFrame?.(now);
       this.scheduleDrops(now);
       this.tickHowlSwell(now);
@@ -399,7 +493,7 @@ export class AudioEngine {
       }
       if (this.strikeFbGain && this.ctx) {
         this.strikeFbGain.gain.setTargetAtTime(
-          clamp(0.42 + this.strikeBedLevel * 0.35, 0.35, 0.78),
+          clamp(0.22 + this.strikeBedLevel * 0.2, 0.15, 0.42),
           this.ctx.currentTime,
           0.4,
         );
@@ -434,8 +528,8 @@ export class AudioEngine {
         // Longer gesture so the attack can breathe (~4–5.5s dry).
         const dur = 4000 + Math.random() * 1500;
         this.howlSwellUntil = now + dur;
-        this.howlSwellPeak = 0.035 + Math.random() * 0.02;
-        this.howlOctave = 3;
+        this.howlSwellPeak = 0.028 + Math.random() * 0.014;
+        this.howlOctave = 2;
         this.howlPitchApplied = false;
         const pool = this.howlVoicingPool;
         let idx = Math.floor(Math.random() * pool.length);
@@ -450,7 +544,7 @@ export class AudioEngine {
       } else if (this.howlSwell === "sound") {
         this.howlSwell = "tail";
         this.howlSwellFrom = now;
-        this.howlSwellUntil = now + 16_000 + Math.random() * 10_000; // 16–26s vapor
+        this.howlSwellUntil = now + 4_500 + Math.random() * 2_500; // 4.5–7s tail
       } else {
         this.howlSwell = "wait";
         this.howlSwellUntil = now + 10_000 + Math.random() * 20_000;
@@ -682,7 +776,7 @@ export class AudioEngine {
       .connect(this.userVolume)
       .connect(ctx.destination);
 
-    setTarget(this.masterGain.gain, 0.78, ctx, 1.4);
+    setTarget(this.masterGain.gain, 1.5, ctx, 1.4);
 
     // —— Chord body (thin, mid-focused) ——
     this.chordHighpass = ctx.createBiquadFilter();
@@ -870,8 +964,8 @@ export class AudioEngine {
     // —— Background temperature pad (quiet, locked pitch, vaporous) ——
     this.howlBp = ctx.createBiquadFilter();
     this.howlBp.type = "lowpass";
-    this.howlBp.frequency.value = 1600;
-    this.howlBp.Q.value = 0.4;
+    this.howlBp.frequency.value = 780;
+    this.howlBp.Q.value = 0.35;
 
     // Keep delay node unused in path (no delay = no pitch smear).
     this.howlDelay = ctx.createDelay(0.08);
@@ -888,26 +982,13 @@ export class AudioEngine {
     this.howlOscs = this.howlVoicing.map((ratio, i) => {
       const osc = ctx.createOscillator();
       osc.type = "sine";
-      osc.frequency.value = 220 * ratio;
-      osc.detune.value = 0; // no chorus detune — stable pitch
+      osc.frequency.value = 130 * ratio;
+      osc.detune.value = 0;
       const g = ctx.createGain();
-      g.gain.value = i === 0 ? 0.5 : i === 1 ? 0.38 : 0.34;
+      g.gain.value = i === 0 ? 0.55 : i === 1 ? 0.32 : 0.28;
       osc.connect(g).connect(chordMix);
       osc.start();
       return osc;
-    });
-
-    // Soft octave air, quieter.
-    this.howlVoicing.forEach((ratio) => {
-      const osc = ctx.createOscillator();
-      osc.type = "sine";
-      osc.frequency.value = 440 * ratio;
-      osc.detune.value = 0;
-      const g = ctx.createGain();
-      g.gain.value = 0.1;
-      osc.connect(g).connect(chordMix);
-      osc.start();
-      this.howlOscs.push(osc);
     });
 
     this.howlNoiseGain = ctx.createGain();
@@ -920,8 +1001,8 @@ export class AudioEngine {
     // Subtle bandpass texture (not pitched).
     const texBp = ctx.createBiquadFilter();
     texBp.type = "bandpass";
-    texBp.frequency.value = 2800;
-    texBp.Q.value = 0.4;
+    texBp.frequency.value = 900;
+    texBp.Q.value = 0.5;
 
     chordMix.connect(this.howlDrive).connect(this.howlBp);
     howlNoise.connect(this.howlNoiseGain).connect(texBp).connect(this.howlBp);
@@ -935,9 +1016,9 @@ export class AudioEngine {
     this.howlWetSend.gain.value = 0.0001;
     this.howlConvolver = ctx.createConvolver();
     // Very long, soft vapor — pad hangs in the background.
-    this.howlConvolver.buffer = createReverbImpulse(ctx, 26, 1.05);
+    this.howlConvolver.buffer = createReverbImpulse(ctx, 7.5, 1.55);
     this.howlWetGain = ctx.createGain();
-    this.howlWetGain.gain.value = 2.15;
+    this.howlWetGain.gain.value = 0.85;
 
     // Direct from filter — no delay in the path.
     this.howlBp.connect(this.howlDryGain).connect(this.howlGain).connect(this.userVolume!);
@@ -1664,7 +1745,7 @@ export class AudioEngine {
       return;
     }
 
-    if (this.masterGain) setTarget(this.masterGain.gain, 0.78, ctx, 0.8);
+    if (this.masterGain) setTarget(this.masterGain.gain, 1.5, ctx, 0.8);
 
     // Water intensity: Open-Meteo precip (mm of the preceding hour ≈ mm/h)
     // plus convective density from strike rate when the grid reports dry.
@@ -1695,11 +1776,11 @@ export class AudioEngine {
 
       // Humidity + intensity → longer trails; strike opens feedback briefly.
       const feedback = clamp(
-        mapRange(weather.humidityPct, 30, 95, 0.28, 0.58) +
-          mapRange(this.waterIntensity, 0.5, 12, 0, 0.12) +
-          this.strikeGlow * 0.2,
-        0.15,
-        0.72,
+        mapRange(weather.humidityPct, 30, 95, 0.22, 0.42) +
+          mapRange(this.waterIntensity, 0.5, 12, 0, 0.08) +
+          this.strikeGlow * 0.12,
+        0.12,
+        0.48,
       );
       setTarget(this.dropDelayFeedback.gain, feedback, ctx, 0.6);
 
@@ -1844,25 +1925,23 @@ export class AudioEngine {
         40,
         this.lastBassFreq || mapRange(weather.temperatureC, -5, 38, 40, 90),
       );
-      const root = clamp(bass * Math.pow(2, this.howlOctave), 160, 520);
+      const root = clamp(bass * Math.pow(2, this.howlOctave), 90, 240);
       this.howlRootHz = root;
 
       // Apply pitch once at gesture start — never setTarget every frame.
       if (this.howlSwell === "sound" && !this.howlPitchApplied) {
         this.howlLockedRoot = root;
         this.howlPitchApplied = true;
-        const n = Math.floor(this.howlOscs.length / 2) || 3;
         const nowT = ctx.currentTime;
         this.howlOscs.forEach((osc, i) => {
-          const ratio = this.howlVoicing[i % n] ?? 1;
-          const octave = i < n ? 1 : 2;
-          const hz = this.howlLockedRoot * ratio * octave;
+          const ratio = this.howlVoicing[i] ?? 1;
+          const hz = this.howlLockedRoot * ratio;
           osc.frequency.cancelScheduledValues(nowT);
           osc.frequency.setValueAtTime(hz, nowT);
         });
       }
 
-      setTarget(this.howlBp.frequency, 1400 + humidity01 * 400, ctx, 1.2);
+      setTarget(this.howlBp.frequency, 620 + humidity01 * 220, ctx, 1.2);
       setTarget(this.howlBp.Q, 0.35, ctx, 1.0);
       if (this.howlFeedback) setTarget(this.howlFeedback.gain, 0.0001, ctx, 0.5);
 

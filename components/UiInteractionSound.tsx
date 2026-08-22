@@ -40,13 +40,14 @@ export function UiInteractionSound() {
   useEffect(() => {
     let lastAt = 0;
 
-    const onPointerDown = (event: PointerEvent) => {
+    const onClick = (event: MouseEvent) => {
+      // Ignore non-primary mouse buttons; touch/pen synthesize button 0.
       if (event.button !== 0) return;
       const el = interactiveFromTarget(event.target);
       if (!el) return;
 
       const now = performance.now();
-      if (now - lastAt < 120) return;
+      if (now - lastAt < 160) return;
       lastAt = now;
 
       const tone =
@@ -74,9 +75,9 @@ export function UiInteractionSound() {
       })();
     };
 
-    document.addEventListener("pointerdown", onPointerDown, true);
+    document.addEventListener("click", onClick, true);
     return () => {
-      document.removeEventListener("pointerdown", onPointerDown, true);
+      document.removeEventListener("click", onClick, true);
     };
   }, []);
 
