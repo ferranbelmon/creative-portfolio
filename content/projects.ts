@@ -515,7 +515,7 @@ export const projects: Project[] = [
     client: "Landscapes",
     event: "Llum BCN",
     category: "commissions",
-    skills: ["sound", "hardware"],
+    skills: ["sound", "visuals", "hardware"],
     heroVimeoId: "1031959241",
     externalUrl: "https://tilergab.com/colorconversations",
     thumbnail: "/images/projects/005-color-conversations/thumbnail.jpg",

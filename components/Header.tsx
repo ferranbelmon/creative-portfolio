@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { RemoteImage } from "@/components/RemoteImage";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { site } from "@/content/site";
 
 function InstagramIcon() {
@@ -103,6 +104,8 @@ export function Header() {
           >
             <LinkedinIcon />
           </a>
+          <span className="h-4 w-px bg-border" />
+          <ThemeToggle />
         </nav>
 
         <div ref={menuRef} className="relative md:hidden">
@@ -158,6 +161,9 @@ export function Header() {
                   >
                     Contact
                   </a>
+                </li>
+                <li className="pt-1">
+                  <ThemeToggle />
                 </li>
               </ul>
             </div>
