@@ -114,6 +114,8 @@ export const projects: Project[] = [
       "/images/projects/020-torre-glories-content/gallery/02-1-1.jpg",
     ],
     sections: {
+      concept:
+        "In March 2026, Barcelona City Council used the facade lighting of the iconic Torre Glòries to launch their awareness campaign \"Poca Vergonya\" (\"Shame on you\"), targeting anti-social behavior and calling for greater citizen responsibility in public spaces.",
       information: "Client - Protopixel\nYear - 2026",
     },
   },
