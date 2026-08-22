@@ -15,9 +15,9 @@ import { RemoteImage } from "@/components/RemoteImage";
 import { ProjectListView } from "@/components/ProjectListView";
 import { ProjectSkills } from "@/components/ProjectSkills";
 import {
+  getVisibleProjects,
   projectCategories,
   projectCategoryLabels,
-  projects,
   type Project,
   type ProjectCategory,
 } from "@/content/projects";
@@ -71,8 +71,10 @@ export function ProjectGrid() {
   const filteredProjects = useMemo(() => {
     const list =
       category === "all"
-        ? projects
-        : projects.filter((project) => project.category === category);
+        ? getVisibleProjects()
+        : getVisibleProjects().filter(
+            (project) => project.category === category,
+          );
     return sortByDateDesc(list);
   }, [category]);
 

@@ -9,8 +9,8 @@ import { ProjectYoutubeHero } from "@/components/ProjectYoutubeHero";
 import {
   getAdjacentProjects,
   getProjectBySlug,
+  getVisibleProjects,
   projectCategoryLabels,
-  projects,
   type Project,
 } from "@/content/projects";
 import { site } from "@/content/site";
@@ -43,7 +43,7 @@ function projectShareDescription(project: Project) {
 }
 
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return getVisibleProjects().map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({

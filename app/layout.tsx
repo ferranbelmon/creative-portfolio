@@ -9,7 +9,6 @@ import { CustomCursor } from "@/components/CustomCursor";
 import { InteractiveDotGrid } from "@/components/InteractiveDotGrid";
 import { ScrollRail } from "@/components/ScrollRail";
 import { ScrollToTop } from "@/components/ScrollToTop";
-import { UiInteractionSound } from "@/components/UiInteractionSound";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -75,11 +74,10 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Script id="theme-init" strategy="beforeInteractive">
-          {`(function(){try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light");}catch(e){}})();`}
+          {`(function(){try{document.documentElement.classList.remove("light");localStorage.removeItem("theme");}catch(e){}})();`}
         </Script>
         <ScrollToTop />
         <ScrollRail />
-        <UiInteractionSound />
         <CustomCursor />
         <InteractiveDotGrid />
         <Suspense fallback={null}>

@@ -65,6 +65,8 @@ export type Project = {
   heroVideoUrl?: string;
   galleryLayout?: GalleryLayout;
   sections: ProjectSection;
+  /** When true, excluded from index, nav, and public project pages. */
+  hidden?: boolean;
 };
 
 export const projects: Project[] = [
@@ -76,6 +78,7 @@ export const projects: Project[] = [
     event: "Intervals Fest / Mira Festival",
     category: "artistic-practice",
     skills: ["sound", "visuals", "hardware"],
+    hidden: true,
     thumbnail:
       "/images/projects/022-ciclic-installation-live-av/gallery/01-3-1.jpeg",
     images: [
@@ -125,6 +128,7 @@ export const projects: Project[] = [
     event: "Sónar Festival",
     category: "commissions",
     skills: ["visuals"],
+    hidden: true,
     sections: {
       role: "Visuals",
       information: "Client - Tayhana\nEvent - Sónar Festival\nYear - 2026",
@@ -139,6 +143,7 @@ export const projects: Project[] = [
     event: "Mobile World Congress 2026",
     category: "commissions",
     skills: ["visuals"],
+    hidden: true,
     externalUrl: "https://landscapes.digital/en/work/landscapes-en-mwc-2026/",
     sections: {
       role: "Artistic content for immersive fog screen",
@@ -298,6 +303,7 @@ export const projects: Project[] = [
     event: "Sónar +D",
     category: "commissions",
     skills: ["visuals", "coding", "hardware"],
+    hidden: true,
     thumbnail: "/images/projects/011-kieli/gallery/01-2-1.jpg",
     images: [
       "/images/projects/011-kieli/gallery/01-2-1.jpg",
@@ -693,19 +699,26 @@ export const projects: Project[] = [
   },
 ];
 
+export function getVisibleProjects(): Project[] {
+  return projects.filter((project) => !project.hidden);
+}
+
 export function getProjectBySlug(slug: string): Project | undefined {
-  return projects.find((project) => project.slug === slug);
+  const project = projects.find((p) => p.slug === slug);
+  if (!project || project.hidden) return undefined;
+  return project;
 }
 
 export function getAdjacentProjects(slug: string): {
   prev?: Project;
   next?: Project;
 } {
-  const index = projects.findIndex((project) => project.slug === slug);
+  const visible = getVisibleProjects();
+  const index = visible.findIndex((project) => project.slug === slug);
   if (index === -1) return {};
 
   return {
-    prev: index > 0 ? projects[index - 1] : undefined,
-    next: index < projects.length - 1 ? projects[index + 1] : undefined,
+    prev: index > 0 ? visible[index - 1] : undefined,
+    next: index < visible.length - 1 ? visible[index + 1] : undefined,
   };
 }
