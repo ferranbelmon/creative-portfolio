@@ -152,7 +152,7 @@ export const projects: Project[] = [
       credits:
         "Agency - Landscapes\nArtistic content (fog screen) - Ferran Belmon\nTechnical development, physical production & spatial integration - Landscapes",
       information:
-        "Client - Landscapes\nEvent - Mobile World Congress 2026\nType - Events / Immersive / Interactive installations\nYear - 2026\nProject page - https://landscapes.digital/en/work/landscapes-en-mwc-2026/",
+        "Client - Landscapes\nEvent - Mobile World Congress 2026\nType - Events / Immersive / Interactive installations\nYear - 2026",
     },
   },
   {
@@ -204,7 +204,7 @@ export const projects: Project[] = [
       tools: "Lasers\nLight design\nSpatial design\nAtmospheric haze",
       credits: "Agency - Landscapes\nEvent - Sónar by Night\nPhotography - Leafhopper",
       information:
-        "Client - Landscapes\nEvent - Sónar by Night 2025\nVenue - Fira Gran Via 2, Barcelona\nType - Events / Immersive\nYear - 2025\nProject page - https://landscapes.digital/en/work/lasers-at-sonar-festival/",
+        "Client - Landscapes\nEvent - Sónar by Night 2025\nVenue - Fira Gran Via 2, Barcelona\nType - Events / Immersive\nYear - 2025",
     },
   },
   {
@@ -342,7 +342,7 @@ export const projects: Project[] = [
       credits:
         "Client - CUPRA\nAgency - Tigrelab\nCreative Directors - Federico Gonzalez, Mathieu Felix, Javier Pinto\nCreative Coders - Daniel Guillen, Ferran Belda\nNotch & Smode Artist - Antonio Nieto\nSound Design - Jhon Christian Cardenas\nProject Manager - Laura Gómez\nEvent Agency - Dicom Events\nPrototype & Engineering - ÚNIC Works\nProjection & Technical Setup - Custom Projects Vioso GmbH",
       information:
-        "Type - Event / Immersive / Installation / Projection Mapping\nPresented at - Milan Design Week 2024, Piazza XXV Aprile\nYear - 2024\nProject page - https://tigrelab.com/project/cupra-sensorial-capsule/",
+        "Presented at - Milan Design Week 2024, Piazza XXV Aprile\nYear - 2024",
     },
   },
   {
@@ -596,7 +596,7 @@ export const projects: Project[] = [
       credits:
         "Client - Nomada / Sharjah Light Festival\nAgency - Tigrelab\nCreative Direction - Federico Gonzalez, Mathieu Felix, Javier Pinto\nNotch Designer - Dan Garotte, Daniel Guillén, Filip Roca\nProducer - Vanesa Palmeri\nCreative Technologist - Ferran Belda, Daniel Guillén\nApp Designer - Daniel Guillén\nAR Developer - Nacho Cosio",
       information:
-        "Type - Immersive / Interactive / Installation / Projection Mapping\nFestival - Sharjah Light Festival 2020\nVenue - University City Hall\nYear - 2020\nProject page - https://tigrelab.com/project/planets/",
+        "Festival - Sharjah Light Festival 2020\nVenue - University City Hall\nYear - 2020",
     },
   },
   {
@@ -653,7 +653,7 @@ export const projects: Project[] = [
       credits:
         "Client - Artichoke / Durham Lumiere\nAgency - Tigrelab\nCreative Direction - Federico Gonzalez, Mathieu Felix, Javier Pinto\nNotch Designer - Dan Garote, Antonio Nieto\nProducer - Camila Araujo Vasquez\nCreative Coder - Ferran Belda\nGraphic Design - Daniel Guillén\n3D Modeler - Gerard Foix\nEdit - WeLoveMarta\nSound Design - Mathieu Bosi",
       information:
-        "Type - Immersive / Interactive / Installation / Projection Mapping\nFestival - Durham Lumiere 2019\nVenue - Durham Cathedral\nYear - 2019\nProject page - https://tigrelab.com/project/stones/",
+        "Festival - Durham Lumiere 2019\nVenue - Durham Cathedral\nYear - 2019",
     },
   },
   {
