@@ -9,11 +9,24 @@ let transitionTimer: ReturnType<typeof setTimeout> | undefined;
 
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
-  // Enable color transitions only while switching, so normal hover
-  // effects keep their own timings.
+  const apply = () => {
+    root.classList.toggle("light", theme === "light");
+    localStorage.setItem("theme", theme);
+  };
+
+  const doc = document as Document & {
+    startViewTransition?: (update: () => void) => { finished: Promise<void> };
+  };
+
+  // Cross-fade the whole page so project text doesn't snap white↔black.
+  if (typeof doc.startViewTransition === "function") {
+    const transition = doc.startViewTransition(apply);
+    void transition.finished.catch(() => undefined);
+    return;
+  }
+
   root.classList.add("theme-transition");
-  root.classList.toggle("light", theme === "light");
-  localStorage.setItem("theme", theme);
+  apply();
   clearTimeout(transitionTimer);
   transitionTimer = setTimeout(() => {
     root.classList.remove("theme-transition");

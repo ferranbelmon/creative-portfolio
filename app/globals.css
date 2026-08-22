@@ -115,6 +115,13 @@ html.theme-transition {
     --scroll-rail 0.55s ease;
 }
 
+/* Soft cross-fade for day/night (View Transitions API). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: ease;
+}
+
 
 ::selection {
   background: var(--accent);
