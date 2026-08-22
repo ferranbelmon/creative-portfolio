@@ -79,7 +79,7 @@ export function ProjectSkills({
       ? "h-5 w-5 text-muted md:h-8 md:w-8"
       : size === "xs"
         ? "h-3 w-3 text-foreground/85"
-        : "h-3 w-3 text-foreground/85 md:h-6 md:w-6";
+        : "h-3.5 w-3.5 text-foreground/85 md:h-4 md:w-4";
 
   return (
     <ul
