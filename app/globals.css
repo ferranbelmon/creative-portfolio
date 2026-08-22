@@ -64,6 +64,8 @@ html.light {
   --scroll-rail: #b0b6be;
 }
 
+@custom-variant light (&:where(html.light, html.light *));
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -120,6 +122,18 @@ html.theme-transition {
 ::view-transition-new(root) {
   animation-duration: 0.4s;
   animation-timing-function: ease;
+}
+
+/* Header/footer chrome: difference blend is for dark; light uses ink color. */
+html.light header .mix-blend-difference,
+html.light footer .mix-blend-difference {
+  mix-blend-mode: normal;
+  color: var(--foreground);
+}
+
+html.light header .text-white,
+html.light footer .text-white {
+  color: var(--foreground);
 }
 
 

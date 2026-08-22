@@ -26,7 +26,7 @@ function LinkedinIcon() {
 }
 
 const navLinkClass =
-  "font-display text-xs font-bold uppercase tracking-[0.2em] transition-colors hover:text-accent md:text-sm";
+  "font-display text-xs font-bold uppercase tracking-[0.2em] transition-opacity hover:opacity-70 md:text-sm";
 
 export function Header() {
   const pathname = usePathname();
@@ -60,10 +60,13 @@ export function Header() {
   }, [open]);
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 md:px-8 md:py-5">
-        <Link href="/" className="group flex items-center gap-3">
-          <span className="relative block h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-border transition-all group-hover:ring-accent">
+    <header className="pointer-events-none fixed top-0 right-0 left-0 z-50 bg-transparent">
+      <div className="pointer-events-auto mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 md:px-8 md:py-5">
+        <Link
+          href="/"
+          className="group flex items-center gap-3 mix-blend-difference light:mix-blend-normal"
+        >
+          <span className="relative block h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1 ring-white/40 transition-all group-hover:ring-white light:ring-foreground/40 light:group-hover:ring-foreground">
             <RemoteImage
               src={site.logo}
               alt={site.name}
@@ -73,25 +76,25 @@ export function Header() {
               priority
             />
           </span>
-          <span className="hidden font-display text-sm font-bold uppercase tracking-[0.15em] sm:inline">
+          <span className="hidden font-display text-sm font-bold uppercase tracking-[0.15em] text-white light:text-foreground sm:inline">
             {site.name}
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-5 md:flex md:gap-8">
+        <nav className="hidden items-center gap-5 text-white mix-blend-difference light:text-foreground light:mix-blend-normal md:flex md:gap-8">
           <Link href="/work" data-ui-tone="classic" className={navLinkClass}>
             Work
           </Link>
           <Link href="/about" data-ui-tone="classic" className={navLinkClass}>
             About
           </Link>
-          <span className="h-4 w-px bg-border" />
+          <span className="h-4 w-px bg-white/35 light:bg-foreground/30" />
           <a
             href={site.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
-            className="transition-colors hover:text-accent"
+            className="transition-opacity hover:opacity-70"
           >
             <InstagramIcon />
           </a>
@@ -100,15 +103,18 @@ export function Header() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
-            className="transition-colors hover:text-accent"
+            className="transition-opacity hover:opacity-70"
           >
             <LinkedinIcon />
           </a>
-          <span className="h-4 w-px bg-border" />
+          <span className="h-4 w-px bg-white/35 light:bg-foreground/30" />
           <ThemeToggle />
         </nav>
 
-        <div ref={menuRef} className="relative md:hidden">
+        <div
+          ref={menuRef}
+          className="relative mix-blend-difference light:mix-blend-normal light:text-foreground md:hidden"
+        >
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -119,9 +125,7 @@ export function Header() {
           >
             <span
               aria-hidden
-              className={`block h-3 w-3 rounded-full transition-colors ${
-                open ? "bg-accent" : "bg-foreground"
-              }`}
+              className="block h-3 w-3 rounded-full bg-white transition-colors light:bg-foreground"
             />
           </button>
 
@@ -129,7 +133,7 @@ export function Header() {
             <div
               id="mobile-nav"
               role="navigation"
-              className="absolute top-[calc(100%+0.75rem)] right-0 z-50 min-w-[11.5rem] border border-border bg-background/95 px-4 py-4 shadow-sm backdrop-blur-md"
+              className="absolute top-[calc(100%+0.75rem)] right-0 z-50 min-w-[11.5rem] border border-white/25 bg-transparent px-4 py-4 text-white light:border-border light:bg-surface/95 light:text-foreground light:backdrop-blur-sm"
             >
               <ul className="flex flex-col gap-3.5">
                 <li>

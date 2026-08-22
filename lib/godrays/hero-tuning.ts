@@ -8,32 +8,40 @@ export const heroTuning = {
   mouseInfluence: 0.3,
 
   /** Oclusión → blur del halo (px). */
-  occlusionBlurRadius: 12,
+  occlusionBlurRadius: 9,
   /** Intensidad del anillo emisivo en bordes. */
   haloGain: 2.2,
   /** Silueta oclusor en el ring (0–1). */
-  haloOccCutoff: 0.96,
+  haloOccCutoff: 0.98,
   /** Falloff del anillo (>1 = más suave). */
-  haloPow: 0.92,
+  haloPow: .97,
 
   /** Separación RGB al final del rayo (px). */
   chromaticShiftPx: 12,
   /** Separación RGB en el origen de luz (px). */
-  chromaticOriginPx: 2,
+  chromaticOriginPx: 3,
   /** Brillo global de god rays. */
-  godraysExposure: 2.25,
+  godraysExposure: 2.95,
   /** Atenuación por paso del march (0.95–0.99). */
   godraysDecay: 0.97,
   /** Curva de contraste post-march (>1 = más apagado). */
-  godraysFalloffPow: 0.94,
-  /** Multiplicador R/G/B del haz. */
-  godraysRgbGain: [1.12, 1.10, 1.12] as [number, number, number],
+  godraysFalloffPow: 0.99,
+  /** Multiplicador R/G/B del haz (modo noche = blanco). */
+  godraysRgbGainDark: [1.05, 1.05, 1.05] as [number, number, number],
+  /** Multiplicador R/G/B del haz (modo día = tint leve). */
+  godraysRgbGainLight: [1.12, 1.10, 1.18] as [number, number, number],
+  /** Separación cromática en noche (0 = rayos blancos limpios). */
+  chromaticShiftPxDark: 0,
+  chromaticOriginPxDark: 0,
 
   /** Bloom: umbral extract (0–1). */
   bloomThreshold: 0.08,
   bloomSoftness: 0.72,
   bloomStrength: 2.55,
   bloomBlurRadius: 2.2,
+
+  /** Click: kick outward strength (idle float always runs). */
+  burstStrength: 7.5,
 };
 
 export type HeroUniformGroups = {
@@ -69,25 +77,26 @@ export function applyHeroTuning(
   uniforms: HeroUniformGroups,
   width: number,
   height: number,
+  theme: "dark" | "light" = "dark",
 ) {
   const t = heroTuning;
   const uvScale = 1 / Math.max(1, Math.min(width, height));
+  const isLight = theme === "light";
+  const rgbGain = isLight ? t.godraysRgbGainLight : t.godraysRgbGainDark;
+  const chromaticShift = isLight ? t.chromaticShiftPx : t.chromaticShiftPxDark;
+  const chromaticOrigin = isLight ? t.chromaticOriginPx : t.chromaticOriginPxDark;
 
   uniforms.occlusionBlur.uBlurRadius.value = t.occlusionBlurRadius;
   uniforms.emissiveHalo.uHaloGain.value = t.haloGain;
   uniforms.emissiveHalo.uOccCutoff.value = t.haloOccCutoff;
   uniforms.emissiveHalo.uHaloPow.value = t.haloPow;
 
-  uniforms.godrays.uChromaticShift.value = t.chromaticShiftPx * uvScale;
-  uniforms.godrays.uChromaticOrigin.value = t.chromaticOriginPx * uvScale;
+  uniforms.godrays.uChromaticShift.value = chromaticShift * uvScale;
+  uniforms.godrays.uChromaticOrigin.value = chromaticOrigin * uvScale;
   uniforms.godrays.uExposure.value = t.godraysExposure;
   uniforms.godrays.uDecay.value = t.godraysDecay;
   uniforms.godrays.uFalloffPow.value = t.godraysFalloffPow;
-  uniforms.godrays.uRgbGain.value.set(
-    t.godraysRgbGain[0],
-    t.godraysRgbGain[1],
-    t.godraysRgbGain[2],
-  );
+  uniforms.godrays.uRgbGain.value.set(rgbGain[0], rgbGain[1], rgbGain[2]);
 
   uniforms.bloomExtract.uThreshold.value = t.bloomThreshold;
   uniforms.bloomExtract.uSoftness.value = t.bloomSoftness;

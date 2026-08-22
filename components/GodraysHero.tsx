@@ -12,6 +12,7 @@ import {
   rgbGodraysFragmentShader,
 } from "@/lib/godrays/shaders";
 import {
+  burstSpheresOutward,
   createFloatingSpheres,
   disposeFloatingSpheres,
   updateFloatingSpheres,
@@ -266,6 +267,11 @@ export function GodraysHero() {
       pointer.active = false;
     }
 
+    function onPointerDown() {
+      if (reducedMotion) return;
+      burstSpheresOutward(spheres, heroTuning.burstStrength);
+    }
+
     function frame(time: number) {
       if (!running) return;
 
@@ -274,7 +280,10 @@ export function GodraysHero() {
 
       updateFloatingSpheres(spheres, delta, reducedMotion);
       updateLightOrigin();
-      applyHeroTuning(tuningUniforms, width, height);
+      const theme = document.documentElement.classList.contains("light")
+        ? "light"
+        : "dark";
+      applyHeroTuning(tuningUniforms, width, height, theme);
 
       renderer.setRenderTarget(occlusionTarget);
       renderer.setClearColor(0x000000, 1);
@@ -329,6 +338,7 @@ export function GodraysHero() {
     resizeObserver.observe(mount);
     mount.addEventListener("pointermove", onPointerMove, { passive: true });
     mount.addEventListener("pointerleave", onPointerLeave);
+    mount.addEventListener("pointerdown", onPointerDown);
 
     return () => {
       running = false;
@@ -337,6 +347,7 @@ export function GodraysHero() {
       resizeObserver.disconnect();
       mount.removeEventListener("pointermove", onPointerMove);
       mount.removeEventListener("pointerleave", onPointerLeave);
+      mount.removeEventListener("pointerdown", onPointerDown);
       disposeFloatingSpheres(spheres);
       occlusionMaterial.dispose();
       occlusionBlurMaterial.dispose();
@@ -365,6 +376,10 @@ export function GodraysHero() {
   }, []);
 
   return (
-    <div ref={mountRef} className="absolute inset-0 overflow-hidden" aria-hidden />
+    <div
+      ref={mountRef}
+      className="pointer-events-auto absolute inset-0 overflow-hidden"
+      aria-hidden
+    />
   );
 }

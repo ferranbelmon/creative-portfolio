@@ -61,7 +61,7 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label={isLight ? "Switch to night mode" : "Switch to day mode"}
       aria-pressed={isLight}
-      className="rounded-xl border border-border/70 p-2 text-muted transition-colors hover:border-accent/45 hover:text-accent"
+      className="p-2 text-current transition-colors hover:text-accent"
     >
       <Lightbulb
         size={18}
