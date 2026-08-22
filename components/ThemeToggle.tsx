@@ -17,7 +17,7 @@ function applyTheme(theme: Theme) {
   clearTimeout(transitionTimer);
   transitionTimer = setTimeout(() => {
     root.classList.remove("theme-transition");
-  }, 650);
+  }, 600);
 }
 
 export function ThemeToggle() {
