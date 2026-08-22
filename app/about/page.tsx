@@ -16,7 +16,7 @@ export default function AboutPage() {
         About
       </p>
       <h1 className="font-display max-w-3xl text-[clamp(2rem,5vw,3.5rem)] font-extrabold uppercase leading-[0.95] tracking-tight">
-        New media artist &amp; creative coder
+        Media artist &amp; creative technologist
       </h1>
 
       <div className="mt-10 grid gap-6 md:mt-12 md:gap-8 lg:grid-cols-[minmax(16rem,0.9fr)_1.25fr] lg:items-stretch">
