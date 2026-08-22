@@ -5,7 +5,6 @@ import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { CustomCursor } from "@/components/CustomCursor";
 import { InteractiveDotGrid } from "@/components/InteractiveDotGrid";
 import { ScrollRail } from "@/components/ScrollRail";
 import { ScrollToTop } from "@/components/ScrollToTop";
@@ -78,7 +77,6 @@ export default function RootLayout({
         </Script>
         <ScrollToTop />
         <ScrollRail />
-        <CustomCursor />
         <InteractiveDotGrid />
         <Suspense fallback={null}>
           <div className="relative z-50">

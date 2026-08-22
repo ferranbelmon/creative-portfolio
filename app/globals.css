@@ -133,9 +133,3 @@ html.theme-transition *::after {
   border: none;
   cursor: pointer;
 }
-
-html.custom-cursor .sound-volume-slider,
-html.custom-cursor .sound-volume-slider::-webkit-slider-thumb,
-html.custom-cursor .sound-volume-slider::-moz-range-thumb {
-  cursor: none !important;
-}
