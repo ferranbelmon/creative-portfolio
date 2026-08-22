@@ -139,7 +139,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         {project.title}
       </h1>
       {subtitle ? (
-        <p className="mt-3 max-w-2xl text-[0.7rem] uppercase tracking-[0.16em] text-muted md:mt-4 md:text-base md:tracking-[0.18em]">
+        <p className="mt-3 max-w-2xl text-xs uppercase tracking-[0.16em] text-muted md:mt-4 md:text-base md:tracking-[0.18em]">
           {subtitle}
         </p>
       ) : null}
