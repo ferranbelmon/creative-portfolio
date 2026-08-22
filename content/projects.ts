@@ -204,7 +204,7 @@ export const projects: Project[] = [
       tools: "Lasers\nLight design\nSpatial design\nAtmospheric haze",
       credits: "Agency - Landscapes\nEvent - Sónar by Night\nPhotography - Leafhopper",
       information:
-        "Client - Landscapes\nEvent - Sónar by Night 2025\nVenue - Fira Gran Via 2, Barcelona\nType - Events / Immersive\nYear - 2025",
+        "Client - Landscapes\nEvent - Sónar by Night 2025\nVenue - Fira Gran Via 2, Barcelona\nYear - 2025",
     },
   },
   {
@@ -285,7 +285,7 @@ export const projects: Project[] = [
     sections: {
       concept:
         "MAKE YOUR MUTANT BODY BADDANCE AND EARN SEEDS OF FUTURES.\n\nWith this participatory installation, visitors are invited to mutate, to join THEBADWEEDS — a trans-species music group that is part-human, part-plant. Its hybrid members embody a queer ecological transition: they grow from oblivion, cracks, and the most inhospitable places, humorously demonstrating the resilience and resistance of weeds.\n\nThe immersive experience invites the audience to transform and mutate through dance, offering a festive and playful perspective on ecological transition. The installation offers a three-part journey: discovering the universe of THEBADWEEDS through a video; dancing to mutate as a new plant body forms; and finding one's new mutant body.\n\nA project by Rocio Berenguer commissioned by mudac for Soleil.s / Solar Biennale 2.",
-      tools: "Game Development\nSkeleton tracking",
+      tools: "Game Development\nSkeleton tracking\nUnreal Engine",
       credits:
         "Original work - Rocio Berenguer\nGame Development - Ferran Belda\nWeb design - Pere Calopa Piedra\n3D motion design - Guillaume Gravier\nMotion detection analysis - Leo Chedin\nMusic - HERBICIDE by Killason; EATTHESUN and TAKOMAK by Baptiste Malgoire, written by Rocio Berenguer",
       information:
@@ -338,7 +338,7 @@ export const projects: Project[] = [
       concept:
         "A full-scale immersive capsule that reimagines the car interior as a living, reactive space — presented with CUPRA at Milan Design Week 2024.\n\nCommissioned by CUPRA through Tigrelab, the CUPRA Sensorial Capsule invited visitors in Piazza XXV Aprile to step inside a futuristic concept where space, emotion, and technology converge. Built over the course of a year with the CUPRA design team, the interior reacts in real time to movement, presence, and emotion: light pulses, surfaces breathe, and sound evolves into a fluid dialogue between human and machine.\n\nThe narrative unfolds in four acts — Welcome, an immersive reveal of materials and structure through light trails and mapped projection, Ride (sound, lighting, and Boost Mode), and Meta, an adaptive AI-driven space where the car becomes an evolving companion.",
       tools:
-        "Light\nCreative Code\nReal-Time Graphics\nProjection Mapping",
+        "Light\nCreative Coding\nTouchDesigner\nReal-Time Graphics\nProjection Mapping",
       credits:
         "Client - CUPRA\nAgency - Tigrelab\nCreative Directors - Federico Gonzalez, Mathieu Felix, Javier Pinto\nCreative Coders - Daniel Guillen, Ferran Belda\nNotch & Smode Artist - Antonio Nieto\nSound Design - Jhon Christian Cardenas\nProject Manager - Laura Gómez\nEvent Agency - Dicom Events\nPrototype & Engineering - ÚNIC Works\nProjection & Technical Setup - Custom Projects Vioso GmbH",
       information:
@@ -421,7 +421,7 @@ export const projects: Project[] = [
       concept:
         "CICLIC is a generative live audiovisual performance that explores how simple frequencies can interact to create complex behaviors. Through the dialogue between pure tones and laser light, the show becomes an evolving audioreactive experience, a minimal yet powerful expression of how sound and light can transform space.",
       tools:
-        "Laser Projector\nLight Fixtures - Led Tubes, Strobo Fixtures\nSound System - 2.1\nAudio Software - Ableton Live\nLight Control - TouchDesigner Custom Software",
+        "Laser Projector\nDMX Control\nAbleton\nTouchDesigner",
       credits:
         "Concept - Ferran Belmon, Joan Sandoval\nSound - Ferran Belmon\nLight Control - Ferran Belmon\nVideo - Catalina Joy",
       information:

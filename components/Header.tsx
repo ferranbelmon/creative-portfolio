@@ -75,9 +75,16 @@ export function Header() {
     };
   }, [open]);
 
+  const isHome = pathname === "/";
+
   return (
-    <header className="pointer-events-none fixed top-0 right-0 left-0 z-50 bg-transparent">
-      <div className="pointer-events-auto mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 md:px-8 md:py-5">
+    <header
+      className={`pointer-events-none fixed top-0 right-0 left-0 z-50 transition-[background-color,backdrop-filter] duration-300 ${
+        isHome
+          ? "bg-transparent"
+          : "bg-background/70 backdrop-blur-md"
+      }`}
+    >      <div className="pointer-events-auto mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 md:px-8 md:py-5">
         <Link
           href="/"
           className="group flex items-center gap-3 mix-blend-difference light:mix-blend-normal"

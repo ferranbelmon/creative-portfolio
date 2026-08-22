@@ -28,6 +28,21 @@ type ViewMode = "grid" | "list";
 const MAX_TILT = 1;
 const INFLUENCE_RADIUS = 1.85;
 
+const gridVariants = {
+  show: {
+    transition: {
+      staggerChildren: 0.04,
+      delayChildren: 0.02,
+    },
+  },
+  exit: {
+    transition: {
+      staggerChildren: 0.025,
+      staggerDirection: -1 as const,
+    },
+  },
+};
+
 const cardVariants = {
   hidden: {
     opacity: 0,
@@ -96,11 +111,11 @@ export function ProjectGrid() {
       <div className="relative mx-auto max-w-[1600px] px-5 md:px-8">
       <div className="mb-8 md:mb-10">
         <div className="md:hidden">
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex flex-nowrap items-center gap-1.5">
             <div
               role="group"
               aria-label="Filter projects by category"
-              className="flex min-w-0 flex-wrap items-center gap-1"
+              className="flex min-w-0 flex-1 flex-nowrap items-center gap-1"
             >
               <FilterButton
                 active={category === "all"}
@@ -113,13 +128,16 @@ export function ProjectGrid() {
                   key={value}
                   active={category === value}
                   onClick={() => setCategory(value)}
-                  label={projectCategoryLabels[value].toUpperCase()}
+                  label={
+                    value === "artistic-practice" ? "ARTISTIC" : "COMMISSIONS"
+                  }
                   compact
                 />
               ))}
             </div>
-            <ViewToggle view={view} onChange={setView} compact />
-          </div>
+            <div className="shrink-0">
+              <ViewToggle view={view} onChange={setView} compact />
+            </div>          </div>
           <p className="mt-3 font-mono text-[0.65rem] tabular-nums tracking-wide text-muted">
             {String(filteredProjects.length).padStart(2, "0")}_
             {filteredProjects.length === 1 ? "PROJECT" : "PROJECTS"}
@@ -170,8 +188,15 @@ export function ProjectGrid() {
         </div>
       ) : (
         <div className="relative min-h-[12rem]" style={{ perspective: 1200 }}>
-          <motion.div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-            <AnimatePresence initial={false}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={category}
+              className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5"
+              variants={reduceMotion ? undefined : gridVariants}
+              initial={reduceMotion ? false : "hidden"}
+              animate="show"
+              exit="exit"
+            >
               {filteredProjects.map((project, index) => (
                 <ProjectCard
                   key={project.slug}
@@ -182,8 +207,8 @@ export function ProjectGrid() {
                   mouseY={mouseY}
                 />
               ))}
-            </AnimatePresence>
-          </motion.div>
+            </motion.div>
+          </AnimatePresence>
 
           {filteredProjects.length === 0 ? (
             <p className="border border-border bg-background/80 py-16 text-center font-mono text-xs uppercase tracking-[0.28em] text-muted">
@@ -302,11 +327,7 @@ function ProjectCard({
   return (
     <motion.div
       ref={cardRef}
-      layout={false}
       variants={reduceMotion ? undefined : cardVariants}
-      initial={reduceMotion ? false : "hidden"}
-      animate="show"
-      exit="exit"
       className="origin-center will-change-transform"
       style={
         reduceMotion
@@ -379,13 +400,13 @@ function ProjectCard({
             </p>
           ) : null}
 
-          <div className="mt-auto flex items-end justify-between gap-3 pt-2.5">
+          <div className="mt-auto flex items-end justify-end gap-3 pt-2.5 md:justify-between">
             <ProjectSkills
               skills={project.skills}
               size="sm"
               className="text-foreground/70 transition-colors group-hover:text-foreground"
             />
-            <span className="font-mono text-sm text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <span className="hidden font-mono text-sm text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:inline">
               →
             </span>
           </div>
@@ -451,9 +472,9 @@ function FilterButton({
       data-ui-tone="vapor"
       aria-pressed={active}
       onClick={onClick}
-      className={`rounded-md border-2 font-mono uppercase transition-colors ${
+      className={`shrink-0 whitespace-nowrap rounded-md border-2 font-mono uppercase transition-colors ${
         compact
-          ? "px-2 py-1 text-[0.58rem] tracking-[0.12em]"
+          ? "px-1.5 py-0.5 text-[0.52rem] tracking-[0.08em]"
           : "px-3 py-1.5 text-[0.68rem] tracking-[0.16em]"
       } ${
         active

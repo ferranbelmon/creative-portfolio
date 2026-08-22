@@ -141,12 +141,13 @@ function ProjectRow({
           </p>
           <ProjectSkills
             skills={project.skills}
-            size="xs"
+            size="sm"
             className="shrink-0 justify-end text-foreground/65 transition-colors group-hover:text-foreground md:hidden"
           />
           <div className="hidden items-center gap-4 md:flex">
             <ProjectSkills
               skills={project.skills}
+              size="sm"
               className="text-foreground/65 transition-colors group-hover:text-foreground"
             />
             <span

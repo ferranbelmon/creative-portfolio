@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type { ProjectSkill } from "@/content/projects";
 
 const skillLabels: Record<ProjectSkill, string> = {
@@ -6,6 +10,9 @@ const skillLabels: Record<ProjectSkill, string> = {
   coding: "Coding",
   hardware: "Installation",
 };
+
+const TOOLTIP_GAP = 8;
+const VIEWPORT_PAD = 8;
 
 function SkillIcon({ skill }: { skill: ProjectSkill }) {
   const common = {
@@ -67,11 +74,94 @@ type ProjectSkillsProps = {
   size?: "xs" | "sm" | "md";
 };
 
+type TooltipState = {
+  skill: ProjectSkill;
+  x: number;
+  y: number;
+  placement: "above" | "below";
+};
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function measureIcon(node: HTMLElement) {
+  const icon =
+    (node.querySelector("[data-skill-icon]") as HTMLElement | null) ?? node;
+  return icon.getBoundingClientRect();
+}
+
 export function ProjectSkills({
   skills,
   className = "",
   size = "sm",
 }: ProjectSkillsProps) {
+  const tooltipId = useId();
+  const [tooltip, setTooltip] = useState<TooltipState | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const activeNodeRef = useRef<HTMLElement | null>(null);
+  const activeSkillRef = useRef<ProjectSkill | null>(null);
+  const tipRef = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!tooltip) return;
+
+    let frame = 0;
+
+    const syncPosition = () => {
+      const node = activeNodeRef.current;
+      const skill = activeSkillRef.current;
+      if (!node || !skill) return;
+
+      const icon = measureIcon(node);
+      const tip = tipRef.current?.getBoundingClientRect();
+      const tipW = tip?.width ?? 96;
+      const tipH = tip?.height ?? 28;
+      const spaceAbove = icon.top - VIEWPORT_PAD;
+      const placement =
+        spaceAbove >= tipH + TOOLTIP_GAP ? "above" : "below";
+
+      const x = clamp(
+        icon.left + icon.width / 2,
+        VIEWPORT_PAD + tipW / 2,
+        window.innerWidth - VIEWPORT_PAD - tipW / 2,
+      );
+      const y = placement === "above" ? icon.top : icon.bottom;
+
+      setTooltip((prev) => {
+        if (
+          prev &&
+          prev.skill === skill &&
+          prev.placement === placement &&
+          Math.abs(prev.x - x) < 0.5 &&
+          Math.abs(prev.y - y) < 0.5
+        ) {
+          return prev;
+        }
+        return { skill, x, y, placement };
+      });
+    };
+
+    const loop = () => {
+      syncPosition();
+      frame = requestAnimationFrame(loop);
+    };
+
+    frame = requestAnimationFrame(loop);
+    window.addEventListener("scroll", syncPosition, { passive: true });
+    window.addEventListener("resize", syncPosition, { passive: true });
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", syncPosition);
+      window.removeEventListener("resize", syncPosition);
+    };
+  }, [tooltip?.skill]);
+
   if (!skills?.length) return null;
 
   const iconBox =
@@ -81,47 +171,113 @@ export function ProjectSkills({
         ? "h-3 w-3 text-foreground/85"
         : "h-4 w-4 text-foreground/85";
 
-  return (
-    <ul
-      className={`relative z-10 flex flex-nowrap items-center ${
-        size === "xs"
-          ? "gap-1"
-          : size === "md"
-            ? "gap-1.5 md:gap-2"
-            : "gap-1.5"
-      } ${className}`}
-      aria-label="Project skills"
-    >
-      {skills.map((skill) => {
-        const label = skillLabels[skill];
+  const hitBox =
+    size === "md"
+      ? "h-11 w-9 md:h-12 md:w-10"
+      : size === "xs"
+        ? "h-8 w-7"
+        : "h-10 w-8";
 
-        return (
-          <li
-            key={skill}
-            className={`group/skill relative z-0 hover:z-50 focus-within:z-50 ${
-              size === "xs"
-                ? "py-1"
-                : size === "md"
-                  ? "py-1 md:-my-2 md:py-2"
-                  : "py-1"
-            }`}
-          >
+  function showTooltip(skill: ProjectSkill, node: HTMLElement) {
+    activeNodeRef.current = node;
+    activeSkillRef.current = skill;
+    const rect = measureIcon(node);
+    const spaceAbove = rect.top - VIEWPORT_PAD;
+    const placement = spaceAbove >= 36 ? "above" : "below";
+    setTooltip({
+      skill,
+      x: rect.left + rect.width / 2,
+      y: placement === "above" ? rect.top : rect.bottom,
+      placement,
+    });
+  }
+
+  function hideTooltip() {
+    activeNodeRef.current = null;
+    activeSkillRef.current = null;
+    setTooltip(null);
+  }
+
+  return (
+    <>
+      <ul
+        className={`relative z-20 flex flex-nowrap items-center ${
+          size === "xs"
+            ? "gap-0"
+            : size === "md"
+              ? "gap-0.5 md:gap-1"
+              : "gap-0"
+        } ${className}`}
+        aria-label="Project skills"
+      >
+        {skills.map((skill) => {
+          const label = skillLabels[skill];
+          const isActive = tooltip?.skill === skill;
+
+          return (
+            <li key={skill} className="relative shrink-0">
+              <span
+                tabIndex={0}
+                aria-label={label}
+                aria-describedby={isActive ? tooltipId : undefined}
+                className={`relative z-10 inline-flex items-center justify-center outline-none ${hitBox}`}
+                onPointerEnter={(event) => {
+                  if (event.pointerType === "touch") return;
+                  showTooltip(skill, event.currentTarget);
+                }}
+                onPointerLeave={(event) => {
+                  if (event.pointerType === "touch") return;
+                  hideTooltip();
+                }}
+                onPointerDown={(event) => {
+                  event.stopPropagation();
+                  if (event.pointerType !== "touch") return;
+                  event.preventDefault();
+                  if (isActive) hideTooltip();
+                  else showTooltip(skill, event.currentTarget);
+                }}
+                onClick={(event) => {
+                  if (
+                    event.nativeEvent instanceof PointerEvent &&
+                    event.nativeEvent.pointerType === "touch"
+                  ) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }
+                }}
+                onFocus={(event) => showTooltip(skill, event.currentTarget)}
+                onBlur={hideTooltip}
+              >
+                <span
+                  data-skill-icon
+                  className={`pointer-events-none inline-flex items-center justify-center ${iconBox}`}
+                >
+                  <SkillIcon skill={skill} />
+                </span>
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+
+      {mounted && tooltip
+        ? createPortal(
             <span
-              tabIndex={0}
-              aria-label={label}
-              className={`inline-flex items-center justify-center outline-none ${iconBox}`}
-            >
-              <SkillIcon skill={skill} />
-            </span>
-            <span
+              ref={tipRef}
+              id={tooltipId}
               role="tooltip"
-              className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-max max-w-[12rem] -translate-x-1/2 rounded-md border border-border bg-background px-3 py-1.5 text-center font-display text-[0.62rem] font-bold uppercase leading-snug tracking-[0.1em] text-foreground opacity-0 shadow-sm transition-opacity duration-150 group-hover/skill:opacity-100 group-focus-within/skill:opacity-100"
+              className={`pointer-events-none fixed z-[300] -translate-x-1/2 whitespace-nowrap rounded-md border border-border bg-background px-3 py-1.5 text-center font-display text-[0.62rem] font-bold uppercase leading-snug tracking-[0.1em] text-foreground shadow-sm ${
+                tooltip.placement === "above"
+                  ? "-translate-y-[calc(100%+0.45rem)]"
+                  : "translate-y-[0.45rem]"
+              }`}
+              style={{ left: tooltip.x, top: tooltip.y }}
             >
-              {label}
-            </span>
-          </li>
-        );
-      })}
-    </ul>
+              {skillLabels[tooltip.skill]}
+            </span>,
+            document.body,
+          )
+        : null}
+    </>
   );
 }

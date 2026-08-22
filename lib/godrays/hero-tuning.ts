@@ -45,9 +45,9 @@ export const heroTuning = {
   /** Modo noche. */
   dark: {
     occlusionBlurRadius: 9,
-    haloGain: 2.2,
+    haloGain: 2.0,
     haloOccCutoff: 0.98,
-    haloPow: 0.97,
+    haloPow: 0.99,
 
     chromaticShiftPx: 7,
     chromaticOriginPx: 1,
@@ -65,20 +65,20 @@ export const heroTuning = {
   /** Modo día. */
   light: {
     occlusionBlurRadius: 9,
-    haloGain: 2.2,
+    haloGain: 1.7,
     haloOccCutoff: 0.98,
-    haloPow: 0.97,
+    haloPow: 0.99,
 
-    chromaticShiftPx: 12,
+    chromaticShiftPx: 10,
     chromaticOriginPx: 3,
     godraysExposure: 2.95,
-    godraysDecay: 0.97,
-    godraysFalloffPow: 0.99,
+    godraysDecay: 0.965,
+    godraysFalloffPow: 0.85,
     godraysRgbGain: [1.12, 1.1, 1.18],
 
     bloomThreshold: 0.08,
     bloomSoftness: 0.72,
-    bloomStrength: 2.55,
+    bloomStrength: 2.15,
     bloomBlurRadius: 2.2,
   } satisfies HeroLookTuning,
 };

@@ -56,7 +56,7 @@ export function HomeLanding() {
   }
 
   return (
-    <section className="pointer-events-none relative -mt-[4.5rem] -mb-[4.5rem] flex h-dvh max-h-dvh flex-col justify-end overflow-hidden px-5 pb-32 pt-[6.5rem] md:-mt-[5.25rem] md:-mb-[5rem] md:px-8 md:pb-36 md:pt-[8.5rem]">
+    <section className="pointer-events-none relative -mt-[4.5rem] -mb-[4.5rem] flex h-dvh max-h-dvh flex-col justify-end overflow-hidden px-5 pb-40 pt-[6.5rem] md:-mt-[5.25rem] md:-mb-[5rem] md:px-8 md:pb-44 md:pt-[8.5rem]">
       <GodraysHero />
 
       <div className="relative mx-auto w-full min-w-0 max-w-[1600px]">
@@ -67,7 +67,7 @@ export function HomeLanding() {
 
         <div className="mt-4 flex flex-col gap-6 md:mt-8 md:flex-row md:items-end md:justify-between md:gap-12">
           <p className="max-w-5xl font-sans text-[clamp(1.2rem,min(4.4vw,3.6dvh),2.45rem)] font-medium lowercase leading-[1.3] tracking-[-0.02em] md:text-[clamp(1.2rem,min(3.6vw,2.8dvh),2.45rem)]">
-            <span className="text-black">
+            <span className="text-white mix-blend-difference light:text-black light:mix-blend-normal">
               media artist & creative technologist working across{" "}
             </span>
             <HotspotWord
@@ -76,28 +76,36 @@ export function HomeLanding() {
               onReveal={reveal}
               onHide={() => setActive(null)}
             />
-            <span className="text-black">, spatial </span>
+            <span className="text-white mix-blend-difference light:text-black light:mix-blend-normal">
+              , spatial{" "}
+            </span>
             <HotspotWord
               hotspot={hotspots.installation}
               activeId={active?.id ?? null}
               onReveal={reveal}
               onHide={() => setActive(null)}
             />
-            <span className="text-black">, through to </span>
+            <span className="text-white mix-blend-difference light:text-black light:mix-blend-normal">
+              , through to{" "}
+            </span>
             <HotspotWord
               hotspot={hotspots.immersive}
               activeId={active?.id ?? null}
               onReveal={reveal}
               onHide={() => setActive(null)}
             />
-            <span className="text-black">, and real-time </span>
+            <span className="text-white mix-blend-difference light:text-black light:mix-blend-normal">
+              , and real-time{" "}
+            </span>
             <HotspotWord
               hotspot={hotspots.realtime}
               activeId={active?.id ?? null}
               onReveal={reveal}
               onHide={() => setActive(null)}
             />
-            <span className="text-black">.</span>
+            <span className="text-white mix-blend-difference light:text-black light:mix-blend-normal">
+              .
+            </span>
           </p>
 
           <div className="flex w-full flex-col items-end gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-5 md:w-auto md:shrink-0">
@@ -107,6 +115,9 @@ export function HomeLanding() {
               className="pointer-events-auto inline-flex items-center gap-3 rounded-md border border-border bg-background/60 px-6 py-3 font-display text-sm font-bold uppercase tracking-[0.22em] backdrop-blur-sm transition-colors hover:border-accent hover:text-accent md:gap-4 md:px-8 md:py-4 md:text-base"
             >
               View work
+              <span aria-hidden className="text-lg leading-none md:text-xl">
+                →
+              </span>
             </Link>
           </div>
         </div>
