@@ -66,7 +66,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dmSans.variable} ${syne.variable} h-full`}
+      className={`${dmSans.variable} ${syne.variable} light h-full`}
       suppressHydrationWarning
     >
       <body
@@ -74,7 +74,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Script id="theme-init" strategy="beforeInteractive">
-          {`(function(){try{document.documentElement.classList.remove("light");localStorage.removeItem("theme");}catch(e){}})();`}
+          {`(function(){try{document.documentElement.classList.add("light");localStorage.setItem("theme","light");}catch(e){}})();`}
         </Script>
         <ScrollToTop />
         <ScrollRail />
