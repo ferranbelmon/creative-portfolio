@@ -13,30 +13,7 @@ import {
 const WEATHER_REFRESH_MS = 10 * 60 * 1000;
 
 async function resolveCoords(): Promise<GeoCoords> {
-  // 1) Browser geolocation (may be denied).
-  try {
-    const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-      if (!navigator.geolocation) {
-        reject(new Error("Geolocation unavailable"));
-        return;
-      }
-      navigator.geolocation.getCurrentPosition(resolve, reject, {
-        enableHighAccuracy: false,
-        timeout: 6000,
-        maximumAge: 15 * 60 * 1000,
-      });
-    });
-
-    return {
-      lat: position.coords.latitude,
-      lon: position.coords.longitude,
-      source: "geolocation",
-    };
-  } catch {
-    // continue
-  }
-
-  // 2) IP-based approximate location.
+  // Prefer IP approx — never call navigator.geolocation (no permission prompt).
   try {
     const res = await fetch("https://ipapi.co/json/", {
       signal: AbortSignal.timeout(5000),
