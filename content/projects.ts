@@ -278,10 +278,11 @@ export const projects: Project[] = [
     skills: ['coding'],
     thumbnail: "/images/projects/014-baddance-with-the-badweeds/thumbnail.jpg",
     images: [
-      "/images/projects/014-baddance-with-the-badweeds/gallery/01-2-1.jpg",
-      "/images/projects/014-baddance-with-the-badweeds/gallery/01-2-2.jpg",
-      "/images/projects/014-baddance-with-the-badweeds/gallery/02-1-1.jpg",
+      "/images/projects/014-baddance-with-the-badweeds/gallery/02-2-1.jpg",
+      "/images/projects/014-baddance-with-the-badweeds/gallery/02-2-2.jpg",
       "/images/projects/014-baddance-with-the-badweeds/gallery/03-1-1.jpg",
+      "/images/projects/014-baddance-with-the-badweeds/gallery/04-2-1.jpg",
+      "/images/projects/014-baddance-with-the-badweeds/gallery/04-2-2.jpg",
     ],
     externalUrl: "https://badweeds.live/",
     sections: {
@@ -306,7 +307,8 @@ export const projects: Project[] = [
     hidden: true,
     thumbnail: "/images/projects/011-kieli/gallery/01-2-1.jpg",
     images: [
-      "/images/projects/011-kieli/gallery/01-2-1.jpg",
+      "/images/projects/011-kieli/gallery/01-1-1.jpg",
+      "/images/projects/011-kieli/gallery/01-2-1.jpeg",
       "/images/projects/011-kieli/gallery/01-2-2.jpg",
     ],
     sections: {
@@ -328,14 +330,13 @@ export const projects: Project[] = [
     skills: ["visuals", "coding", "hardware"],
     thumbnail: "/images/projects/010-cupra-sensorial-capsule/thumbnail.jpg",
     images: [
-      "/images/projects/010-cupra-sensorial-capsule/gallery/01-3-1.jpg",
-      "/images/projects/010-cupra-sensorial-capsule/gallery/01-3-2.jpg",
-      "/images/projects/010-cupra-sensorial-capsule/gallery/01-3-3.jpg",
-      "/images/projects/010-cupra-sensorial-capsule/gallery/02-3-1.jpg",
-      "/images/projects/010-cupra-sensorial-capsule/gallery/02-3-2.jpg",
-      "/images/projects/010-cupra-sensorial-capsule/gallery/02-3-3.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/01-1-1.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/02-1-1.jpg",
       "/images/projects/010-cupra-sensorial-capsule/gallery/03-2-1.jpg",
       "/images/projects/010-cupra-sensorial-capsule/gallery/03-2-2.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/04-2-1.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/04-2-2.jpg",
+      "/images/projects/010-cupra-sensorial-capsule/gallery/05-1-1.jpg",
     ],
     externalUrl: "https://tigrelab.com/project/cupra-sensorial-capsule/",
     sections: {
@@ -504,10 +505,9 @@ export const projects: Project[] = [
       "/images/projects/006-mostra-festival-2022/gallery/videos/mostra22-livevisuals.mp4",
     thumbnail: "/images/projects/006-mostra-festival-2022/thumbnail.jpg",
     images: [
-      "/images/projects/006-mostra-festival-2022/gallery/01-3-1.jpg",
-      "/images/projects/006-mostra-festival-2022/gallery/01-3-2.jpg",
-      "/images/projects/006-mostra-festival-2022/gallery/01-3-3.jpg",
+      "/images/projects/006-mostra-festival-2022/gallery/01-1-1.jpg",
       "/images/projects/006-mostra-festival-2022/gallery/02-1-1.jpg",
+      "/images/projects/006-mostra-festival-2022/gallery/03-1-1.jpg",
     ],
     sections: {
       role: "Visuals",
