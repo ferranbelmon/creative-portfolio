@@ -79,16 +79,16 @@ export function ProjectSkills({
       ? "h-5 w-5 text-muted md:h-8 md:w-8"
       : size === "xs"
         ? "h-3 w-3 text-foreground/85"
-        : "h-3.5 w-3.5 text-foreground/85 md:h-4 md:w-4";
+        : "h-4 w-4 text-foreground/85";
 
   return (
     <ul
       className={`relative z-10 flex flex-nowrap items-center ${
         size === "xs"
-          ? "gap-0.5"
+          ? "gap-1"
           : size === "md"
             ? "gap-1.5 md:gap-2"
-            : "gap-0.5 md:gap-2"
+            : "gap-1.5"
       } ${className}`}
       aria-label="Project skills"
     >
@@ -100,8 +100,10 @@ export function ProjectSkills({
             key={skill}
             className={`group/skill relative z-0 hover:z-50 focus-within:z-50 ${
               size === "xs"
-                ? "-mx-0.5 px-0.5 py-1"
-                : "-mx-0.5 px-0.5 py-1 md:-mx-1 md:px-1 md:-my-2 md:py-2"
+                ? "py-1"
+                : size === "md"
+                  ? "py-1 md:-my-2 md:py-2"
+                  : "py-1"
             }`}
           >
             <span

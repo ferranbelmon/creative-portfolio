@@ -379,7 +379,7 @@ function ProjectCard({
           <div className="mt-auto flex items-end justify-between gap-3 pt-2.5">
             <ProjectSkills
               skills={project.skills}
-              size="xs"
+              size="sm"
               className="text-foreground/70 transition-colors group-hover:text-foreground"
             />
             <span className="font-mono text-sm text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
