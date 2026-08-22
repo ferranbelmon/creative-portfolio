@@ -38,7 +38,7 @@ export function InteractiveDotGrid() {
 
     const paint = () => {
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = `rgba(${color.r},${color.g},${color.b},0.22)`;
+      ctx.fillStyle = `rgba(${color.r},${color.g},${color.b},0.08)`;
       for (const dot of dots) {
         ctx.beginPath();
         ctx.arc(dot.x, dot.y, RADIUS, 0, Math.PI * 2);
