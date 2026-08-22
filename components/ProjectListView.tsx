@@ -127,11 +127,6 @@ function ProjectRow({
               {meta}
             </p>
           ) : null}
-          {project.sections.role ? (
-            <p className="mt-2 hidden max-w-2xl text-sm leading-snug text-foreground/60 md:block">
-              {project.sections.role}
-            </p>
-          ) : null}
         </div>
 
         <span className="hidden font-mono text-sm tabular-nums tracking-[0.14em] text-foreground/80 md:block md:w-full md:text-right">
