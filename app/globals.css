@@ -55,10 +55,10 @@
 
 html.light {
   color-scheme: light;
-  --background: #d8dce2;
+  --background: #c7cdd3;
   --foreground: #121418;
   --muted: #5a6169;
-  --accent: #ff5a00;
+  --accent: #d4ff00;
   --border: #c0c5cd;
   --surface: #f4f6f8;
   --scroll-rail: #b0b6be;
@@ -124,16 +124,54 @@ html.theme-transition {
   animation-timing-function: ease;
 }
 
-/* Header/footer chrome: difference blend is for dark; light uses ink color. */
-html.light header .mix-blend-difference,
+/* Header/footer chrome (desktop): light uses ink; mobile hamburger keeps difference. */
+html.light header > div > a.mix-blend-difference,
+html.light header nav.mix-blend-difference,
 html.light footer .mix-blend-difference {
   mix-blend-mode: normal;
   color: var(--foreground);
 }
 
-html.light header .text-white,
+html.light header > div > a .text-white,
+html.light header nav .text-white,
 html.light footer .text-white {
   color: var(--foreground);
+}
+
+@keyframes mobile-nav-down {
+  from {
+    opacity: 0;
+    transform: translateY(-0.65rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-nav-popup {
+  transform-origin: top right;
+  opacity: 0;
+  transform: translateY(-0.75rem);
+  pointer-events: none;
+  transition:
+    opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mobile-nav-popup.is-open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-popup {
+    transition: none;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
 }
 
 

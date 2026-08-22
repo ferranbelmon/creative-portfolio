@@ -95,32 +95,35 @@ export function ProjectGrid() {
     <section className="relative w-full pb-20 pt-6">
       <div className="relative mx-auto max-w-[1600px] px-5 md:px-8">
       <div className="mb-8 md:mb-10">
-        <div className="flex items-center justify-between gap-3 md:hidden">
-          <p className="font-mono text-[0.65rem] tabular-nums tracking-wide text-muted">
+        <div className="md:hidden">
+          <div className="flex items-center justify-between gap-2">
+            <div
+              role="group"
+              aria-label="Filter projects by category"
+              className="flex min-w-0 flex-wrap items-center gap-1"
+            >
+              <FilterButton
+                active={category === "all"}
+                onClick={() => setCategory("all")}
+                label="ALL"
+                compact
+              />
+              {projectCategories.map((value) => (
+                <FilterButton
+                  key={value}
+                  active={category === value}
+                  onClick={() => setCategory(value)}
+                  label={projectCategoryLabels[value].toUpperCase()}
+                  compact
+                />
+              ))}
+            </div>
+            <ViewToggle view={view} onChange={setView} compact />
+          </div>
+          <p className="mt-3 font-mono text-[0.65rem] tabular-nums tracking-wide text-muted">
             {String(filteredProjects.length).padStart(2, "0")}_
             {filteredProjects.length === 1 ? "PROJECT" : "PROJECTS"}
           </p>
-          <ViewToggle view={view} onChange={setView} compact />
-        </div>
-
-        <div
-          role="group"
-          aria-label="Filter projects by category"
-          className="mt-3 flex flex-wrap items-center gap-1.5 md:hidden"
-        >
-          <FilterButton
-            active={category === "all"}
-            onClick={() => setCategory("all")}
-            label="ALL"
-          />
-          {projectCategories.map((value) => (
-            <FilterButton
-              key={value}
-              active={category === value}
-              onClick={() => setCategory(value)}
-              label={projectCategoryLabels[value].toUpperCase()}
-            />
-          ))}
         </div>
 
         <div className="hidden border border-border bg-background/80 backdrop-blur-[2px] md:block">
@@ -435,10 +438,12 @@ function FilterButton({
   active,
   onClick,
   label,
+  compact = false,
 }: {
   active: boolean;
   onClick: () => void;
   label: string;
+  compact?: boolean;
 }) {
   return (
     <button
@@ -446,9 +451,13 @@ function FilterButton({
       data-ui-tone="vapor"
       aria-pressed={active}
       onClick={onClick}
-      className={`rounded-md border px-3 py-1.5 font-mono text-[0.68rem] uppercase tracking-[0.16em] transition-colors ${
+      className={`rounded-md border-2 font-mono uppercase transition-colors ${
+        compact
+          ? "px-2 py-1 text-[0.58rem] tracking-[0.12em]"
+          : "px-3 py-1.5 text-[0.68rem] tracking-[0.16em]"
+      } ${
         active
-          ? "border-accent bg-accent text-background"
+          ? "border-accent bg-accent text-black"
           : "border-border bg-transparent text-foreground/75 hover:border-foreground/40 hover:text-foreground"
       }`}
     >
@@ -482,7 +491,7 @@ function ViewIconButton({
         round ? "h-7 w-7 rounded-full" : "h-8 w-8"
       } ${
         active
-          ? "bg-accent text-background"
+          ? "bg-accent text-black"
           : "bg-transparent text-foreground/70 hover:bg-foreground/10 hover:text-foreground"
       }`}
     >

@@ -31,11 +31,27 @@ const navLinkClass =
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [menuMounted, setMenuMounted] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (open) {
+      setMenuMounted(true);
+      const id = requestAnimationFrame(() => {
+        requestAnimationFrame(() => setMenuVisible(true));
+      });
+      return () => cancelAnimationFrame(id);
+    }
+
+    setMenuVisible(false);
+    const timeout = window.setTimeout(() => setMenuMounted(false), 420);
+    return () => window.clearTimeout(timeout);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -111,10 +127,7 @@ export function Header() {
           <ThemeToggle />
         </nav>
 
-        <div
-          ref={menuRef}
-          className="relative mix-blend-difference light:mix-blend-normal light:text-foreground md:hidden"
-        >
+        <div ref={menuRef} className="relative mix-blend-difference md:hidden">
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -125,15 +138,17 @@ export function Header() {
           >
             <span
               aria-hidden
-              className="block h-3 w-3 rounded-full bg-white transition-colors light:bg-foreground"
+              className="block h-3 w-3 rounded-full bg-white transition-colors"
             />
           </button>
 
-          {open ? (
+          {menuMounted ? (
             <div
               id="mobile-nav"
               role="navigation"
-              className="absolute top-[calc(100%+0.75rem)] right-0 z-50 min-w-[11.5rem] border border-white/25 bg-transparent px-4 py-4 text-white light:border-border light:bg-surface/95 light:text-foreground light:backdrop-blur-sm"
+              className={`mobile-nav-popup absolute top-[calc(100%+0.75rem)] right-0 z-50 min-w-[11.5rem] border border-white/25 bg-background/40 px-4 py-4 text-white backdrop-blur-md ${
+                menuVisible ? "is-open" : ""
+              }`}
             >
               <ul className="flex flex-col gap-3.5">
                 <li>

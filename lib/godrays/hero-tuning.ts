@@ -1,47 +1,86 @@
 import * as THREE from "three";
 
-/** Edita aquí — un solo sitio para todos los knobs del hero. */
+export type HeroTheme = "dark" | "light";
+
+/** Knobs visuales del look (un bloque por tema). */
+export type HeroLookTuning = {
+  /** Oclusión → blur del halo (px). */
+  occlusionBlurRadius: number;
+  /** Intensidad del anillo emisivo en bordes. */
+  haloGain: number;
+  /** Silueta oclusor en el ring (0–1). */
+  haloOccCutoff: number;
+  /** Falloff del anillo (>1 = más suave). */
+  haloPow: number;
+
+  /** Separación RGB al final del rayo (px). */
+  chromaticShiftPx: number;
+  /** Separación RGB en el origen de luz (px). */
+  chromaticOriginPx: number;
+  /** Brillo global de god rays. */
+  godraysExposure: number;
+  /** Atenuación por paso del march (0.95–0.99). */
+  godraysDecay: number;
+  /** Curva de contraste post-march (>1 = más apagado). */
+  godraysFalloffPow: number;
+  /** Multiplicador R/G/B del haz. */
+  godraysRgbGain: [number, number, number];
+
+  /** Bloom: umbral extract (0–1). */
+  bloomThreshold: number;
+  bloomSoftness: number;
+  bloomStrength: number;
+  bloomBlurRadius: number;
+};
+
+/** Edita aquí — knobs compartidos + look día / noche. */
 export const heroTuning = {
   /** Suavizado del ratón → luz (0–1). */
   lightSmooth: 0.2,
   /** Cuánto se mueve la luz con el ratón (0–1). */
   mouseInfluence: 0.3,
-
-  /** Oclusión → blur del halo (px). */
-  occlusionBlurRadius: 9,
-  /** Intensidad del anillo emisivo en bordes. */
-  haloGain: 2.2,
-  /** Silueta oclusor en el ring (0–1). */
-  haloOccCutoff: 0.98,
-  /** Falloff del anillo (>1 = más suave). */
-  haloPow: .97,
-
-  /** Separación RGB al final del rayo (px). */
-  chromaticShiftPx: 12,
-  /** Separación RGB en el origen de luz (px). */
-  chromaticOriginPx: 3,
-  /** Brillo global de god rays. */
-  godraysExposure: 2.95,
-  /** Atenuación por paso del march (0.95–0.99). */
-  godraysDecay: 0.97,
-  /** Curva de contraste post-march (>1 = más apagado). */
-  godraysFalloffPow: 0.99,
-  /** Multiplicador R/G/B del haz (modo noche = blanco). */
-  godraysRgbGainDark: [1.05, 1.05, 1.05] as [number, number, number],
-  /** Multiplicador R/G/B del haz (modo día = tint leve). */
-  godraysRgbGainLight: [1.12, 1.10, 1.18] as [number, number, number],
-  /** Separación cromática en noche (0 = rayos blancos limpios). */
-  chromaticShiftPxDark: 0,
-  chromaticOriginPxDark: 0,
-
-  /** Bloom: umbral extract (0–1). */
-  bloomThreshold: 0.08,
-  bloomSoftness: 0.72,
-  bloomStrength: 2.55,
-  bloomBlurRadius: 2.2,
-
   /** Click: kick outward strength (idle float always runs). */
   burstStrength: 7.5,
+
+  /** Modo noche. */
+  dark: {
+    occlusionBlurRadius: 9,
+    haloGain: 2.2,
+    haloOccCutoff: 0.98,
+    haloPow: 0.97,
+
+    chromaticShiftPx: 7,
+    chromaticOriginPx: 1,
+    godraysExposure: 2.95,
+    godraysDecay: 1.002,
+    godraysFalloffPow: 0.93,
+    godraysRgbGain: [1.12, 1.1, 1.18],
+
+    bloomThreshold: 0.08,
+    bloomSoftness: 0.72,
+    bloomStrength: 2.55,
+    bloomBlurRadius: 2.2,
+  } satisfies HeroLookTuning,
+
+  /** Modo día. */
+  light: {
+    occlusionBlurRadius: 9,
+    haloGain: 2.2,
+    haloOccCutoff: 0.98,
+    haloPow: 0.97,
+
+    chromaticShiftPx: 12,
+    chromaticOriginPx: 3,
+    godraysExposure: 2.95,
+    godraysDecay: 0.97,
+    godraysFalloffPow: 0.99,
+    godraysRgbGain: [1.12, 1.1, 1.18],
+
+    bloomThreshold: 0.08,
+    bloomSoftness: 0.72,
+    bloomStrength: 2.55,
+    bloomBlurRadius: 2.2,
+  } satisfies HeroLookTuning,
 };
 
 export type HeroUniformGroups = {
@@ -73,33 +112,48 @@ export type HeroUniformGroups = {
   };
 };
 
+export function resolveHeroTheme(): HeroTheme {
+  return document.documentElement.classList.contains("light")
+    ? "light"
+    : "dark";
+}
+
+/** Escala visual de referencia (CSS px). Los knobs en "px" se interpretan respecto a esto. */
+const LOOK_REF_MIN = 1080;
+
 export function applyHeroTuning(
   uniforms: HeroUniformGroups,
   width: number,
   height: number,
-  theme: "dark" | "light" = "dark",
+  theme: HeroTheme = "dark",
 ) {
-  const t = heroTuning;
-  const uvScale = 1 / Math.max(1, Math.min(width, height));
-  const isLight = theme === "light";
-  const rgbGain = isLight ? t.godraysRgbGainLight : t.godraysRgbGainDark;
-  const chromaticShift = isLight ? t.chromaticShiftPx : t.chromaticShiftPxDark;
-  const chromaticOrigin = isLight ? t.chromaticOriginPx : t.chromaticOriginPxDark;
+  const look = theme === "light" ? heroTuning.light : heroTuning.dark;
+  const minDim = Math.max(1, Math.min(width, height));
+  // Misma apariencia en móvil y desktop: px del tuning ≈ px a LOOK_REF_MIN.
+  const pxScale = minDim / LOOK_REF_MIN;
 
-  uniforms.occlusionBlur.uBlurRadius.value = t.occlusionBlurRadius;
-  uniforms.emissiveHalo.uHaloGain.value = t.haloGain;
-  uniforms.emissiveHalo.uOccCutoff.value = t.haloOccCutoff;
-  uniforms.emissiveHalo.uHaloPow.value = t.haloPow;
+  uniforms.occlusionBlur.uBlurRadius.value =
+    look.occlusionBlurRadius * pxScale;
+  uniforms.emissiveHalo.uHaloGain.value = look.haloGain;
+  uniforms.emissiveHalo.uOccCutoff.value = look.haloOccCutoff;
+  uniforms.emissiveHalo.uHaloPow.value = look.haloPow;
 
-  uniforms.godrays.uChromaticShift.value = chromaticShift * uvScale;
-  uniforms.godrays.uChromaticOrigin.value = chromaticOrigin * uvScale;
-  uniforms.godrays.uExposure.value = t.godraysExposure;
-  uniforms.godrays.uDecay.value = t.godraysDecay;
-  uniforms.godrays.uFalloffPow.value = t.godraysFalloffPow;
-  uniforms.godrays.uRgbGain.value.set(rgbGain[0], rgbGain[1], rgbGain[2]);
+  // Cromática en UV (antes: px/minDim → más agresivo en pantallas pequeñas).
+  uniforms.godrays.uChromaticShift.value =
+    look.chromaticShiftPx / LOOK_REF_MIN;
+  uniforms.godrays.uChromaticOrigin.value =
+    look.chromaticOriginPx / LOOK_REF_MIN;
+  uniforms.godrays.uExposure.value = look.godraysExposure;
+  uniforms.godrays.uDecay.value = look.godraysDecay;
+  uniforms.godrays.uFalloffPow.value = look.godraysFalloffPow;
+  uniforms.godrays.uRgbGain.value.set(
+    look.godraysRgbGain[0],
+    look.godraysRgbGain[1],
+    look.godraysRgbGain[2],
+  );
 
-  uniforms.bloomExtract.uThreshold.value = t.bloomThreshold;
-  uniforms.bloomExtract.uSoftness.value = t.bloomSoftness;
-  uniforms.bloomBlur.uBlurRadius.value = t.bloomBlurRadius;
-  uniforms.bloomComposite.uBloomStrength.value = t.bloomStrength;
+  uniforms.bloomExtract.uThreshold.value = look.bloomThreshold;
+  uniforms.bloomExtract.uSoftness.value = look.bloomSoftness;
+  uniforms.bloomBlur.uBlurRadius.value = look.bloomBlurRadius * pxScale;
+  uniforms.bloomComposite.uBloomStrength.value = look.bloomStrength;
 }

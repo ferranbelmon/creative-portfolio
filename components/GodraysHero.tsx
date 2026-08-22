@@ -17,7 +17,7 @@ import {
   disposeFloatingSpheres,
   updateFloatingSpheres,
 } from "@/lib/godrays/spheres";
-import { applyHeroTuning, heroTuning } from "@/lib/godrays/hero-tuning";
+import { applyHeroTuning, heroTuning, resolveHeroTheme } from "@/lib/godrays/hero-tuning";
 
 function createFullscreenQuad(material: THREE.ShaderMaterial) {
   return new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
@@ -224,7 +224,7 @@ export function GodraysHero() {
       camera.updateProjectionMatrix();
       occlusionBlurUniforms.uResolution.value.set(width, height);
       godraysUniforms.uResolution.value.set(width, height);
-      applyHeroTuning(tuningUniforms, width, height);
+      applyHeroTuning(tuningUniforms, width, height, resolveHeroTheme());
       resizeTargets();
     }
 
@@ -280,10 +280,7 @@ export function GodraysHero() {
 
       updateFloatingSpheres(spheres, delta, reducedMotion);
       updateLightOrigin();
-      const theme = document.documentElement.classList.contains("light")
-        ? "light"
-        : "dark";
-      applyHeroTuning(tuningUniforms, width, height, theme);
+      applyHeroTuning(tuningUniforms, width, height, resolveHeroTheme());
 
       renderer.setRenderTarget(occlusionTarget);
       renderer.setClearColor(0x000000, 1);
