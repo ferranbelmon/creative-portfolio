@@ -3,8 +3,8 @@ import type { ProjectSkill } from "@/content/projects";
 const skillLabels: Record<ProjectSkill, string> = {
   sound: "Sound",
   visuals: "Visuals",
-  coding: "Creative coding",
-  hardware: "Hardware / installation",
+  coding: "Coding",
+  hardware: "Hardware",
 };
 
 function SkillIcon({ skill }: { skill: ProjectSkill }) {
@@ -113,7 +113,7 @@ export function ProjectSkills({
             </span>
             <span
               role="tooltip"
-              className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-border bg-background px-2.5 py-1 font-display text-[0.65rem] font-bold uppercase tracking-[0.14em] text-foreground opacity-0 shadow-sm transition-opacity duration-150 group-hover/skill:opacity-100 group-focus-within/skill:opacity-100"
+              className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-max max-w-[12rem] -translate-x-1/2 rounded-md border border-border bg-background px-3 py-1.5 text-center font-display text-[0.62rem] font-bold uppercase leading-snug tracking-[0.1em] text-foreground opacity-0 shadow-sm transition-opacity duration-150 group-hover/skill:opacity-100 group-focus-within/skill:opacity-100"
             >
               {label}
             </span>
