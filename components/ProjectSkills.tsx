@@ -4,7 +4,7 @@ const skillLabels: Record<ProjectSkill, string> = {
   sound: "Sound",
   visuals: "Visuals",
   coding: "Coding",
-  hardware: "Hardware",
+  hardware: "Installation",
 };
 
 function SkillIcon({ skill }: { skill: ProjectSkill }) {
