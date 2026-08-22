@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { Footer } from "@/components/Footer";
+import { GoogleAnalyticsBeacon } from "@/components/GoogleAnalyticsBeacon";
 import { Header } from "@/components/Header";
 import { InteractiveDotGrid } from "@/components/InteractiveDotGrid";
 import { ScrollRail } from "@/components/ScrollRail";
@@ -93,6 +94,7 @@ export default function RootLayout({
           <Footer />
         </div>
         <Analytics />
+        <GoogleAnalyticsBeacon />
       </body>
     </html>
   );
