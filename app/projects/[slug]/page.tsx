@@ -148,7 +148,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {project.sections.role}
         </p>
       ) : null}
-      <ProjectSkills skills={project.skills} size="md" className="mt-4 md:mt-5" />
+      <ProjectSkills skills={project.skills} size="sm" className="mt-4 md:mt-5" />
 
       {project.heroVimeoId ? (
         <ProjectVimeoHero
