@@ -35,7 +35,7 @@ function projectShareDescription(project: Project) {
       : firstParagraph;
   }
 
-  const bits = [project.sections.role, project.client, project.event, project.year]
+  const bits = [project.client, project.event, project.year]
     .filter(Boolean)
     .join(" · ");
 
@@ -141,11 +141,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       {subtitle ? (
         <p className="mt-3 max-w-2xl text-[0.7rem] uppercase tracking-[0.16em] text-muted md:mt-4 md:text-base md:tracking-[0.18em]">
           {subtitle}
-        </p>
-      ) : null}
-      {project.sections.role ? (
-        <p className="mt-2 max-w-2xl text-[0.8rem] leading-relaxed text-foreground/80 md:mt-3 md:text-base">
-          {project.sections.role}
         </p>
       ) : null}
       <ProjectSkills skills={project.skills} size="sm" className="mt-4 md:mt-5" />

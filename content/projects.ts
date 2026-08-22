@@ -1,5 +1,4 @@
 export type ProjectSection = {
-  role?: string;
   concept?: string;
   tools?: string;
   credits?: string;
@@ -115,7 +114,6 @@ export const projects: Project[] = [
       "/images/projects/020-torre-glories-content/gallery/02-1-1.jpg",
     ],
     sections: {
-      role: "Content",
       information: "Client - Protopixel\nYear - 2026",
     },
   },
@@ -130,7 +128,6 @@ export const projects: Project[] = [
     skills: ["visuals"],
     hidden: true,
     sections: {
-      role: "Visuals",
       information: "Client - Tayhana\nEvent - Sónar Festival\nYear - 2026",
     },
   },
@@ -146,7 +143,6 @@ export const projects: Project[] = [
     hidden: true,
     externalUrl: "https://landscapes.digital/en/work/landscapes-en-mwc-2026/",
     sections: {
-      role: "Artistic content for immersive fog screen",
       concept:
         "Immersive installations for industry, health and research at Mobile World Congress 2026.\n\nAt Mobile World Congress 2026, Landscapes developed and produced a range of interactive installations showcasing innovation across healthcare, food production, industry and scientific research. Through immersive environments and hands-on experiences, visitors were invited to engage with emerging technologies in a direct and accessible way.\n\nThe project included a variety of bespoke installations, from an immersive fog screen featuring artistic content by Ferran Belmon to interactive experiences exploring therapeutic nanobots, artificial intelligence, sustainable agriculture and advanced manufacturing systems. Each proposal translated complex technological processes into intuitive and engaging narratives.",
       tools:
@@ -201,7 +197,6 @@ export const projects: Project[] = [
     ],
     externalUrl: "https://landscapes.digital/en/work/lasers-at-sonar-festival/",
     sections: {
-      role: "Lasers, lighting",
       concept:
         "A hypnotic light tunnel at Sónar by Night.\n\nLandscapes transformed the space with laser installations, blending light, silence, and emotion to create an immersive and contemplative passage. Indoor laser installations reshape how people perceive space through light, silence, and emotion. At Sónar by Night, a key passage at Fira Gran Via 2 became a contemplative corridor of light and mist. Thousands of visitors walked through, many pausing to disconnect from noise and simply observe — a test of spatial storytelling through laser technology for festivals, institutions, and brands.",
       tools: "Lasers\nLight design\nSpatial design\nAtmospheric haze",
@@ -286,7 +281,6 @@ export const projects: Project[] = [
     ],
     externalUrl: "https://badweeds.live/",
     sections: {
-      role: "Game Development",
       concept:
         "MAKE YOUR MUTANT BODY BADDANCE AND EARN SEEDS OF FUTURES.\n\nWith this participatory installation, visitors are invited to mutate, to join THEBADWEEDS — a trans-species music group that is part-human, part-plant. Its hybrid members embody a queer ecological transition: they grow from oblivion, cracks, and the most inhospitable places, humorously demonstrating the resilience and resistance of weeds.\n\nThe immersive experience invites the audience to transform and mutate through dance, offering a festive and playful perspective on ecological transition. The installation offers a three-part journey: discovering the universe of THEBADWEEDS through a video; dancing to mutate as a new plant body forms; and finding one's new mutant body.\n\nA project by Rocio Berenguer commissioned by mudac for Soleil.s / Solar Biennale 2.",
       tools: "Game Development\nSkeleton tracking",
@@ -312,7 +306,6 @@ export const projects: Project[] = [
       "/images/projects/011-kieli/gallery/01-2-2.jpg",
     ],
     sections: {
-      role: "Collaboration",
       concept:
         "KIELI is an interactive installation exploring language preservation, cultural hybridization, and artificial intelligence as a tool for linguistic resistance. Developed at ESPRONCEDA Institute of Art & Culture in collaboration with the European project RISE UP and exhibited at Sónar, the work centers on five minoritized European languages: Aranese, Seto, Aromanian, Cornish, and Burgenland Serbo-Croatian.\n\nWhile mainstream generative AI models tend to enforce cultural homogenization, KIELI reconfigures neural networks into tools for language defense. Treating language as an evolving worldview rather than a static code, the installation explores a speculative question: What happens when digital borders dissolve and two endangered languages collide to form a new one?\n\nInteracting with the system, visitors co-create speculative sound avatars. By selecting pairs of words from the archive, the interface generates neologisms with hybrid grammar and synthesizes their pronunciation in real time.",
       information:
@@ -340,7 +333,6 @@ export const projects: Project[] = [
     ],
     externalUrl: "https://tigrelab.com/project/cupra-sensorial-capsule/",
     sections: {
-      role: "Creative Coder",
       concept:
         "A full-scale immersive capsule that reimagines the car interior as a living, reactive space — presented with CUPRA at Milan Design Week 2024.\n\nCommissioned by CUPRA through Tigrelab, the CUPRA Sensorial Capsule invited visitors in Piazza XXV Aprile to step inside a futuristic concept where space, emotion, and technology converge. Built over the course of a year with the CUPRA design team, the interior reacts in real time to movement, presence, and emotion: light pulses, surfaces breathe, and sound evolves into a fluid dialogue between human and machine.\n\nThe narrative unfolds in four acts — Welcome, an immersive reveal of materials and structure through light trails and mapped projection, Ride (sound, lighting, and Boost Mode), and Meta, an adaptive AI-driven space where the car becomes an evolving companion.",
       tools:
@@ -376,7 +368,8 @@ export const projects: Project[] = [
       aspectRatio: "auto",
     },
     sections: {
-      role: "Visual content production for two songs of the concert",
+      concept:
+        "Visual content produced for two songs on Aitana’s Metamorfosis tour.",
       information: "Client - Vampire\nYear - 2025",
     },
   },
@@ -400,7 +393,6 @@ export const projects: Project[] = [
       "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/03-1-1.mp4",
     ],
     sections: {
-      role: "Visuals",
       information:
         "Client - Vampire\nEvent - Boiler Room x CUPRA at Primavera Sound\nLocation - Barcelona, Spain\nYear - 2024",
     },
@@ -452,7 +444,6 @@ export const projects: Project[] = [
       "/images/projects/008-moonai-soundwaves-wellness/gallery/02-1-1.jpg",
     ],
     sections: {
-      role: "Visuals",
       concept:
         "Moonai is a sound wellness app designed to relieve menstrual pain and enhance mental clarity through frequencies supported by neuroscience and cognitive-behavioral therapy. The platform fuses immersive digital art, psychedelic therapeutic experiences and functional music, creating a technology with a significant social impact. During the event at IDEAL, we will enjoy a stunning audiovisual live show by the artist and functional music Fernanda Aleman. In this performance, Fernanda will use synthesizers, modular instruments and acoustic elements to enhance the feeling of well-being in the public. The sound will be transmitted through wireless Bluetooth headphones, thus creating an immersive environment that fuses sound, visual and atmospheric landscapes, and that establishes connections between nature, welfare science and audiovisual art.",
       tools:
@@ -480,7 +471,6 @@ export const projects: Project[] = [
       "/images/projects/007-o/gallery/01-3-3.jpeg",
     ],
     sections: {
-      role: "Sound Design",
       concept:
         "Light installation \"O\" is a laconic designed visual experience.\n\nAn eye-shaped frame that is bathed in a tinted light beam, transforming the space into a dreamlike atmosphere.\n\nThe slow-paced metamorphosis of the space through light, color and sound.",
       tools:
@@ -510,7 +500,6 @@ export const projects: Project[] = [
       "/images/projects/006-mostra-festival-2022/gallery/03-1-1.jpg",
     ],
     sections: {
-      role: "Visuals",
       concept: "Live Visuals.",
       tools: "Projection\nTouchDesigner\nRealtime",
       credits: "Visuals - Ferran Belmon",
@@ -543,7 +532,6 @@ export const projects: Project[] = [
       "/images/projects/005-color-conversations/gallery/05-2-2.jpg",
     ],
     sections: {
-      role: "Sound Design",
       concept:
         "The dialog between light, color, shape and space creates a choreography where each spectator becomes a part of the unconscious dance, following the designed minimalistic pattern. It invites the audience to follow and observe.\n\nThe artwork creates no meanings but perceptions, no explanations but sensations.\n\nRough energy of industrial space confronts the perfect symmetry and simplicity of the piece. Voluminous pulsation of the sound, the heartbeat of the brutalist space, creates tension and strings together both – material and immaterial.",
       tools:
@@ -599,7 +587,6 @@ export const projects: Project[] = [
     ],
     externalUrl: "https://tigrelab.com/project/planets/",
     sections: {
-      role: "Creative Technologist",
       concept:
         "Embark on an interactive journey of Planets at Sharjah Light Festival with an augmented reality installation.\n\nInvited by Nomada for the 10th Sharjah Light Festival 2020, Planets was presented at University City Hall as a combination of video mapping and AR. Visitors stretched the boundaries of the building beyond its walls, interacting with planets and modifying the characteristics of the show, while the rest of the public enjoyed the uninterrupted augmented experience through a mobile app.",
       tools:
@@ -657,7 +644,6 @@ export const projects: Project[] = [
     ],
     externalUrl: "https://tigrelab.com/project/stones/",
     sections: {
-      role: "Creative Coder",
       concept:
         "Transforming Durham Cathedral into a contemplative canvas through collaborative interaction with stones.\n\nCommissioned via Artichoke for Durham Lumiere Festival 2019, Stones is an interactive artwork where people generate and control light and sound on the cathedral facade by touching stones. As stones are the main material of the building, visitors feel they are interacting with a part of it — the warm touch of a natural element softens the technology and focuses attention on the experience and the dialogue with the canvas.",
       tools:
@@ -686,7 +672,6 @@ export const projects: Project[] = [
       "/images/projects/000-dansa-del-cosmos/gallery/01-3-3.jpg",
     ],
     sections: {
-      role: "Creative Coding",
       concept:
         "Dance of the cosmos is an interactive audiovisual installation about quantum physics by Marina Colell, Graphitons. It is a poetic and experimental approach to String theory, which states that reality is composed by tiny vibrating strings which produce elementary particles. Combined, they create atoms and molecules, making up all the matter and forces of the universe. Where the strings of an instrument create different sounds when they vibrate, the strings from the theory produce subatomic particles.\n\nIn Dance of the cosmos, seventeen beams of light represent the strings that create each particle. As visitors enter the quantum dimension and dance under the light, their movement activates a sound for each particle, thus originating their own ephemeral cosmos. By touching certain light beams, one can compose the melody of anything that exists, and even invent new realities and multiverses. The song that follows is an interpretation of an oxygen molecule, where each sound represents one of the particles that are necessary to create oxygen molecule.",
       tools:
