@@ -63,7 +63,7 @@ function clamp(value: number, min: number, max: number) {
 
 export function ProjectGrid() {
   const [category, setCategory] = useState<CategoryFilter>("all");
-  const [view, setView] = useState<ViewMode>("grid");
+  const [view, setView] = useState<ViewMode>("list");
   const reduceMotion = useReducedMotion();
   const mouseX = useMotionValue(-1);
   const mouseY = useMotionValue(-1);
@@ -445,7 +445,7 @@ function FilterButton({
       data-ui-tone="vapor"
       aria-pressed={active}
       onClick={onClick}
-      className={`border px-3 py-1.5 font-mono text-[0.68rem] uppercase tracking-[0.16em] transition-colors ${
+      className={`rounded-md border px-3 py-1.5 font-mono text-[0.68rem] uppercase tracking-[0.16em] transition-colors ${
         active
           ? "border-accent bg-accent text-background"
           : "border-border bg-transparent text-foreground/75 hover:border-foreground/40 hover:text-foreground"
