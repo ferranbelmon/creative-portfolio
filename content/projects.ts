@@ -107,7 +107,7 @@ export const projects: Project[] = [
     event: "Torre Glòries",
     category: "commissions",
     skills: ["visuals"],
-    thumbnail: "/images/projects/020-torre-glories-content/thumbnail-v2.jpg",
+    thumbnail: "/images/projects/020-torre-glories-content/thumbnail.jpg",
     images: [
       "/images/projects/020-torre-glories-content/gallery/01-3-1.jpg",
       "/images/projects/020-torre-glories-content/gallery/01-3-2.jpg",
