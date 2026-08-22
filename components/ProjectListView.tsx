@@ -101,7 +101,7 @@ function ProjectRow({
       <Link
         href={`/projects/${project.slug}`}
         data-ui-tone="tonic"
-        className="group relative flex flex-col gap-1.5 px-3 py-3.5 outline-none md:grid md:grid-cols-[5.5rem_minmax(0,1fr)_7rem_auto] md:items-center md:gap-x-8 md:px-5 md:py-6"
+        className="group relative flex flex-col gap-1.5 px-3 py-3.5 outline-none md:grid md:grid-cols-[5.5rem_minmax(0,1fr)_5.25rem_7.5rem] md:items-center md:gap-x-8 md:px-5 md:py-6"
       >
         <span
           aria-hidden
@@ -134,11 +134,11 @@ function ProjectRow({
           ) : null}
         </div>
 
-        <span className="hidden font-mono text-xs tabular-nums tracking-[0.2em] text-foreground/75 md:block md:text-right">
+        <span className="hidden font-mono text-sm tabular-nums tracking-[0.14em] text-foreground/80 md:block md:w-full md:text-right">
           {project.year}
         </span>
 
-        <div className="flex items-center justify-between gap-3 md:justify-end md:justify-self-end">
+        <div className="flex items-center justify-between gap-3 md:w-full md:justify-end md:justify-self-end">
           <p className="font-mono text-[0.58rem] tabular-nums tracking-[0.14em] text-muted md:hidden">
             <span className="text-accent">[{project.id}]</span>
             <span className="mx-1.5 text-border">/</span>

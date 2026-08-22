@@ -354,7 +354,7 @@ export const projects: Project[] = [
     id: "018",
     slug: "visuals-for-aitana",
     title: "Aitana Metamorfosis Season",
-    year: "May 2025",
+    year: "2025",
     client: "Vampire",
     event: "Metamorfosis Season",
     category: "commissions",
@@ -376,7 +376,7 @@ export const projects: Project[] = [
     },
     sections: {
       role: "Visual content production for two songs of the concert",
-      information: "Client - Vampire\nYear - May 2025",
+      information: "Client - Vampire\nYear - 2025",
     },
   },
   {
@@ -408,7 +408,7 @@ export const projects: Project[] = [
     id: "009",
     slug: "ciclic-live-av",
     title: "CíCLIC Live AV",
-    year: "2023–2024",
+    year: "2023",
     client: "Ferran Belmon",
     event: "Volumens Festival",
     category: "artistic-practice",
