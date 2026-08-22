@@ -30,6 +30,13 @@ function formatClock(date: Date) {
   }).format(date);
 }
 
+function formatYear(date: Date) {
+  return new Intl.DateTimeFormat("en-GB", {
+    timeZone: TIME_ZONE,
+    year: "numeric",
+  }).format(date);
+}
+
 type LocalTimeStatusProps = {
   className?: string;
 };
@@ -46,7 +53,7 @@ export function LocalTimeStatus({ className = "" }: LocalTimeStatusProps) {
   if (!now) {
     return (
       <span
-        className={`font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted tabular-nums ${className}`}
+        className={`font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted tabular-nums md:text-sm md:tracking-[0.14em] ${className}`}
       >
         —
       </span>
@@ -57,9 +64,9 @@ export function LocalTimeStatus({ className = "" }: LocalTimeStatusProps) {
     <span
       aria-live="polite"
       aria-atomic="true"
-      className={`font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted tabular-nums ${className}`}
+      className={`font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted tabular-nums md:text-sm md:tracking-[0.14em] ${className}`}
     >
-      {formatOffset(now)} {PLACE} {formatClock(now)}
+      {formatOffset(now)} {PLACE} {formatClock(now)} {formatYear(now)}
     </span>
   );
 }

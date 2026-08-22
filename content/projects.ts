@@ -212,7 +212,7 @@ export const projects: Project[] = [
     slug: "collide",
     title: "Collide",
     year: "2025",
-    event: "Bahidorá Festival",
+    event: "Akamba",
     category: "artistic-practice",
     skills: ['sound','visuals','hardware'],
     thumbnail: "/images/projects/015-collide/thumbnail.jpg",
@@ -227,10 +227,10 @@ export const projects: Project[] = [
       concept:
         "In line with the previous works, Collide is a audiovisual installation that explores how the interaction between two simple elements can give rise to complex behaviors and emergent systems.\n\nBased on this concept, Collide proposes a generative system that audiovisually explores the different responses arising from the interaction between two elements depending on the characteristics of this interaction.\n\nThrough the modulation of form, color, and movement, multiple responses emerge establishing a dialogue with the audience and the space.",
       tools:
-        "Laser 12W\nProjector DLP 13K lumens\n4 Haze machines\nStrobe Light\nFrame Structure",
+        "Laser Projector\nProjector DLP 13K lumens\n4 Haze machines\nStrobe Light\nFrame Structure",
       credits: "Concept, visuals and sound by Ferran Belmon",
       information:
-        "Presented at:\n\nBahidorá, Morelos, Mexico, 2025.\n\nAkamba, Tequila, Mexico, 2024.",
+        "Presented at:\n\nAkamba, Tequila, Mexico, 2025.\n\nBahidorá, Morelos, Mexico, 2025.",
     },
   },
   {
@@ -436,6 +436,7 @@ export const projects: Project[] = [
     client: "Mira.mov",
     category: "artistic-practice",
     skills: ['visuals'],
+    heroYoutubeId: "coML68Ug29s",
     thumbnail: "/images/projects/008-moonai-soundwaves-wellness/thumbnail.jpg",
     images: [
       "/images/projects/008-moonai-soundwaves-wellness/gallery/01-3-1.jpg",
