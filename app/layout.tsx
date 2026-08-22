@@ -73,7 +73,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Script id="theme-init" strategy="beforeInteractive">
-          {`(function(){try{if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light");}catch(e){}})();`}
+          {`(function(){try{if(!localStorage.getItem("themeMigratedDark")){localStorage.setItem("theme","dark");localStorage.setItem("themeMigratedDark","1");}if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light");else document.documentElement.classList.remove("light");}catch(e){}})();`}
         </Script>
         <ScrollToTop />
         <ScrollRail />

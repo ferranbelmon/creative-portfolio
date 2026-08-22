@@ -63,7 +63,7 @@ function clamp(value: number, min: number, max: number) {
 
 export function ProjectGrid() {
   const [category, setCategory] = useState<CategoryFilter>("all");
-  const [view, setView] = useState<ViewMode>("list");
+  const [view, setView] = useState<ViewMode>("grid");
   const reduceMotion = useReducedMotion();
   const mouseX = useMotionValue(-1);
   const mouseY = useMotionValue(-1);
