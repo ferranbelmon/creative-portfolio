@@ -570,7 +570,6 @@ export const projects: Project[] = [
       "/images/projects/004-centrifuge-nft/gallery/02-1-1.jpg",
     ],
     sections: {
-      role: "Visuals",
       concept:
         "Collection of generative artworks created for the Centrifuge NFT platform. This series present a neo-kinetik images exploring the sense of depth and movement that emerges from a simple system of color gradients interacting",
       tools: "Visuals - TouchDesigner",
