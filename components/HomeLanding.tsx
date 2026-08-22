@@ -33,7 +33,7 @@ export function HomeLanding() {
 
         <div className="mt-12 flex flex-wrap items-center gap-5 md:mt-14">
           <Link
-            href="#work"
+            href="/work"
             data-ui-tone="classic"
             className="pointer-events-auto inline-flex items-center gap-3 border border-border bg-background/60 px-5 py-2.5 font-display text-xs font-bold uppercase tracking-[0.22em] backdrop-blur-sm transition-colors hover:border-accent hover:text-accent md:text-sm"
           >

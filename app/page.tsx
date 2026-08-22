@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { HomeLanding } from "@/components/HomeLanding";
-import { ProjectGrid } from "@/components/ProjectGrid";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -16,9 +15,6 @@ export default function Home() {
   return (
     <main>
       <HomeLanding />
-      <div id="work">
-        <ProjectGrid />
-      </div>
     </main>
   );
 }

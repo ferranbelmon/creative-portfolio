@@ -79,7 +79,7 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-5 md:flex md:gap-8">
-          <Link href="/" data-ui-tone="classic" className={navLinkClass}>
+          <Link href="/work" data-ui-tone="classic" className={navLinkClass}>
             Work
           </Link>
           <Link href="/about" data-ui-tone="classic" className={navLinkClass}>
@@ -134,7 +134,7 @@ export function Header() {
               <ul className="flex flex-col gap-3.5">
                 <li>
                   <Link
-                    href="/"
+                    href="/work"
                     data-ui-tone="classic"
                     className={navLinkClass}
                     onClick={() => setOpen(false)}
