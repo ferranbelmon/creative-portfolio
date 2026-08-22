@@ -1,16 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-  type MotionValue,
-} from "framer-motion";
+import { useMemo, useState, type ReactNode } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { RemoteImage } from "@/components/RemoteImage";
 import { ProjectListView } from "@/components/ProjectListView";
 import { ProjectSkills } from "@/components/ProjectSkills";
@@ -24,9 +16,6 @@ import {
 
 type CategoryFilter = "all" | ProjectCategory;
 type ViewMode = "grid" | "list";
-
-const MAX_TILT = 1;
-const INFLUENCE_RADIUS = 1.85;
 
 const gridVariants = {
   show: {
@@ -66,22 +55,14 @@ const cardVariants = {
   },
 };
 
-const tiltSpring = { stiffness: 180, damping: 24, mass: 0.55 };
-
 function sortByDateDesc<T extends { id: string }>(list: T[]) {
   return [...list].sort((a, b) => Number(b.id) - Number(a.id));
-}
-
-function clamp(value: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, value));
 }
 
 export function ProjectGrid() {
   const [category, setCategory] = useState<CategoryFilter>("all");
   const [view, setView] = useState<ViewMode>("grid");
   const reduceMotion = useReducedMotion();
-  const mouseX = useMotionValue(-1);
-  const mouseY = useMotionValue(-1);
 
   const filteredProjects = useMemo(() => {
     const list =
@@ -93,130 +74,116 @@ export function ProjectGrid() {
     return sortByDateDesc(list);
   }, [category]);
 
-  useEffect(() => {
-    if (reduceMotion || view !== "grid") return;
-
-    const onPointerMove = (event: PointerEvent) => {
-      if (event.pointerType !== "mouse") return;
-      mouseX.set(event.clientX);
-      mouseY.set(event.clientY);
-    };
-
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
-    return () => window.removeEventListener("pointermove", onPointerMove);
-  }, [mouseX, mouseY, reduceMotion, view]);
-
   return (
     <section className="relative w-full pb-20 pt-6">
       <div className="relative mx-auto max-w-[1600px] px-5 md:px-8">
-      <div className="mb-8 md:mb-10">
-        <div className="md:hidden">
-          <div className="flex flex-nowrap items-center gap-1.5">
-            <div
-              role="group"
-              aria-label="Filter projects by category"
-              className="flex min-w-0 flex-1 flex-nowrap items-center gap-1"
-            >
-              <FilterButton
-                active={category === "all"}
-                onClick={() => setCategory("all")}
-                label="ALL"
-                compact
-              />
-              {projectCategories.map((value) => (
-                <FilterButton
-                  key={value}
-                  active={category === value}
-                  onClick={() => setCategory(value)}
-                  label={
-                    value === "artistic-practice" ? "ARTISTIC" : "COMMISSIONS"
-                  }
-                  compact
-                />
-              ))}
-            </div>
-            <div className="shrink-0">
-              <ViewToggle view={view} onChange={setView} compact />
-            </div>          </div>
-          <p className="mt-3 font-mono text-[0.65rem] tabular-nums tracking-wide text-muted">
-            {String(filteredProjects.length).padStart(2, "0")}_
-            {filteredProjects.length === 1 ? "PROJECT" : "PROJECTS"}
-          </p>
-        </div>
-
-        <div className="hidden border border-border bg-background/80 backdrop-blur-[2px] md:block">
-          <div className="flex items-center justify-between gap-6 px-5 py-3">
-            <p className="font-mono text-[0.7rem] tabular-nums tracking-wide text-muted">
-              {String(filteredProjects.length).padStart(2, "0")}_
-              {filteredProjects.length === 1 ? "PROJECT" : "PROJECTS"}
-            </p>
-
-            <div className="flex min-w-0 flex-wrap items-center justify-end gap-3">
+        <div className="mb-8 md:mb-10">
+          <div className="md:hidden">
+            <div className="flex flex-nowrap items-center gap-1.5">
               <div
                 role="group"
                 aria-label="Filter projects by category"
-                className="flex min-w-0 flex-wrap items-center gap-1.5"
+                className="flex min-w-0 flex-1 flex-nowrap items-center gap-1"
               >
                 <FilterButton
                   active={category === "all"}
                   onClick={() => setCategory("all")}
                   label="ALL"
+                  compact
                 />
                 {projectCategories.map((value) => (
                   <FilterButton
                     key={value}
                     active={category === value}
                     onClick={() => setCategory(value)}
-                    label={projectCategoryLabels[value].toUpperCase()}
+                    label={
+                      value === "artistic-practice" ? "ARTISTIC" : "COMMISSIONS"
+                    }
+                    compact
                   />
                 ))}
               </div>
-              <span className="h-5 w-px bg-border" aria-hidden />
-              <ViewToggle view={view} onChange={setView} />
+              <div className="shrink-0">
+                <ViewToggle view={view} onChange={setView} compact />
+              </div>
+            </div>
+            <p className="mt-3 font-mono text-[0.65rem] tabular-nums tracking-wide text-muted">
+              {String(filteredProjects.length).padStart(2, "0")}_
+              {filteredProjects.length === 1 ? "PROJECT" : "PROJECTS"}
+            </p>
+          </div>
+
+          <div className="hidden border border-border bg-background/80 backdrop-blur-[2px] md:block">
+            <div className="flex items-center justify-between gap-6 px-5 py-3">
+              <p className="font-mono text-[0.7rem] tabular-nums tracking-wide text-muted">
+                {String(filteredProjects.length).padStart(2, "0")}_
+                {filteredProjects.length === 1 ? "PROJECT" : "PROJECTS"}
+              </p>
+
+              <div className="flex min-w-0 flex-wrap items-center justify-end gap-3">
+                <div
+                  role="group"
+                  aria-label="Filter projects by category"
+                  className="flex min-w-0 flex-wrap items-center gap-1.5"
+                >
+                  <FilterButton
+                    active={category === "all"}
+                    onClick={() => setCategory("all")}
+                    label="ALL"
+                  />
+                  {projectCategories.map((value) => (
+                    <FilterButton
+                      key={value}
+                      active={category === value}
+                      onClick={() => setCategory(value)}
+                      label={projectCategoryLabels[value].toUpperCase()}
+                    />
+                  ))}
+                </div>
+                <span className="h-5 w-px bg-border" aria-hidden />
+                <ViewToggle view={view} onChange={setView} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {view === "list" ? (
-        <div className="relative">
-          <ProjectListView
-            projects={filteredProjects}
-            listKey={category}
-            reduceMotion={Boolean(reduceMotion)}
-          />
-        </div>
-      ) : (
-        <div className="relative min-h-[12rem]" style={{ perspective: 1200 }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={category}
-              className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5"
-              variants={reduceMotion ? undefined : gridVariants}
-              initial={reduceMotion ? false : "hidden"}
-              animate="show"
-              exit="exit"
-            >
-              {filteredProjects.map((project, index) => (
-                <ProjectCard
-                  key={project.slug}
-                  project={project}
-                  priority={index < 6}
-                  reduceMotion={Boolean(reduceMotion)}
-                  mouseX={mouseX}
-                  mouseY={mouseY}
-                />
-              ))}
-            </motion.div>
-          </AnimatePresence>
+        {view === "list" ? (
+          <div className="relative">
+            <ProjectListView
+              projects={filteredProjects}
+              listKey={category}
+              reduceMotion={Boolean(reduceMotion)}
+            />
+          </div>
+        ) : (
+          <div className="relative min-h-[12rem]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={category}
+                className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5"
+                variants={reduceMotion ? undefined : gridVariants}
+                initial={reduceMotion ? false : "hidden"}
+                animate="show"
+                exit="exit"
+              >
+                {filteredProjects.map((project, index) => (
+                  <ProjectCard
+                    key={project.slug}
+                    project={project}
+                    priority={index < 6}
+                    reduceMotion={Boolean(reduceMotion)}
+                  />
+                ))}
+              </motion.div>
+            </AnimatePresence>
 
-          {filteredProjects.length === 0 ? (
-            <p className="border border-border bg-background/80 py-16 text-center font-mono text-xs uppercase tracking-[0.28em] text-muted">
-              no_signal // empty set
-            </p>
-          ) : null}
-        </div>
-      )}
+            {filteredProjects.length === 0 ? (
+              <p className="border border-border bg-background/80 py-16 text-center font-mono text-xs uppercase tracking-[0.28em] text-muted">
+                no_signal // empty set
+              </p>
+            ) : null}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -226,127 +193,23 @@ function ProjectCard({
   project,
   priority = false,
   reduceMotion,
-  mouseX,
-  mouseY,
 }: {
   project: Project;
   priority?: boolean;
   reduceMotion: boolean;
-  mouseX: MotionValue<number>;
-  mouseY: MotionValue<number>;
 }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const rotateXRaw = useMotionValue(0);
-  const rotateYRaw = useMotionValue(0);
-  const glareX = useMotionValue(50);
-  const glareY = useMotionValue(50);
-  const glareOpacity = useMotionValue(0);
-
-  const rotateX = useSpring(rotateXRaw, tiltSpring);
-  const rotateY = useSpring(rotateYRaw, tiltSpring);
-  const glareBackground = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.18), transparent 55%)`;
-
   const meta = [project.client, project.event].filter(Boolean).join(" · ");
-
-  useEffect(() => {
-    if (reduceMotion) return;
-
-    let frame = 0;
-
-    const updateTilt = () => {
-      frame = 0;
-      const node = cardRef.current;
-      if (!node) return;
-
-      const mx = mouseX.get();
-      const my = mouseY.get();
-      if (mx < 0 || my < 0) {
-        rotateXRaw.set(0);
-        rotateYRaw.set(0);
-        glareOpacity.set(0);
-        return;
-      }
-
-      const rect = node.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-
-      const centerX = rect.left + rect.width / 2;
-      const centerY = rect.top + rect.height / 2;
-      const dx = mx - centerX;
-      const dy = my - centerY;
-      const distance = Math.hypot(dx, dy);
-      const radius = Math.max(rect.width, rect.height) * INFLUENCE_RADIUS;
-      const influence = clamp(1 - distance / radius, 0, 1);
-
-      if (influence <= 0) {
-        rotateXRaw.set(0);
-        rotateYRaw.set(0);
-        glareOpacity.set(0);
-        return;
-      }
-
-      const nx = clamp(dx / (rect.width / 2), -1.6, 1.6);
-      const ny = clamp(dy / (rect.height / 2), -1.6, 1.6);
-
-      rotateYRaw.set(nx * MAX_TILT * influence);
-      rotateXRaw.set(-ny * MAX_TILT * influence);
-      glareX.set(50 + nx * 35);
-      glareY.set(50 + ny * 35);
-      glareOpacity.set(influence * 0.7);
-    };
-
-    const schedule = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(updateTilt);
-    };
-
-    const unsubX = mouseX.on("change", schedule);
-    const unsubY = mouseY.on("change", schedule);
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule, { passive: true });
-    schedule();
-
-    return () => {
-      unsubX();
-      unsubY();
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, [
-    glareOpacity,
-    glareX,
-    glareY,
-    mouseX,
-    mouseY,
-    reduceMotion,
-    rotateXRaw,
-    rotateYRaw,
-  ]);
 
   return (
     <motion.div
-      ref={cardRef}
       variants={reduceMotion ? undefined : cardVariants}
-      className="origin-center will-change-transform"
-      style={
-        reduceMotion
-          ? undefined
-          : {
-              rotateX,
-              rotateY,
-              transformStyle: "preserve-3d",
-              transformPerspective: 900,
-            }
-      }
+      className="origin-center"
     >
       <Link
         href={`/projects/${project.slug}`}
         data-ui-tone="tonic"
         className="group relative flex h-full flex-col rounded-lg border border-border bg-surface outline-none transition-colors duration-300 hover:border-accent/60 hover:outline hover:outline-1 hover:outline-offset-0 hover:outline-accent/60 focus-visible:border-accent"
-        style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Media window */}
         <div className="relative mx-2 mt-2 aspect-[16/10] overflow-hidden rounded-md border border-border bg-background">
           <span
             aria-hidden
@@ -365,30 +228,13 @@ function ProjectCard({
           ) : (
             <div className="absolute inset-0 bg-gradient-to-br from-surface via-[#161616] to-background" />
           )}
-
-          {!reduceMotion ? (
-            <motion.div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 mix-blend-soft-light"
-              style={{ background: glareBackground, opacity: glareOpacity }}
-            />
-          ) : null}
         </div>
 
-        {/* Label block */}
-        <div
-          className="relative m-2 mt-1.5 flex flex-1 flex-col overflow-visible rounded-md border border-border bg-background/80 p-2.5 md:p-3"
-          style={{ transform: "translateZ(18px)" }}
-        >
-          <div className="flex items-baseline justify-between gap-3 font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted">
+        <div className="relative m-2 mt-1.5 flex flex-1 flex-col overflow-visible rounded-md border border-border bg-background/80 p-2.5 md:p-3">
+          <div className="flex items-baseline justify-between gap-3 font-mono text-[0.72rem] uppercase tracking-[0.16em] text-muted md:text-sm md:tracking-[0.14em]">
             <span className="tabular-nums text-accent">{project.id}</span>
             <span className="tabular-nums">{project.year}</span>
           </div>
-
-          <div
-            aria-hidden
-            className="mt-1.5 h-px w-full bg-[repeating-linear-gradient(90deg,var(--border)_0_4px,transparent_4px_8px)]"
-          />
 
           <h2 className="mt-2 min-w-0 break-words font-display text-[clamp(1.05rem,2.2vw,1.45rem)] font-extrabold uppercase leading-[0.95] tracking-tight transition-colors duration-300 group-hover:text-accent">
             {project.title}
