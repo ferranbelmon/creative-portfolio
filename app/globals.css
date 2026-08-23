@@ -75,6 +75,7 @@ html.light {
   --color-surface: var(--surface);
   --font-sans: var(--font-dm-sans);
   --font-display: var(--font-syne);
+  --font-mark: var(--font-unbounded);
   --font-family-display: var(--font-display);
 }
 
