@@ -328,7 +328,9 @@ export const projects: Project[] = [
     event: "Milan Design Week 2024",
     category: "commissions",
     skills: ["visuals", "coding", "hardware"],
+    heroYoutubeId: "FZdIrXG3r8E",
     thumbnail: "/images/projects/010-cupra-sensorial-capsule/thumbnail.jpg",
+    thumbnail169: "/images/projects/010-cupra-sensorial-capsule/thumbnail169.jpg",
     images: [
       "/images/projects/010-cupra-sensorial-capsule/gallery/01-1-1.jpg",
       "/images/projects/010-cupra-sensorial-capsule/gallery/02-1-1.jpg",

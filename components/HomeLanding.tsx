@@ -43,15 +43,27 @@ const hotspots: Record<string, Hotspot> = {
   },
 };
 
-const SELECTED_WORK_SLUGS = ["ciclic", "espurna", "collide", "moonai-soundwaves-wellness"] as const;
+const SELECTED_WORK_SLUGS = [
+  "ciclic",
+  "espurna",
+  "collide",
+  "moonai-soundwaves-wellness",
+  "cupra-sensorial-capsule",
+] as const;
 
 const selectedProjects = SELECTED_WORK_SLUGS.map((slug) =>
   getProjectBySlug(slug),
 ).filter((project): project is Project => Boolean(project));
 
 function scrollToSelectedWork() {
-  const card = document.getElementById("selected-work-ciclic");
-  card?.scrollIntoView({ behavior: "smooth", block: "center" });
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
+  const target = document.getElementById(
+    isMobile ? "selected-work" : "selected-work-ciclic",
+  );
+  target?.scrollIntoView({
+    behavior: "smooth",
+    block: isMobile ? "start" : "center",
+  });
 }
 
 export function HomeLanding() {
@@ -79,9 +91,9 @@ export function HomeLanding() {
             <span className="block">{lastName}</span>
           </h1>
 
-          <div className="mt-4 flex flex-col gap-6 md:mt-8 md:flex-row md:items-end md:justify-between md:gap-12">
+          <div className="mt-4 md:mt-8">
             <p className="max-w-5xl font-sans text-[clamp(1.2rem,min(4.4vw,3.6dvh),2.45rem)] font-medium lowercase leading-[1.3] tracking-[-0.02em] md:text-[clamp(1.2rem,min(3.6vw,2.8dvh),2.45rem)]">
-              <span className="text-white mix-blend-difference light:text-black light:mix-blend-normal">
+              <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
                 media artist & creative technologist working across{" "}
               </span>
               <HotspotWord
@@ -90,7 +102,7 @@ export function HomeLanding() {
                 onReveal={reveal}
                 onHide={() => setActive(null)}
               />
-              <span className="text-white mix-blend-difference light:text-black light:mix-blend-normal">
+              <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
                 , spatial{" "}
               </span>
               <HotspotWord
@@ -99,7 +111,7 @@ export function HomeLanding() {
                 onReveal={reveal}
                 onHide={() => setActive(null)}
               />
-              <span className="text-white mix-blend-difference light:text-black light:mix-blend-normal">
+              <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
                 , through to{" "}
               </span>
               <HotspotWord
@@ -108,7 +120,7 @@ export function HomeLanding() {
                 onReveal={reveal}
                 onHide={() => setActive(null)}
               />
-              <span className="text-white mix-blend-difference light:text-black light:mix-blend-normal">
+              <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
                 , and real-time{" "}
               </span>
               <HotspotWord
@@ -117,25 +129,25 @@ export function HomeLanding() {
                 onReveal={reveal}
                 onHide={() => setActive(null)}
               />
-              <span className="text-white mix-blend-difference light:text-black light:mix-blend-normal">
+              <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
                 .
               </span>
             </p>
-
-            <div className="flex w-full flex-col items-end gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-5 md:w-auto md:shrink-0">
-              <button
-                type="button"
-                data-ui-tone="classic"
-                onClick={scrollToSelectedWork}
-                className="pointer-events-auto inline-flex items-center gap-3 rounded-md border border-border bg-background/60 px-6 py-3 font-display text-sm font-bold uppercase tracking-[0.22em] backdrop-blur-sm transition-colors hover:border-accent hover:text-accent md:gap-4 md:px-8 md:py-4 md:text-base"
-              >
-                View work
-                <span aria-hidden className="text-lg leading-none md:text-xl">
-                  ↓
-                </span>
-              </button>
-            </div>
           </div>
+        </div>
+
+        <div className="pointer-events-none absolute inset-x-5 bottom-20 z-10 flex justify-end md:inset-x-8 md:bottom-24">
+          <button
+            type="button"
+            data-ui-tone="classic"
+            onClick={scrollToSelectedWork}
+            className="pointer-events-auto inline-flex items-center gap-3 rounded-md border-2 border-foreground/70 bg-background/60 px-6 py-3 font-display text-sm font-bold uppercase tracking-[0.22em] backdrop-blur-sm transition-colors hover:border-accent hover:text-accent md:gap-4 md:px-8 md:py-4 md:text-base"
+          >
+            Selected work
+            <span aria-hidden className="text-lg leading-none md:text-xl">
+              ↓
+            </span>
+          </button>
         </div>
 
         {active ? (
@@ -181,7 +193,7 @@ export function HomeLanding() {
             </Link>
           </div>
 
-          <div className="mx-auto mt-10 grid w-[90%] grid-cols-1 gap-5 md:mt-14 md:gap-8">
+          <div className="mx-auto mt-10 grid w-full grid-cols-1 gap-5 md:mt-14 md:w-[90%] md:gap-8">
             {selectedProjects.map((project) => (
               <SelectedWorkCard key={project.slug} project={project} />
             ))}
@@ -223,35 +235,32 @@ function SelectedWorkCard({ project }: { project: Project }) {
         )}
       </div>
 
-      <div className="relative m-3 mt-2 flex flex-1 flex-col overflow-visible rounded-md border border-border bg-background/80 p-4 md:m-4 md:mt-3 md:p-6">
+      <div className="relative m-2.5 mt-2 flex flex-1 flex-col overflow-visible rounded-md border border-border bg-background/80 p-3 md:m-3 md:mt-2.5 md:p-4">
         <div className="flex items-baseline justify-between gap-3 font-mono text-sm uppercase tracking-[0.14em] text-muted md:text-base">
           <span className="tabular-nums text-accent">{project.id}</span>
           <span className="tabular-nums">{project.year}</span>
         </div>
 
-        <h3 className="mt-3 min-w-0 break-words font-display text-[clamp(1.6rem,4vw,3.25rem)] font-extrabold uppercase leading-[0.95] tracking-tight transition-colors duration-300 group-hover:text-accent">
+        <h3 className="mt-2 min-w-0 break-words font-display text-[clamp(1.6rem,4vw,3.25rem)] font-extrabold uppercase leading-[0.95] tracking-tight transition-colors duration-300 group-hover:text-accent">
           {project.title}
         </h3>
 
-        <div className="mt-2 flex items-center justify-between gap-3">
+        <div className="mt-1.5 flex items-center gap-3">
           {meta ? (
-            <p className="min-w-0 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted md:text-sm">
+            <p className="min-w-0 flex-1 truncate font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted md:text-sm">
               {meta}
             </p>
-          ) : (
-            <span />
-          )}
-          <div className="flex shrink-0 items-center gap-3">
-            <ProjectSkills
-              skills={project.skills}
-              size="md"
-              className="text-foreground/70 transition-colors group-hover:text-foreground"
-            />
-            <span className="font-mono text-base text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:text-lg">
-              →
-            </span>
-          </div>
+          ) : null}
+          <ProjectSkills
+            skills={project.skills}
+            size="sm"
+            className="-mr-2 ml-auto shrink-0 text-foreground/70 transition-colors group-hover:text-foreground"
+          />
         </div>
+
+        <span className="pointer-events-none absolute bottom-3 right-3 font-mono text-base text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100 md:bottom-4 md:right-4 md:text-lg">
+          →
+        </span>
       </div>
     </Link>
   );
