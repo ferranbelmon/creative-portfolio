@@ -96,9 +96,7 @@ export function ProjectGrid() {
                     key={value}
                     active={category === value}
                     onClick={() => setCategory(value)}
-                    label={
-                      value === "artistic-practice" ? "ARTISTIC" : "COMMISSIONS"
-                    }
+                    label={projectCategoryLabels[value].toUpperCase()}
                     compact
                   />
                 ))}

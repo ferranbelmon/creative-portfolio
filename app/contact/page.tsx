@@ -14,7 +14,7 @@ const labelClass =
   "font-display text-[clamp(1.35rem,4vw,2.4rem)] font-extrabold lowercase tracking-[-0.03em] text-accent";
 
 const valueClass =
-  "font-display text-[clamp(1.1rem,2.5vw,1.75rem)] font-bold lowercase tracking-[-0.02em] text-foreground transition-opacity hover:opacity-80";
+  "font-display text-[clamp(1.1rem,2.5vw,1.75rem)] font-bold tracking-[-0.02em] text-foreground transition-opacity hover:opacity-80";
 
 function ContactRow({
   label,

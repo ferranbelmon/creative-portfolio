@@ -11,14 +11,14 @@ export type GalleryLayout = {
 };
 
 export const projectCategories = [
-  "artistic-practice",
+  "artworks",
   "commissions",
 ] as const;
 
 export type ProjectCategory = (typeof projectCategories)[number];
 
 export const projectCategoryLabels: Record<ProjectCategory, string> = {
-  "artistic-practice": "Artistic practice",
+  artworks: "Artworks",
   commissions: "Commissions",
 };
 
@@ -77,7 +77,7 @@ export const projects: Project[] = [
     title: "CíCLIC Installation & Live AV",
     year: "2024",
     event: "Intervals Fest / Mira Festival",
-    category: "artistic-practice",
+    category: "artworks",
     skills: ["sound", "visuals", "hardware"],
     hidden: true,
     thumbnail:
@@ -163,7 +163,7 @@ export const projects: Project[] = [
     title: "Espurna",
     year: "2025",
     event: "Turbina by Mira Festival",
-    category: "artistic-practice",
+    category: "artworks",
     skills: ['sound','visuals','hardware'],
     thumbnail: "/images/projects/016-espurna/thumbnail.jpg",
     thumbnail169: "/images/projects/016-espurna/thumbnail169.jpg",
@@ -215,8 +215,8 @@ export const projects: Project[] = [
     slug: "collide",
     title: "Collide",
     year: "2025",
-    event: "Akamba",
-    category: "artistic-practice",
+    event: "Akamba Festival",
+    category: "artworks",
     skills: ['sound','visuals','hardware'],
     thumbnail: "/images/projects/015-collide/thumbnail.jpg",
     thumbnail169: "/images/projects/015-collide/thumbnail169.jpg",
@@ -243,7 +243,7 @@ export const projects: Project[] = [
     title: "CíCLIC",
     year: "2024",
     event: "Intervals Fest",
-    category: "artistic-practice",
+    category: "artworks",
     skills: ['sound','visuals','hardware'],
     thumbnail: "/images/projects/013-ciclic/thumbnail.jpg",
     thumbnail169: "/images/projects/013-ciclic/thumbnail169.jpg",
@@ -305,7 +305,6 @@ export const projects: Project[] = [
     event: "Sónar +D",
     category: "commissions",
     skills: ["visuals", "coding", "hardware"],
-    hidden: true,
     thumbnail: "/images/projects/011-kieli/gallery/01-2-1.jpg",
     images: [
       "/images/projects/011-kieli/gallery/01-1-1.jpg",
@@ -317,6 +316,8 @@ export const projects: Project[] = [
         "KIELI is an interactive installation exploring language preservation, cultural hybridization, and artificial intelligence as a tool for linguistic resistance. Developed at ESPRONCEDA Institute of Art & Culture in collaboration with the European project RISE UP and exhibited at Sónar, the work centers on five minoritized European languages: Aranese, Seto, Aromanian, Cornish, and Burgenland Serbo-Croatian.\n\nWhile mainstream generative AI models tend to enforce cultural homogenization, KIELI reconfigures neural networks into tools for language defense. Treating language as an evolving worldview rather than a static code, the installation explores a speculative question: What happens when digital borders dissolve and two endangered languages collide to form a new one?\n\nInteracting with the system, visitors co-create speculative sound avatars. By selecting pairs of words from the archive, the interface generates neologisms with hybrid grammar and synthesizes their pronunciation in real time.",
       information:
         "Sónar+D / Espronceda Art and Culture\nYear - 2024",
+      credits:
+        "Concept - Alejandro Martín, Ferran Belmon\nCurator - Alejandro Martín\nVisuals - Ferran Belmon\nSound - Ferran Belmon\nIA Developer - Pere Calopa Piedra\nGraphic Design - Daniel Guillén del Rey\nProduction - Maika Casali",
     },
   },
   {
@@ -412,7 +413,7 @@ export const projects: Project[] = [
     title: "CíCLIC Live AV",
     year: "2023",
     client: "Volumens Festival",
-    category: "artistic-practice",
+    category: "artworks",
     skills: ['sound','visuals','coding'],
     thumbnail: "/images/projects/009-ciclic-live-av/thumbnail.jpg",
     images: [
@@ -441,7 +442,7 @@ export const projects: Project[] = [
     title: "Moonai Soundwaves Wellness",
     year: "2023",
     client: "Mira.mov",
-    category: "artistic-practice",
+    category: "artworks",
     skills: ['visuals'],
     heroYoutubeId: "coML68Ug29s",
     thumbnail: "/images/projects/008-moonai-soundwaves-wellness/thumbnail.jpg",
@@ -496,7 +497,7 @@ export const projects: Project[] = [
     year: "2022",
     client: "Mostra Festival",
     event: "Mostra Festival 2022",
-    category: "artistic-practice",
+    category: "artworks",
     skills: ['visuals'],
     externalUrl: "https://www.stupe.digital/gallery/mostra22-livevisuals",
     heroVideoUrl:
@@ -555,7 +556,7 @@ export const projects: Project[] = [
     title: "Centrifuge NFT",
     year: "2021",
     client: "Centrifuge",
-    category: "artistic-practice",
+    category: "artworks",
     skills: ['visuals'],
     thumbnail: "/images/projects/004-centrifuge-nft/thumbnail.jpg",
     images: [
@@ -610,7 +611,7 @@ export const projects: Project[] = [
     title: "Wonders",
     year: "2020",
     event: "Immensiva Residence",
-    category: "artistic-practice",
+    category: "artworks",
     skills: ["visuals", "coding"],
     heroYoutubeId: "Ldr5u7AiyTs",
     externalUrl: "https://www.youtube.com/watch?v=Ldr5u7AiyTs",

@@ -91,8 +91,8 @@ export function HomeLanding() {
       <section className="pointer-events-none relative -mt-[4.5rem] flex h-dvh max-h-dvh flex-col overflow-hidden px-5 pt-[5.5rem] pb-6 md:-mt-[5.25rem] md:px-8 md:pt-[8.5rem] md:pb-8">
         <GodraysHero />
 
-        <div className="relative mx-auto flex min-h-0 w-full min-w-0 max-w-[1600px] flex-1 flex-col">
-          <div className="flex min-h-0 flex-1 flex-col justify-center max-md:translate-y-[10vh] md:justify-end">
+        <div className="relative mx-auto flex min-h-0 w-full min-w-0 max-w-[1600px] flex-1 flex-col md:pb-[10vh]">
+          <div className="flex min-h-0 flex-1 flex-col justify-center max-md:translate-y-[4vh] md:justify-end">
             <h1 className="mix-blend-difference font-display text-[clamp(2.35rem,min(12vw,11dvh),9.5rem)] font-extrabold uppercase leading-[0.82] tracking-[-0.04em] text-white">
               <span className="block">{firstName}</span>
               <span className="block">{lastName}</span>
@@ -141,20 +141,20 @@ export function HomeLanding() {
                 </span>
               </p>
             </div>
-          </div>
 
-          <div className="pointer-events-none mt-6 flex shrink-0 justify-end md:mt-8">
-            <button
-              type="button"
-              data-ui-tone="classic"
-              onClick={scrollToSelectedWork}
-              className="pointer-events-auto inline-flex items-center gap-3 rounded-md border-2 border-foreground/70 bg-background/60 px-6 py-3 font-display text-sm font-bold uppercase tracking-[0.22em] backdrop-blur-sm transition-colors hover:border-accent hover:text-accent md:gap-4 md:px-8 md:py-4 md:text-base"
-            >
-              Selected work
-              <span aria-hidden className="text-lg leading-none md:text-xl">
-                ↓
-              </span>
-            </button>
+            <div className="pointer-events-none mt-8 flex w-full justify-end md:mt-8 md:w-[90%] md:self-end">
+              <button
+                type="button"
+                data-ui-tone="classic"
+                onClick={scrollToSelectedWork}
+                className="pointer-events-auto inline-flex cursor-pointer items-center gap-3 rounded-md border-2 border-foreground/70 bg-background/60 px-6 py-3 font-display text-sm font-bold uppercase tracking-[0.22em] backdrop-blur-sm transition-colors hover:border-accent hover:text-accent md:gap-4 md:px-8 md:py-4 md:text-base"
+              >
+                Selected work
+                <span aria-hidden className="text-lg leading-none md:text-xl">
+                  ↓
+                </span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -209,6 +209,19 @@ export function HomeLanding() {
               <SelectedWorkCard key={project.slug} project={project} />
             ))}
           </div>
+
+          <div className="mx-auto mt-10 flex w-full justify-end md:mt-14 md:w-[90%]">
+            <Link
+              href="/work"
+              data-ui-tone="classic"
+              className="inline-flex cursor-pointer items-center gap-3 rounded-md border-2 border-foreground/70 bg-background/60 px-6 py-3 font-display text-sm font-bold uppercase tracking-[0.22em] backdrop-blur-sm transition-colors hover:border-accent hover:text-accent md:gap-4 md:px-8 md:py-4 md:text-base"
+            >
+              All works
+              <span aria-hidden className="text-lg leading-none md:text-xl">
+                →
+              </span>
+            </Link>
+          </div>
         </div>
       </section>
     </>
@@ -216,7 +229,9 @@ export function HomeLanding() {
 }
 
 function SelectedWorkCard({ project }: { project: Project }) {
-  const meta = [project.client, project.event].filter(Boolean).join(" · ");
+  const meta = [project.year, project.client ?? project.event]
+    .filter(Boolean)
+    .join(" · ");
   const cover = project.thumbnail169 ?? project.thumbnail;
   const isCiclic = project.slug === "ciclic";
 
@@ -247,9 +262,8 @@ function SelectedWorkCard({ project }: { project: Project }) {
       </div>
 
       <div className="relative m-2.5 mt-2 flex flex-1 flex-col overflow-visible rounded-md border border-border bg-background/80 p-3 md:m-3 md:mt-2.5 md:p-4">
-        <div className="flex items-baseline justify-between gap-3 font-mono text-sm uppercase tracking-[0.14em] text-muted md:text-base">
-          <span className="tabular-nums text-accent">{project.id}</span>
-          <span className="tabular-nums">{project.year}</span>
+        <div className="font-mono text-sm uppercase tracking-[0.14em] text-accent md:text-base">
+          <span className="tabular-nums">{project.id}</span>
         </div>
 
         <h3 className="mt-2 min-w-0 break-words font-display text-[clamp(1.6rem,4vw,3.25rem)] font-extrabold uppercase leading-[0.95] tracking-tight transition-colors duration-300 group-hover:text-accent">

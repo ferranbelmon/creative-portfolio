@@ -13,6 +13,27 @@ import {
 const navLinkClass =
   "font-display text-xs font-bold uppercase tracking-[0.2em] transition-opacity hover:opacity-70 md:text-sm";
 
+const MORSE_MARK = "..-. -...";
+
+function MorseMark() {
+  return (
+    <span
+      aria-hidden
+      className="font-mark inline-flex text-[0.8rem] font-black leading-none tracking-[0.06em] text-white light:text-foreground md:text-base"
+    >
+      {MORSE_MARK.split("").map((char, index) => (
+        <span
+          key={`${char}-${index}`}
+          className="morse-wave-char"
+          style={{ animationDelay: `${index * 0.06}s` }}
+        >
+          {char === " " ? "\u00A0" : char}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -115,9 +136,7 @@ export function Header() {
           className="group mix-blend-difference light:mix-blend-normal"
         >
           <span className="flex items-center justify-center rounded-2xl border-2 border-white/50 px-3 py-2 transition-colors group-hover:border-white light:border-foreground/40 light:group-hover:border-foreground">
-            <span className="font-mark text-[0.8rem] font-black leading-none tracking-[0.06em] text-white light:text-foreground md:text-base">
-              ..-. -...
-            </span>
+            <MorseMark />
           </span>
         </Link>
 

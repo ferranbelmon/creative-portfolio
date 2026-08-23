@@ -175,6 +175,33 @@ html.light footer .text-white {
   }
 }
 
+@keyframes morse-wave {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-0.28em);
+  }
+  70% {
+    transform: translateY(0.06em);
+  }
+}
+
+.morse-wave-char {
+  display: inline-block;
+}
+
+.group:hover .morse-wave-char {
+  animation: morse-wave 0.55s ease-in-out 1 both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .morse-wave-char {
+    animation: none;
+  }
+}
+
 
 ::selection {
   background: var(--accent);
