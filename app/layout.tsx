@@ -6,7 +6,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { Footer } from "@/components/Footer";
 import { GoogleAnalyticsBeacon } from "@/components/GoogleAnalyticsBeacon";
 import { Header } from "@/components/Header";
-import { InteractiveDotGrid } from "@/components/InteractiveDotGrid";
 import { ScrollRail } from "@/components/ScrollRail";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { site } from "@/content/site";
@@ -78,7 +77,6 @@ export default function RootLayout({
         </Script>
         <ScrollToTop />
         <ScrollRail />
-        <InteractiveDotGrid />
         <Suspense fallback={null}>
           <div className="relative z-50">
             <Header />

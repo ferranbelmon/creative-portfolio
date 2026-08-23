@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const THUMB_SIZE = 14;
@@ -17,11 +18,21 @@ function scrollMetrics() {
   };
 }
 
+function isPastSelectedWork() {
+  const section = document.getElementById("selected-work");
+  if (!section) return true;
+  // Reveal once the selected-work block reaches the upper third of the viewport.
+  return section.getBoundingClientRect().top <= window.innerHeight * 0.35;
+}
+
 /**
  * Minimal custom scroll rail: thin track + fat position dot.
  * Dot eases toward scroll position; snaps while dragging.
+ * On home, stays hidden until the selected-work section is in view.
  */
 export function ScrollRail() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const trackRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLButtonElement>(null);
   const dragging = useRef(false);
@@ -42,10 +53,11 @@ export function ScrollRail() {
   const readTarget = useCallback(() => {
     const { progress, max } = scrollMetrics();
     target.current = progress;
-    const show = max > 8;
+    const scrollable = max > 8;
+    const show = scrollable && (!isHome || isPastSelectedWork());
     setVisible((v) => (v === show ? v : show));
     return show;
-  }, []);
+  }, [isHome]);
 
   useEffect(() => {
     const tick = () => {
@@ -70,15 +82,22 @@ export function ScrollRail() {
 
     raf.current = requestAnimationFrame(tick);
     window.addEventListener("resize", readTarget);
+    window.addEventListener("scroll", readTarget, { passive: true });
     const ro = new ResizeObserver(readTarget);
     ro.observe(document.documentElement);
 
     return () => {
       cancelAnimationFrame(raf.current);
       window.removeEventListener("resize", readTarget);
+      window.removeEventListener("scroll", readTarget);
       ro.disconnect();
     };
   }, [paintThumb, readTarget]);
+
+  useEffect(() => {
+    setVisible(false);
+    readTarget();
+  }, [pathname, readTarget]);
 
   useEffect(() => {
     if (!visible) return;
@@ -87,24 +106,27 @@ export function ScrollRail() {
     paintThumb(current.current);
   }, [visible, paintThumb]);
 
-  const scrubToClientY = useCallback((clientY: number, smooth: boolean) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const rect = track.getBoundingClientRect();
-    const travel = Math.max(1, rect.height - THUMB_SIZE);
-    const t = Math.min(
-      1,
-      Math.max(0, (clientY - rect.top - THUMB_SIZE / 2) / travel),
-    );
-    const { max } = scrollMetrics();
-    target.current = t;
-    if (!smooth) {
-      current.current = t;
-      paintThumb(t);
-    }
-    setValueNow(Math.round(t * 100));
-    window.scrollTo({ top: t * max, behavior: smooth ? "smooth" : "auto" });
-  }, [paintThumb]);
+  const scrubToClientY = useCallback(
+    (clientY: number, smooth: boolean) => {
+      const track = trackRef.current;
+      if (!track) return;
+      const rect = track.getBoundingClientRect();
+      const travel = Math.max(1, rect.height - THUMB_SIZE);
+      const t = Math.min(
+        1,
+        Math.max(0, (clientY - rect.top - THUMB_SIZE / 2) / travel),
+      );
+      const { max } = scrollMetrics();
+      target.current = t;
+      if (!smooth) {
+        current.current = t;
+        paintThumb(t);
+      }
+      setValueNow(Math.round(t * 100));
+      window.scrollTo({ top: t * max, behavior: smooth ? "smooth" : "auto" });
+    },
+    [paintThumb],
+  );
 
   const onTrackPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.button !== 0) return;
