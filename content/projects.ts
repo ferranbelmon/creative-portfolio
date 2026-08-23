@@ -54,6 +54,8 @@ export type Project = {
   /** Icons: sound, visuals, coding, hardware (montaje / circuito). */
   skills?: ProjectSkill[];
   thumbnail?: string;
+  /** 16:9 cover for home selected-work cards (and similar surfaces). */
+  thumbnail169?: string;
   images?: string[];
   externalUrl?: string;
   /** Vimeo video ID for hero embed (e.g. 334427448). */
@@ -164,11 +166,12 @@ export const projects: Project[] = [
     category: "artistic-practice",
     skills: ['sound','visuals','hardware'],
     thumbnail: "/images/projects/016-espurna/thumbnail.jpg",
+    thumbnail169: "/images/projects/016-espurna/thumbnail169.jpg",
     images: [
-      "/images/projects/016-espurna/gallery/01-3-1.jpg",
-      "/images/projects/016-espurna/gallery/01-3-2.jpg",
-      "/images/projects/016-espurna/gallery/01-3-3.jpg",
+      "/images/projects/016-espurna/gallery/01-2-1.jpg",
+      "/images/projects/016-espurna/gallery/01-2-2.jpg",
       "/images/projects/016-espurna/gallery/02-1-1.jpg",
+      "/images/projects/016-espurna/gallery/03-1-1.jpg",
     ],
     sections: {
       concept:
@@ -216,6 +219,7 @@ export const projects: Project[] = [
     category: "artistic-practice",
     skills: ['sound','visuals','hardware'],
     thumbnail: "/images/projects/015-collide/thumbnail.jpg",
+    thumbnail169: "/images/projects/015-collide/thumbnail169.jpg",
     images: [
       "/images/projects/015-collide/gallery/02-3-1.gif",
       "/images/projects/015-collide/gallery/02-3-2.gif",
@@ -242,6 +246,7 @@ export const projects: Project[] = [
     category: "artistic-practice",
     skills: ['sound','visuals','hardware'],
     thumbnail: "/images/projects/013-ciclic/thumbnail.jpg",
+    thumbnail169: "/images/projects/013-ciclic/thumbnail169.jpg",
     images: [
       "/images/projects/013-ciclic/gallery/01-2-1.jpg",
       "/images/projects/013-ciclic/gallery/01-2-2.jpg",
@@ -437,6 +442,7 @@ export const projects: Project[] = [
     skills: ['visuals'],
     heroYoutubeId: "coML68Ug29s",
     thumbnail: "/images/projects/008-moonai-soundwaves-wellness/thumbnail.jpg",
+    thumbnail169: "/images/projects/008-moonai-soundwaves-wellness/thumbnail169.jpg",
     images: [
       "/images/projects/008-moonai-soundwaves-wellness/gallery/01-3-1.jpg",
       "/images/projects/008-moonai-soundwaves-wellness/gallery/01-3-2.jpg",

@@ -375,7 +375,7 @@ export function GodraysHero() {
   return (
     <div
       ref={mountRef}
-      className="pointer-events-auto absolute inset-0 overflow-hidden"
+      className="pointer-events-auto absolute inset-0 overflow-hidden [mask-image:linear-gradient(to_bottom,black_0%,black_78%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_0%,black_78%,transparent_100%)]"
       aria-hidden
     />
   );
