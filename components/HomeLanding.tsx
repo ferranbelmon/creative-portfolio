@@ -88,62 +88,62 @@ export function HomeLanding() {
 
   return (
     <>
-      <section className="pointer-events-none relative -mt-[4.5rem] flex h-dvh max-h-dvh flex-col justify-center overflow-hidden px-5 pb-28 pt-[5.5rem] md:-mt-[5.25rem] md:justify-end md:px-8 md:pb-44 md:pt-[8.5rem]">
+      <section className="pointer-events-none relative -mt-[4.5rem] flex h-dvh max-h-dvh flex-col overflow-hidden px-5 pt-[5.5rem] pb-6 md:-mt-[5.25rem] md:px-8 md:pt-[8.5rem] md:pb-8">
         <GodraysHero />
 
-        <div className="relative mx-auto w-full min-w-0 max-w-[1600px] max-md:translate-y-[10vh]">
-          <h1 className="mix-blend-difference font-display text-[clamp(2.35rem,min(12vw,11dvh),9.5rem)] font-extrabold uppercase leading-[0.82] tracking-[-0.04em] text-white">
-            <span className="block">{firstName}</span>
-            <span className="block">{lastName}</span>
-          </h1>
+        <div className="relative mx-auto flex min-h-0 w-full min-w-0 max-w-[1600px] flex-1 flex-col">
+          <div className="flex min-h-0 flex-1 flex-col justify-center max-md:translate-y-[10vh] md:justify-end">
+            <h1 className="mix-blend-difference font-display text-[clamp(2.35rem,min(12vw,11dvh),9.5rem)] font-extrabold uppercase leading-[0.82] tracking-[-0.04em] text-white">
+              <span className="block">{firstName}</span>
+              <span className="block">{lastName}</span>
+            </h1>
 
-          <div className="mt-4 md:mt-8">
-            <p className="max-w-5xl font-sans text-[clamp(1.2rem,min(4.4vw,3.6dvh),2.45rem)] font-medium lowercase leading-[1.3] tracking-[-0.02em] md:text-[clamp(1.2rem,min(3.6vw,2.8dvh),2.45rem)]">
-              <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
-                media artist & creative technologist working across{" "}
-              </span>
-              <HotspotWord
-                hotspot={hotspots.light}
-                activeId={active?.id ?? null}
-                onReveal={reveal}
-                onHide={() => setActive(null)}
-              />
-              <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
-                , spatial{" "}
-              </span>
-              <HotspotWord
-                hotspot={hotspots.installation}
-                activeId={active?.id ?? null}
-                onReveal={reveal}
-                onHide={() => setActive(null)}
-              />
-              <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
-                , through to{" "}
-              </span>
-              <HotspotWord
-                hotspot={hotspots.immersive}
-                activeId={active?.id ?? null}
-                onReveal={reveal}
-                onHide={() => setActive(null)}
-              />
-              <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
-                , and real-time{" "}
-              </span>
-              <HotspotWord
-                hotspot={hotspots.realtime}
-                activeId={active?.id ?? null}
-                onReveal={reveal}
-                onHide={() => setActive(null)}
-              />
-              <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
-                .
-              </span>
-            </p>
+            <div className="mt-4 md:mt-8">
+              <p className="max-w-5xl font-sans text-[clamp(1.2rem,min(4.4vw,3.6dvh),2.45rem)] font-medium lowercase leading-[1.3] tracking-[-0.02em] md:text-[clamp(1.2rem,min(3.6vw,2.8dvh),2.45rem)]">
+                <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
+                  media artist & creative technologist working across{" "}
+                </span>
+                <HotspotWord
+                  hotspot={hotspots.light}
+                  activeId={active?.id ?? null}
+                  onReveal={reveal}
+                  onHide={() => setActive(null)}
+                />
+                <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
+                  , spatial{" "}
+                </span>
+                <HotspotWord
+                  hotspot={hotspots.installation}
+                  activeId={active?.id ?? null}
+                  onReveal={reveal}
+                  onHide={() => setActive(null)}
+                />
+                <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
+                  , through to{" "}
+                </span>
+                <HotspotWord
+                  hotspot={hotspots.immersive}
+                  activeId={active?.id ?? null}
+                  onReveal={reveal}
+                  onHide={() => setActive(null)}
+                />
+                <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
+                  , and real-time{" "}
+                </span>
+                <HotspotWord
+                  hotspot={hotspots.realtime}
+                  activeId={active?.id ?? null}
+                  onReveal={reveal}
+                  onHide={() => setActive(null)}
+                />
+                <span className="text-white mix-blend-difference light:text-white md:light:text-black md:light:mix-blend-normal">
+                  .
+                </span>
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-32 z-10 md:bottom-36">
-          <div className="mx-auto flex max-w-[1600px] justify-end px-5 md:px-8">
+          <div className="pointer-events-none mt-6 flex shrink-0 justify-end md:mt-8">
             <button
               type="button"
               data-ui-tone="classic"

@@ -185,11 +185,11 @@ export function Header() {
             <div
               id="mobile-nav"
               role="navigation"
-              className={`mobile-nav-popup absolute top-[calc(100%+0.75rem)] right-0 z-50 min-w-[13.5rem] border border-white/25 bg-background/40 px-4 py-4 text-white backdrop-blur-md ${
+              className={`mobile-nav-popup absolute top-[calc(100%+0.75rem)] right-0 z-50 min-w-[13.5rem] border border-white/25 bg-background/40 px-4 py-4 text-right text-white backdrop-blur-md ${
                 menuVisible ? "is-open" : ""
               }`}
             >
-              <ul className="flex flex-col gap-3.5">
+              <ul className="flex flex-col items-end gap-3.5">
                 <li>
                   <Link
                     href="/#selected-work-heading"
