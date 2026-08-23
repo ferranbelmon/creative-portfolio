@@ -114,7 +114,7 @@ export function Header() {
           onClick={goHomeTop}
           className="group mix-blend-difference light:mix-blend-normal"
         >
-          <span className="flex items-center justify-center rounded-md px-5 py-5 ring-1 ring-white/50 transition-all group-hover:ring-white light:ring-foreground/40 light:group-hover:ring-foreground">
+          <span className="flex items-center justify-center rounded-2xl border-2 border-white/50 px-3 py-2 transition-colors group-hover:border-white light:border-foreground/40 light:group-hover:border-foreground">
             <span className="font-mark text-[0.8rem] font-black leading-none tracking-[0.06em] text-white light:text-foreground md:text-base">
               ..-. -...
             </span>
