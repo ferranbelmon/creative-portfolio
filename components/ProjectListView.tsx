@@ -96,16 +96,16 @@ function ProjectRow({
   return (
     <motion.li
       variants={reduceMotion ? undefined : rowVariants}
-      className={index > 0 ? "border-t border-border" : undefined}
+      className={index > 0 ? "border-t border-foreground/20" : undefined}
     >
       <Link
         href={`/projects/${project.slug}`}
         data-ui-tone="tonic"
-        className="group relative flex flex-col gap-1.5 px-3 py-3.5 outline-none md:grid md:grid-cols-[5.5rem_minmax(0,1fr)_5.25rem_7.5rem] md:items-center md:gap-x-8 md:px-5 md:py-6"
+        className="group relative flex flex-col gap-1.5 overflow-hidden px-3 py-[0.83rem] outline-none md:grid md:grid-cols-[5.5rem_minmax(0,1fr)_5.25rem_7.5rem] md:items-center md:gap-x-8 md:px-5 md:py-[1.425rem] [&>*:not([aria-hidden])]:relative [&>*:not([aria-hidden])]:z-10"
       >
         <span
           aria-hidden
-          className="absolute inset-y-0 left-0 w-0 bg-accent transition-[width] duration-300 ease-out group-hover:w-1 group-focus-visible:w-1"
+          className="absolute inset-0 z-0 origin-left scale-x-0 bg-foreground/10 transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100 light:bg-foreground/[0.07]"
         />
 
         <span className="hidden font-mono text-xs tabular-nums tracking-[0.14em] text-accent md:inline">
@@ -113,7 +113,7 @@ function ProjectRow({
         </span>
 
         <div className="min-w-0">
-          <h2 className="line-clamp-2 text-left font-display text-[0.92rem] font-extrabold uppercase leading-[1.08] tracking-tight transition-colors duration-200 group-hover:text-accent md:line-clamp-none md:text-[clamp(1.25rem,3vw,2.15rem)] md:leading-[0.92]">
+          <h2 className="line-clamp-2 text-left font-display text-[0.92rem] font-extrabold uppercase leading-[1.08] tracking-tight transition-colors duration-200 group-hover:text-accent md:line-clamp-none min-[1080px]:text-[clamp(1.0rem,3vw,2.0rem)] min-[1080px]:leading-[0.92]">
             <span
               aria-hidden
               className="mr-2 hidden font-mono text-sm font-normal text-accent opacity-0 transition-opacity duration-200 group-hover:opacity-100 md:inline"
@@ -152,9 +152,9 @@ function ProjectRow({
             />
             <span
               aria-hidden
-              className="font-mono text-xs text-accent opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+              className="font-mono text-base text-accent opacity-0 transition-opacity duration-200 group-hover:opacity-100 md:text-lg"
             >
-              ↗
+              ↘
             </span>
           </div>
         </div>

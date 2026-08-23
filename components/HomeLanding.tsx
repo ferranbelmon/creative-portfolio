@@ -142,7 +142,7 @@ export function HomeLanding() {
               </p>
             </div>
 
-            <div className="pointer-events-none mt-8 flex w-full justify-end md:mt-8 md:w-[90%] md:self-end">
+            <div className="pointer-events-none mt-12 flex w-full justify-end md:mt-8 md:w-[90%] md:self-end">
               <button
                 type="button"
                 data-ui-tone="classic"

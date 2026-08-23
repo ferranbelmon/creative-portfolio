@@ -33,7 +33,8 @@ export type HeroLookTuning = {
   bloomBlurRadius: number;
 };
 
-/** Edita aquí — knobs compartidos + look día / noche. */
+/** Edita aquí — knobs compartidos + look día / noche.
+ *  Modo noche por defecto → cambia `dark` salvo que actives el toggle día. */
 export const heroTuning = {
   /** Suavizado del ratón → luz (0–1). */
   lightSmooth: 0.2,
@@ -72,7 +73,7 @@ export const heroTuning = {
     chromaticShiftPx: 10,
     chromaticOriginPx: 3,
     godraysExposure: 2.95,
-    godraysDecay: 0.965,
+    godraysDecay: 0.96,
     godraysFalloffPow: 0.85,
     godraysRgbGain: [1.12, 1.1, 1.18],
 
@@ -121,13 +122,43 @@ export function resolveHeroTheme(): HeroTheme {
 /** Escala visual de referencia (CSS px). Los knobs en "px" se interpretan respecto a esto. */
 const LOOK_REF_MIN = 1080;
 
+type HeroTuningSnapshot = typeof heroTuning;
+
+declare global {
+  interface Window {
+    __heroTuningLive?: HeroTuningSnapshot;
+  }
+}
+
+/** Publica el tuning en window (HMR en dev) y avisa para remontar el canvas. */
+function publishHeroTuning() {
+  if (typeof window === "undefined") return;
+  const hadPrevious = Boolean(window.__heroTuningLive);
+  window.__heroTuningLive = heroTuning;
+  if (hadPrevious) {
+    window.dispatchEvent(new CustomEvent("hero-tuning-updated"));
+  }
+}
+
+export function getHeroTuning(): HeroTuningSnapshot {
+  if (typeof window !== "undefined" && window.__heroTuningLive) {
+    return window.__heroTuningLive;
+  }
+  return heroTuning;
+}
+
+if (typeof window !== "undefined") {
+  publishHeroTuning();
+}
+
 export function applyHeroTuning(
   uniforms: HeroUniformGroups,
   width: number,
   height: number,
   theme: HeroTheme = "dark",
 ) {
-  const look = theme === "light" ? heroTuning.light : heroTuning.dark;
+  const tuning = getHeroTuning();
+  const look = theme === "light" ? tuning.light : tuning.dark;
   const minDim = Math.max(1, Math.min(width, height));
   // Misma apariencia en móvil y desktop: px del tuning ≈ px a LOOK_REF_MIN.
   const pxScale = minDim / LOOK_REF_MIN;

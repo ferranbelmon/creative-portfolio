@@ -17,7 +17,11 @@ import {
   disposeFloatingSpheres,
   updateFloatingSpheres,
 } from "@/lib/godrays/spheres";
-import { applyHeroTuning, heroTuning, resolveHeroTheme } from "@/lib/godrays/hero-tuning";
+import {
+  applyHeroTuning,
+  heroTuning,
+  resolveHeroTheme,
+} from "@/lib/godrays/hero-tuning";
 
 function createFullscreenQuad(material: THREE.ShaderMaterial) {
   return new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
@@ -29,6 +33,9 @@ export function GodraysHero() {
   useEffect(() => {
     const mount = mountRef.current;
     if (!mount) return;
+
+    const readTuning = () =>
+      (typeof window !== "undefined" && window.__heroTuningLive) || heroTuning;
 
     let width = 0;
     let height = 0;
@@ -238,7 +245,7 @@ export function GodraysHero() {
       }
 
       if (!reducedMotion) {
-        lightCurrent.lerp(lightTarget, heroTuning.lightSmooth);
+        lightCurrent.lerp(lightTarget, readTuning().lightSmooth);
       } else {
         lightCurrent.copy(lightTarget);
       }
@@ -258,8 +265,8 @@ export function GodraysHero() {
         0,
         1,
       );
-      lightTarget.x = 0.5 - (mouseX - 0.5) * heroTuning.mouseInfluence;
-      lightTarget.y = 0.5 - (mouseY - 0.5) * heroTuning.mouseInfluence;
+      lightTarget.x = 0.5 - (mouseX - 0.5) * readTuning().mouseInfluence;
+      lightTarget.y = 0.5 - (mouseY - 0.5) * readTuning().mouseInfluence;
       pointer.active = true;
     }
 
@@ -269,7 +276,7 @@ export function GodraysHero() {
 
     function onPointerDown() {
       if (reducedMotion) return;
-      burstSpheresOutward(spheres, heroTuning.burstStrength);
+      burstSpheresOutward(spheres, readTuning().burstStrength);
     }
 
     function frame(time: number) {

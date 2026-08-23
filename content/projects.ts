@@ -87,6 +87,7 @@ export const projects: Project[] = [
       "/images/projects/022-ciclic-installation-live-av/gallery/02-v2h-2.jpeg",
       "/images/projects/022-ciclic-installation-live-av/gallery/02-v2h-3.jpg",
       "/images/projects/022-ciclic-installation-live-av/gallery/05-1-1.jpeg",
+      "/images/projects/022-ciclic-installation-live-av/gallery/05-2-2.jpg",
       "/images/projects/022-ciclic-installation-live-av/gallery/06-2-1.jpg",
       "/images/projects/022-ciclic-installation-live-av/gallery/06-2-2.jpg",
     ],
@@ -172,6 +173,8 @@ export const projects: Project[] = [
       "/images/projects/016-espurna/gallery/01-2-2.jpg",
       "/images/projects/016-espurna/gallery/02-1-1.jpg",
       "/images/projects/016-espurna/gallery/03-1-1.jpg",
+      "/images/projects/016-espurna/gallery/04-1-1.jpg",
+      "/images/projects/016-espurna/gallery/05.jpg",
     ],
     sections: {
       concept:
@@ -253,12 +256,10 @@ export const projects: Project[] = [
       "/images/projects/013-ciclic/gallery/02-2-1.jpg",
       "/images/projects/013-ciclic/gallery/02-2-2.jpg",
       "/images/projects/013-ciclic/gallery/03-1-1.jpg",
-      "/images/projects/013-ciclic/gallery/04-3-1.jpg",
-      "/images/projects/013-ciclic/gallery/04-3-2.jpg",
-      "/images/projects/013-ciclic/gallery/04-3-3.jpg",
-      "/images/projects/013-ciclic/gallery/05-2-1.jpg",
-      "/images/projects/013-ciclic/gallery/05-2-2.jpg",
-      "/images/projects/013-ciclic/gallery/05-3-3.jpg",
+      "/images/projects/013-ciclic/gallery/04-2-1.jpg",
+      "/images/projects/013-ciclic/gallery/04-2-2.jpg",
+      "/images/projects/013-ciclic/gallery/05-1-1.jpg",
+      "/images/projects/013-ciclic/gallery/06-1-1.jpg",
     ],
     sections: {
       concept:
