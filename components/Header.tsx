@@ -6,6 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import { RemoteImage } from "@/components/RemoteImage";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { site } from "@/content/site";
+import {
+  markScrollToSelectedWork,
+  scrollToSelectedWork,
+} from "@/lib/scroll-selected-work";
 
 function InstagramIcon() {
   return (
@@ -33,10 +37,37 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [menuMounted, setMenuMounted] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
+  const [homePastSelected, setHomePastSelected] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setHomePastSelected(false);
+      return;
+    }
+
+    function sync() {
+      const section = document.getElementById("selected-work");
+      if (!section) {
+        setHomePastSelected(false);
+        return;
+      }
+      setHomePastSelected(
+        section.getBoundingClientRect().top <= window.innerHeight * 0.35,
+      );
+    }
+
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    return () => {
+      window.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
+    };
   }, [pathname]);
 
   useEffect(() => {
@@ -76,13 +107,14 @@ export function Header() {
   }, [open]);
 
   const isHome = pathname === "/";
+  const solidChrome = !isHome || homePastSelected;
 
   return (
     <header
       className={`pointer-events-none fixed top-0 right-0 left-0 z-50 transition-[background-color,backdrop-filter] duration-300 ${
-        isHome
-          ? "bg-transparent"
-          : "bg-background/70 backdrop-blur-md"
+        solidChrome
+          ? "bg-background/70 backdrop-blur-md"
+          : "bg-transparent"
       }`}
     >      <div className="pointer-events-auto mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 md:px-8 md:py-5">
         <Link
@@ -153,11 +185,27 @@ export function Header() {
             <div
               id="mobile-nav"
               role="navigation"
-              className={`mobile-nav-popup absolute top-[calc(100%+0.75rem)] right-0 z-50 min-w-[11.5rem] border border-white/25 bg-background/40 px-4 py-4 text-white backdrop-blur-md ${
+              className={`mobile-nav-popup absolute top-[calc(100%+0.75rem)] right-0 z-50 min-w-[13.5rem] border border-white/25 bg-background/40 px-4 py-4 text-white backdrop-blur-md ${
                 menuVisible ? "is-open" : ""
               }`}
             >
               <ul className="flex flex-col gap-3.5">
+                <li>
+                  <Link
+                    href="/#selected-work-heading"
+                    data-ui-tone="classic"
+                    className={`${navLinkClass} whitespace-nowrap`}
+                    onClick={(event) => {
+                      setOpen(false);
+                      markScrollToSelectedWork();
+                      if (pathname !== "/") return;
+                      event.preventDefault();
+                      scrollToSelectedWork();
+                    }}
+                  >
+                    Selected work
+                  </Link>
+                </li>
                 <li>
                   <Link
                     href="/work"

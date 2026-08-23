@@ -1,13 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GodraysHero } from "@/components/GodraysHero";
 import { ProjectSkills } from "@/components/ProjectSkills";
 import { RemoteImage } from "@/components/RemoteImage";
 import { getProjectBySlug, type Project } from "@/content/projects";
 import { site } from "@/content/site";
 import { isGifSrc } from "@/lib/media-src";
+import {
+  consumeScrollToSelectedWork,
+  scrollToSelectedWork,
+} from "@/lib/scroll-selected-work";
 
 type Hotspot = {
   id: string;
@@ -49,27 +53,29 @@ const SELECTED_WORK_SLUGS = [
   "collide",
   "moonai-soundwaves-wellness",
   "cupra-sensorial-capsule",
+  "visuals-for-boiler-room-primavera-sound-2024",
 ] as const;
 
 const selectedProjects = SELECTED_WORK_SLUGS.map((slug) =>
   getProjectBySlug(slug),
 ).filter((project): project is Project => Boolean(project));
 
-function scrollToSelectedWork() {
-  const isMobile = window.matchMedia("(max-width: 767px)").matches;
-  const target = document.getElementById(
-    isMobile ? "selected-work" : "selected-work-ciclic",
-  );
-  target?.scrollIntoView({
-    behavior: "smooth",
-    block: isMobile ? "start" : "center",
-  });
-}
-
 export function HomeLanding() {
   const [firstName, lastName] = site.name.split(" ");
   const [active, setActive] = useState<Hotspot | null>(null);
   const [preview, setPreview] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const shouldScroll =
+      consumeScrollToSelectedWork() ||
+      window.location.hash === "#selected-work-heading";
+    if (!shouldScroll) return;
+
+    const id = window.setTimeout(() => {
+      scrollToSelectedWork();
+    }, 80);
+    return () => window.clearTimeout(id);
+  }, []);
 
   function reveal(hotspot: Hotspot, node: HTMLElement) {
     const rect = node.getBoundingClientRect();
@@ -82,10 +88,10 @@ export function HomeLanding() {
 
   return (
     <>
-      <section className="pointer-events-none relative -mt-[4.5rem] flex h-dvh max-h-dvh flex-col justify-end overflow-hidden px-5 pb-40 pt-[6.5rem] md:-mt-[5.25rem] md:px-8 md:pb-44 md:pt-[8.5rem]">
+      <section className="pointer-events-none relative -mt-[4.5rem] flex h-dvh max-h-dvh flex-col justify-center overflow-hidden px-5 pb-28 pt-[5.5rem] md:-mt-[5.25rem] md:justify-end md:px-8 md:pb-44 md:pt-[8.5rem]">
         <GodraysHero />
 
-        <div className="relative mx-auto w-full min-w-0 max-w-[1600px]">
+        <div className="relative mx-auto w-full min-w-0 max-w-[1600px] max-md:translate-y-[10vh]">
           <h1 className="mix-blend-difference font-display text-[clamp(2.35rem,min(12vw,11dvh),9.5rem)] font-extrabold uppercase leading-[0.82] tracking-[-0.04em] text-white">
             <span className="block">{firstName}</span>
             <span className="block">{lastName}</span>
@@ -136,18 +142,20 @@ export function HomeLanding() {
           </div>
         </div>
 
-        <div className="pointer-events-none absolute inset-x-5 bottom-20 z-10 flex justify-end md:inset-x-8 md:bottom-24">
-          <button
-            type="button"
-            data-ui-tone="classic"
-            onClick={scrollToSelectedWork}
-            className="pointer-events-auto inline-flex items-center gap-3 rounded-md border-2 border-foreground/70 bg-background/60 px-6 py-3 font-display text-sm font-bold uppercase tracking-[0.22em] backdrop-blur-sm transition-colors hover:border-accent hover:text-accent md:gap-4 md:px-8 md:py-4 md:text-base"
-          >
-            Selected work
-            <span aria-hidden className="text-lg leading-none md:text-xl">
-              ↓
-            </span>
-          </button>
+        <div className="pointer-events-none absolute inset-x-0 bottom-32 z-10 md:bottom-36">
+          <div className="mx-auto flex max-w-[1600px] justify-end px-5 md:px-8">
+            <button
+              type="button"
+              data-ui-tone="classic"
+              onClick={scrollToSelectedWork}
+              className="pointer-events-auto inline-flex items-center gap-3 rounded-md border-2 border-foreground/70 bg-background/60 px-6 py-3 font-display text-sm font-bold uppercase tracking-[0.22em] backdrop-blur-sm transition-colors hover:border-accent hover:text-accent md:gap-4 md:px-8 md:py-4 md:text-base"
+            >
+              Selected work
+              <span aria-hidden className="text-lg leading-none md:text-xl">
+                ↓
+              </span>
+            </button>
+          </div>
         </div>
 
         {active ? (
@@ -180,7 +188,10 @@ export function HomeLanding() {
               <p className="font-mono text-[0.65rem] uppercase tracking-[0.28em] text-accent">
                 // selected
               </p>
-              <h2 className="mt-3 font-display text-[clamp(1.8rem,4vw,3rem)] font-extrabold uppercase leading-[0.95] tracking-tight">
+              <h2
+                id="selected-work-heading"
+                className="mt-3 scroll-mt-[4.5rem] font-display text-[clamp(1.8rem,4vw,3rem)] font-extrabold uppercase leading-[0.95] tracking-tight md:scroll-mt-[5.25rem]"
+              >
                 Selected work
               </h2>
             </div>

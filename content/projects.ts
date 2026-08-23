@@ -392,6 +392,7 @@ export const projects: Project[] = [
     category: "commissions",
     skills: ['visuals'],
     thumbnail: "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/thumbnail.jpg",
+    thumbnail169: "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/thumbnail169.jpg",
     images: [
       "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/01-1-1.jpg",
       "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/02-1-1.gif",
