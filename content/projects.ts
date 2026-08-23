@@ -221,7 +221,7 @@ export const projects: Project[] = [
       "/images/projects/015-collide/gallery/02-3-2.gif",
       "/images/projects/015-collide/gallery/02-3-3.gif",
       "/images/projects/015-collide/gallery/03-1-1.jpg",
-      "/images/projects/015-collide/gallery/04-1-1.jpg",
+      "/images/projects/015-collide/gallery/04-1-1.jpeg",
     ],
     sections: {
       concept:
@@ -386,13 +386,12 @@ export const projects: Project[] = [
     skills: ['visuals'],
     thumbnail: "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/thumbnail.jpg",
     images: [
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/01-3-1.jpg",
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/01-3-2.jpg",
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/01-3-3.jpg",
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/02-3-1.jpg",
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/02-3-2.mp4",
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/02-3-3.mp4",
-      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/03-1-1.mp4",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/01-1-1.jpg",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/02-1-1.gif",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/03-1-1.jpg",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/04-2-1.gif",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/04-2-2.gif",
+      "/images/projects/012-visuals-for-boiler-room-primavera-sound-2024/gallery/05-1-1.jpg",
     ],
     sections: {
       information:
