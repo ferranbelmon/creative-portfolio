@@ -306,7 +306,7 @@ export const projects: Project[] = [
     event: "Sónar +D",
     category: "commissions",
     skills: ["visuals", "coding", "hardware"],
-    thumbnail: "/images/projects/011-kieli/gallery/01-2-1.jpg",
+    thumbnail: "/images/projects/011-kieli/thumbnail.jpg",
     images: [
       "/images/projects/011-kieli/gallery/01-1-1.jpg",
       "/images/projects/011-kieli/gallery/01-2-1.jpeg",
