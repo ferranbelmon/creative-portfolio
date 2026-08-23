@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { site } from "@/content/site";
-
 export const metadata: Metadata = {
   title: "About",
   description: site.bio[0],
@@ -26,15 +26,15 @@ export default function AboutPage() {
           ))}
         </div>
 
-        <a
-          href={`mailto:${site.email}`}
+        <Link
+          href="/contact"
           className="group mt-10 inline-flex max-w-full items-center gap-3 font-display text-sm font-bold uppercase tracking-[0.25em]"
         >
           <span className="transition-colors group-hover:text-accent">
             Contact
           </span>
           <span className="inline-block h-px w-8 shrink-0 bg-foreground/70 transition-all group-hover:w-16 group-hover:bg-accent" />
-        </a>
+        </Link>
       </div>
     </main>
   );

@@ -6,6 +6,14 @@ export const site = {
   location: "Barcelona - 2025",
   logo: "/images/site/logo.png",
   email: "ferran.belmon@gmail.com",
+  contact: {
+    intro:
+      "For project inquiries, collaborations, or exhibition bookings:",
+    base: "Barcelona, Spain",
+    timezone: "UTC+1",
+    instagramHandle: "@stupe777",
+    cvPath: "/downloads/ferran-belmon-cv.pdf",
+  },
   bio: [
     "Ferran Belmon is an audiovisual artist, engineer and creative programmer from Barcelona.",
     "Throughout his career he has participated in festivals such as Mostra Festival (Barcelona), Volumens (Valencia), Mira Festival (Barcelona), Lux (Málaga), Intervals Fest (Nizhny Novgorod) and Sonar +D (Barcelona), Boiler Room Primavera Sound (Barcelona) and Bahidorá Festival (Morelos) presenting personal projects or collaborations in various formats.",
