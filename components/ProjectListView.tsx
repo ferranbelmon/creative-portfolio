@@ -113,7 +113,10 @@ function ProjectRow({
         </span>
 
         <div className="min-w-0">
-          <h2 className="line-clamp-2 text-left font-display text-[0.92rem] font-extrabold uppercase leading-[1.08] tracking-tight transition-colors duration-200 group-hover:text-accent md:line-clamp-none min-[1080px]:text-[clamp(1.0rem,3vw,2.0rem)] min-[1080px]:leading-[0.92]">
+          <h2 className="line-clamp-2 text-left font-display text-[0.78rem] font-extrabold uppercase leading-[1.08] tracking-tight transition-colors duration-200 group-hover:text-accent md:line-clamp-none md:text-[0.92rem] min-[1080px]:text-[clamp(1.0rem,3vw,2.0rem)] min-[1080px]:leading-[0.92]">
+            <span className="mr-1.5 font-mono text-[0.7em] font-normal tabular-nums tracking-[0.14em] text-accent md:hidden">
+              [{project.id}]
+            </span>
             <span
               aria-hidden
               className="mr-2 hidden font-mono text-sm font-normal text-accent opacity-0 transition-opacity duration-200 group-hover:opacity-100 md:inline"
@@ -135,8 +138,6 @@ function ProjectRow({
 
         <div className="flex items-center justify-between gap-3 md:w-full md:justify-end md:justify-self-end">
           <p className="font-mono text-[0.58rem] tabular-nums tracking-[0.14em] text-muted md:hidden">
-            <span className="text-accent">[{project.id}]</span>
-            <span className="mx-1.5 text-border">/</span>
             <span className="text-foreground/80">{project.year}</span>
           </p>
           <ProjectSkills
