@@ -54,6 +54,8 @@ const SELECTED_WORK_SLUGS = [
   "moonai-soundwaves-wellness",
   "cupra-sensorial-capsule",
   "visuals-for-boiler-room-primavera-sound-2024",
+  "torre-glories-content",
+  "color-conversations",
 ] as const;
 
 const selectedProjects = SELECTED_WORK_SLUGS.map((slug) =>
