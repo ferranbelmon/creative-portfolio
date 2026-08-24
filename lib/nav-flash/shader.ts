@@ -1,8 +1,9 @@
-export const NAV_FLASH_PEAK_S = 0.32;
-export const NAV_FLASH_FADE_START_S = 0.48;
-export const NAV_FLASH_END_S = 0.68;
-export const NAV_FLASH_STROBE_RATE = 11;
-export const NAV_FLASH_CIRCLE_COUNT = 3;
+/** Nav transition flash (WebGL). Parked — re-enable with ENABLE_NAV_FLASH in NavFlashProvider. */
+export const NAV_FLASH_PEAK_S = 0.15;
+export const NAV_FLASH_FADE_START_S = 0.14;
+export const NAV_FLASH_END_S = 0.9;
+export const NAV_FLASH_STROBE_RATE = 16;
+export const NAV_FLASH_CIRCLE_COUNT = 7;
 
 export const navFlashVertexShader = `#version 300 es
 in vec2 aPosition;
@@ -23,19 +24,47 @@ out vec4 fragColor;
 
 #define COL vec3(235.0, 241.0, 245.0) / 255.0
 #define FLASH_COUNT ${NAV_FLASH_CIRCLE_COUNT}
-#define BLAST_SCALE 0.42
-// Master strength for god rays (try 0.4 … 2.0)
-#define GODRAYS_POWER 1.0
+#define BLAST_SCALE 0.12
+
+// RGB particle split (rainbow edges)
+#define RGB_OFFSET 0.005
+#define SIZE_R 0.5
+#define SIZE_G 1.0
+#define SIZE_B 1.5
+
+// Home-like god rays — cheap radial march (single halo tap, few samples)
+#define GODRAYS_POWER 3.0
+#define GODRAYS_EXPOSURE 1.1
+#define GODRAYS_DECAY 0.199
+#define GODRAYS_FALLOFF 0.98
+#define GODRAYS_SAMPLES 24
+#define GODRAYS_RGB_GAIN vec3(1.19, 1.1, 1.18)
 
 float hash11(float p) {
   return fract(sin(p * 127.1) * 43758.5453123);
 }
 
-vec2 flashCenter(int i, float pulseIndex) {
-  float fi = float(i);
-  float a = hash11(fi + pulseIndex * 13.7);
-  float b = hash11(fi + pulseIndex * 29.3 + 4.1);
-  return vec2(a * 2.0 - 1.0, b * 2.0 - 1.0) * vec2(0.55, 0.4);
+vec2 hash22(float p) {
+  return vec2(hash11(p), hash11(p + 19.19));
+}
+
+vec2 flashTarget(int i, float pulseIndex) {
+  float n = float(i) * 19.17 + pulseIndex * 97.31 + 3.7;
+  float angle = hash11(n) * 6.2831853;
+  // Spread fills the screen — near-edge targets
+  float radius = 0.22 + hash11(n * 1.618 + 41.2) * 0.95;
+  return vec2(cos(angle), sin(angle)) * radius * vec2(1.2, 0.88);
+}
+
+// Birth at screen center, expand outward to target (phase 1→0)
+vec2 flashCenter(int i, float pulseIndex, float phase) {
+  vec2 target = flashTarget(i, pulseIndex);
+  float expand = clamp(1.0 - phase, 0.0, 1.0);
+  // Stagger so they don't all leave the center together
+  float delay = float(i) / float(FLASH_COUNT) * 0.28;
+  float t = smoothstep(delay, min(delay + 0.72, 1.0), expand);
+  t = 1.0 - (1.0 - t) * (1.0 - t); // ease-out
+  return mix(vec2(0.0), target, t);
 }
 
 float circ(vec2 p, float phase) {
@@ -43,92 +72,107 @@ float circ(vec2 p, float phase) {
   return abs(2.6 * r * phase);
 }
 
-float circleScalar(vec2 delta, float phase) {
-  float rz = max(abs(circ(delta * BLAST_SCALE, phase)), 0.012);
-  vec3 pulse = vec3(0.28 / rz);
-  return clamp(max(pulse.r, max(pulse.g, pulse.b)) / 5.5, 0.0, 1.0);
+float circleScalar(vec2 delta, float phase, float size) {
+  float rz = max(abs(circ(delta * BLAST_SCALE / max(size, 0.05), phase)), 0.012);
+  float pulse = 0.28 / rz;
+  return clamp(pulse / 5.5, 0.0, 1.0);
 }
 
-vec3 circleChromatic(vec2 uv, vec2 center, float phase) {
-  vec2 delta = uv - center;
-  float dist = length(delta);
-  vec2 dir = delta / max(dist, 1e-4);
-
-  float scalar = circleScalar(delta, phase);
-  float edgeMask =
-    smoothstep(0.08, 0.36, scalar) * (1.0 - smoothstep(0.55, 0.98, scalar));
-
-  // Pure RGB offset — magenta/cyan fringe, no red tint overlay
-  float aber = (0.028 + edgeMask * 0.1) * smoothstep(0.02, 0.85, dist);
-
-  float hitR = circleScalar(delta - dir * aber * 2.0, phase);
-  float hitG = circleScalar(delta, phase);
-  float hitB = circleScalar(delta + dir * aber * 2.0, phase);
-
-  vec3 chroma = vec3(hitR, hitG, hitB);
-  // Soften toward white so the core stays cool, not tinted
-  float luma = (hitR + hitG + hitB) / 3.0;
-  chroma = mix(chroma, vec3(luma), 0.28);
-
-  return clamp(chroma, 0.0, 1.0);
+vec2 channelOffset(float seed, float channel) {
+  vec2 h = hash22(seed + channel * 7.13);
+  return (h * 2.0 - 1.0) * RGB_OFFSET;
 }
 
-float godRays(vec2 uv, vec2 center, float phase, float mixAmt) {
-  vec2 delta = uv - center;
-  float dist = length(delta);
-  vec2 dir = delta / max(dist, 1e-4);
+// One particle = 3 RGB discs, subtly offset, small→large → rainbow rim
+vec3 particleRGB(vec2 uv, int i, float pulseIndex, float phase) {
+  vec2 center = flashCenter(i, pulseIndex, phase);
+  float seed = float(i) * 3.7 + pulseIndex * 11.3;
 
-  // Radial light march toward the blast core
-  float march = 0.0;
-  for (int i = 0; i < 16; i++) {
-    float t = float(i) / 15.0;
-    vec2 sampleUv = uv - dir * t * 1.45;
-    float sampleHit = circleScalar(sampleUv - center, phase);
-    march += sampleHit * (1.0 - t * 0.55);
+  vec2 cR = center + channelOffset(seed, 0.0);
+  vec2 cG = center + channelOffset(seed, 1.0);
+  vec2 cB = center + channelOffset(seed, 2.0);
+
+  float r = circleScalar(uv - cR, phase, SIZE_R);
+  float g = circleScalar(uv - cG, phase, SIZE_G);
+  float b = circleScalar(uv - cB, phase, SIZE_B);
+
+  return vec3(r, g, b);
+}
+
+vec3 allParticles(vec2 uv, float pulseIndex, float phase) {
+  vec3 col = vec3(0.0);
+  for (int i = 0; i < FLASH_COUNT; i++) {
+    col = max(col, particleRGB(uv, i, pulseIndex, phase));
   }
-  march = clamp(march / 12.0, 0.0, 1.0);
+  return col;
+}
 
-  float angle = atan(delta.y, delta.x);
-  float spokesA = pow(abs(sin(angle * 7.0 + phase * 18.849)), 2.1);
-  float spokesB = pow(abs(sin(angle * 13.0 - phase * 9.425)), 3.4);
-  float spokes = max(spokesA, spokesB * 0.75);
+float luma(vec3 c) {
+  return max(c.r, max(c.g, c.b));
+}
 
-  float falloff = exp(-dist * 0.55) * (0.18 + 0.82 * spokes);
-  float shaft = falloff * (0.35 + 0.65 * march);
+// Cheap mono halo for ray marching (no RGB triple)
+float particleHalo(vec2 uv, int i, float pulseIndex, float phase) {
+  return circleScalar(uv - flashCenter(i, pulseIndex, phase), phase, SIZE_G);
+}
 
-  // Soft bloom halo so rays read even without a hard spoke
-  float halo = exp(-dist * 1.1) * circleScalar(delta, phase) * 0.45;
+// Home-style volumetric rays — O(FLASH_COUNT * SAMPLES) cheap taps
+vec3 godRaysHome(
+  vec2 uv,
+  float pulseIndex,
+  float phase,
+  float mixAmt
+) {
+  if (mixAmt < 0.01) return vec3(0.0);
 
-  return clamp((shaft * 1.55 + halo) * mixAmt * GODRAYS_POWER, 0.0, 1.0);
+  float illumination = 0.0;
+
+  for (int f = 0; f < FLASH_COUNT; f++) {
+    vec2 lightPos = flashCenter(f, pulseIndex, phase);
+    float sum = 0.0;
+    float weightSum = 0.0;
+
+    for (int s = 0; s < GODRAYS_SAMPLES; s++) {
+      float t = float(s) / float(GODRAYS_SAMPLES - 1);
+      float decay = pow(GODRAYS_DECAY, float(s));
+      vec2 coord = mix(uv, lightPos, t);
+      sum += particleHalo(coord, f, pulseIndex, phase) * decay;
+      weightSum += decay;
+    }
+
+    float ray = (sum / max(weightSum, 1e-4)) * GODRAYS_EXPOSURE;
+    ray = pow(clamp(ray, 0.0, 1.0), GODRAYS_FALLOFF);
+    illumination = max(illumination, ray);
+  }
+
+  return vec3(illumination) * GODRAYS_RGB_GAIN * mixAmt * GODRAYS_POWER;
 }
 
 void main() {
   vec2 uv = (gl_FragCoord.xy - uResolution * 0.5) / uResolution.y;
 
-  float pulseIndex = floor(uTime * uStrobeRate);
-  float phase = fract(1.0 - uTime * uStrobeRate);
+  float pulseClock = uTime * uStrobeRate;
+  float pulseIndex = floor(pulseClock);
+  float phase = 1.0 - fract(pulseClock);
 
-  vec3 strobeCol = vec3(0.0);
-  float strobe = 0.0;
-  float rays = 0.0;
-  // God rays build through the flash and peak near the end
-  float rayMix = smoothstep(0.08, 0.28, uTime) * (1.0 - smoothstep(0.55, 0.68, uTime) * 0.25);
+  vec3 particles = allParticles(uv, pulseIndex, phase);
 
-  for (int i = 0; i < FLASH_COUNT; i++) {
-    vec2 center = flashCenter(i, pulseIndex);
-    vec3 hitCol = circleChromatic(uv, center, phase);
-    float hit = max(hitCol.r, max(hitCol.g, hitCol.b));
-    strobeCol = max(strobeCol, hitCol);
-    strobe = max(strobe, hit);
-    rays = max(rays, godRays(uv, center, phase, rayMix));
-  }
+  float rayMix =
+    smoothstep(0.06, 0.22, uTime) *
+    (1.0 - smoothstep(0.5, 0.68, uTime) * 0.2);
+  vec3 rays = godRaysHome(uv, pulseIndex, phase, rayMix);
 
   float wash = smoothstep(0.1, 0.42, uTime);
-  vec3 col = mix(strobeCol, COL, wash * 0.16);
-  col = max(col, COL * rays);
-  col += COL * rays * 0.55;
+  vec3 col = particles;
+  col = max(col, rays);
+  col += rays * 0.45;
+  col = mix(col, COL, wash * 0.18);
 
-  float intensity = clamp(max(strobe, max(wash * 0.92, rays * 0.85)), 0.0, 1.0);
+  float intensity = clamp(
+    max(luma(particles), max(wash * 0.92, luma(rays) * 0.9)),
+    0.0,
+    1.0
+  );
   fragColor = vec4(clamp(col, 0.0, 1.0), intensity * uOpacity);
 }
 `;
@@ -223,9 +267,11 @@ export function createNavFlashRenderer(canvas: HTMLCanvasElement): NavFlashRende
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
   const resize = () => {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const width = Math.max(1, Math.floor(window.innerWidth * dpr));
-    const height = Math.max(1, Math.floor(window.innerHeight * dpr));
+    // Half-res overlay — CSS scales up; big win for fill-rate
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+    const scale = 0.5;
+    const width = Math.max(1, Math.floor(window.innerWidth * dpr * scale));
+    const height = Math.max(1, Math.floor(window.innerHeight * dpr * scale));
     canvas.width = width;
     canvas.height = height;
     canvas.style.width = `${window.innerWidth}px`;

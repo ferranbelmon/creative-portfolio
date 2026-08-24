@@ -12,6 +12,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { useReducedMotion } from "framer-motion";
 import { NavFlashOverlay } from "@/components/NavFlashOverlay";
 
+/** Parked for now — set true to re-enable the WebGL nav flash (`lib/nav-flash/shader.ts`). */
+export const ENABLE_NAV_FLASH = false;
+
 const ROUTE_WAIT_MS = 2800;
 
 type RouteWaiter = {
@@ -91,14 +94,14 @@ export function NavFlashProvider({ children }: { children: React.ReactNode }) {
 
   const navigateWithFlash = useCallback(
     async (href: string) => {
-      if (busyRef.current) return;
-
-      const targetPath = normalizeNavPath(href);
-
-      if (reduceMotion) {
+      if (!ENABLE_NAV_FLASH || reduceMotion) {
         router.push(href);
         return;
       }
+
+      if (busyRef.current) return;
+
+      const targetPath = normalizeNavPath(href);
 
       busyRef.current = true;
       pendingHrefRef.current = href;
@@ -130,7 +133,13 @@ export function NavFlashProvider({ children }: { children: React.ReactNode }) {
   return (
     <NavFlashContext.Provider value={{ navigateWithFlash }}>
       {children}
-      <NavFlashOverlay active={flashActive} onPeak={handlePeak} onDone={handleDone} />
+      {ENABLE_NAV_FLASH ? (
+        <NavFlashOverlay
+          active={flashActive}
+          onPeak={handlePeak}
+          onDone={handleDone}
+        />
+      ) : null}
     </NavFlashContext.Provider>
   );
 }
