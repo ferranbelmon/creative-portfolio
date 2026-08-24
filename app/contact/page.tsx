@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { BarcelonaGmt } from "@/components/BarcelonaGmt";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -67,7 +68,7 @@ export default function ContactPage() {
 
         <ContactRow label="Base">
           <p className={valueClass}>
-            {site.contact.base} ({site.contact.timezone})
+            {site.contact.base} (<BarcelonaGmt />)
           </p>
         </ContactRow>
       </div>

@@ -93,8 +93,8 @@ export function HomeLanding() {
       <section className="pointer-events-none relative -mt-[4.5rem] flex h-dvh max-h-dvh flex-col overflow-hidden px-5 pt-[5.5rem] pb-6 md:-mt-[5.25rem] md:px-8 md:pt-[8.5rem] md:pb-8">
         <GodraysHero />
 
-        <div className="relative mx-auto flex min-h-0 w-full min-w-0 max-w-[1600px] flex-1 flex-col md:pb-[10vh]">
-          <div className="flex min-h-0 flex-1 flex-col justify-center max-md:translate-y-[4vh] md:justify-end">
+        <div className="relative mx-auto flex min-h-0 w-full min-w-0 max-w-[1600px] flex-1 flex-col max-md:pb-[8vh] md:pb-[10vh]">
+          <div className="flex min-h-0 flex-1 flex-col justify-center md:justify-end">
             <h1 className="mix-blend-difference font-display text-[clamp(2.35rem,min(12vw,11dvh),9.5rem)] font-extrabold uppercase leading-[0.82] tracking-[-0.04em] text-white">
               <span className="block">{firstName}</span>
               <span className="block">{lastName}</span>
@@ -268,13 +268,13 @@ function SelectedWorkCard({ project }: { project: Project }) {
           <span className="tabular-nums">{project.id}</span>
         </div>
 
-        <h3 className="mt-2 min-w-0 break-words font-display text-[clamp(1.6rem,4vw,3.25rem)] font-extrabold uppercase leading-[0.95] tracking-tight transition-colors duration-300 group-hover:text-accent">
+        <h3 className="mt-2 min-w-0 break-words font-display text-[clamp(1.12rem,5.2vw,1.45rem)] font-extrabold uppercase leading-[0.95] tracking-tight transition-colors duration-300 group-hover:text-accent min-[720px]:text-[clamp(1.6rem,4vw,3.25rem)]">
           {project.title}
         </h3>
 
         <div className="mt-1.5 flex items-center gap-3">
           {meta ? (
-            <p className="min-w-0 flex-1 truncate font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted md:text-sm">
+            <p className="min-w-0 flex-1 truncate font-mono text-[0.6rem] uppercase tracking-[0.12em] text-muted min-[720px]:text-[0.7rem] min-[720px]:tracking-[0.16em] md:text-sm">
               {meta}
             </p>
           ) : null}

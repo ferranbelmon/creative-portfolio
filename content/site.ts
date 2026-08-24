@@ -10,7 +10,7 @@ export const site = {
     intro:
       "For project inquiries, collaborations, or exhibition bookings:",
     base: "Barcelona, Spain",
-    timezone: "UTC+1",
+    timezone: "GMT+1",
     instagramHandle: "@stupe777",
     cvPath: "/downloads/ferran-belmon-cv.pdf",
   },

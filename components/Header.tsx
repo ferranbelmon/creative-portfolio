@@ -154,14 +154,14 @@ export function Header() {
           <ThemeToggle />
         </nav>
 
-        <div ref={menuRef} className="relative mix-blend-difference md:hidden">
+        <div ref={menuRef} className="relative md:hidden">
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((value) => !value)}
-            className="flex h-10 w-10 items-center justify-center"
+            className="flex h-10 w-10 items-center justify-center mix-blend-difference"
           >
             <span
               aria-hidden
@@ -173,7 +173,7 @@ export function Header() {
             <div
               id="mobile-nav"
               role="navigation"
-              className={`mobile-nav-popup absolute top-[calc(100%+0.75rem)] right-0 z-50 min-w-[13.5rem] border border-white/25 bg-background/40 px-4 py-4 text-right text-white backdrop-blur-md ${
+              className={`mobile-nav-popup absolute top-[calc(100%+0.75rem)] right-0 z-50 min-w-[13.5rem] border border-white/20 bg-background/55 px-4 py-4 text-right text-foreground shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl light:border-foreground/15 ${
                 menuVisible ? "is-open" : ""
               }`}
             >

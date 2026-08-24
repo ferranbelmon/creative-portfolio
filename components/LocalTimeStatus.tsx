@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const TIME_ZONE = "Europe/Madrid";
 const PLACE = "BCN";
 
-function formatOffset(date: Date) {
+export function formatBarcelonaGmt(date: Date = new Date()) {
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: TIME_ZONE,
     timeZoneName: "shortOffset",
@@ -66,7 +66,7 @@ export function LocalTimeStatus({ className = "" }: LocalTimeStatusProps) {
       aria-atomic="true"
       className={`font-mono text-[0.7rem] uppercase tracking-[0.16em] text-muted tabular-nums md:text-sm md:tracking-[0.14em] ${className}`}
     >
-      {formatOffset(now)} {PLACE} {formatClock(now)} {formatYear(now)}
+      {formatBarcelonaGmt(now)} {PLACE} {formatClock(now)} {formatYear(now)}
     </span>
   );
 }
