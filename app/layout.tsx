@@ -29,7 +29,7 @@ const unbounded = Unbounded({
   weight: ["700", "800", "900"],
 });
 
-const siteTitle = `${site.name} - ${site.title}`;
+const siteTitle = `${site.name} — ${site.title}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -37,7 +37,11 @@ export const metadata: Metadata = {
     default: siteTitle,
     template: `%s — ${site.name}`,
   },
-  description: site.bio[0],
+  description: site.shareDescription,
+  icons: {
+    icon: [{ url: site.shareImage, type: "image/png" }],
+    apple: [{ url: site.shareImage }],
+  },
   alternates: {
     canonical: "/",
   },
@@ -46,20 +50,20 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "/",
     siteName: site.name,
-    title: siteTitle,
-    description: site.bio[0],
+    title: site.name,
+    description: site.shareDescription,
     images: [
       {
-        url: site.logo,
+        url: site.shareImage,
         alt: site.name,
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: siteTitle,
-    description: site.bio[0],
-    images: [site.logo],
+    card: "summary",
+    title: site.name,
+    description: site.shareDescription,
+    images: [site.shareImage],
   },
 };
 

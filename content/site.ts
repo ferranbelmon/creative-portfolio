@@ -5,6 +5,10 @@ export const site = {
   url: "https://stupe.digital",
   location: "Barcelona - 2025",
   logo: "/images/site/logo.png",
+  /** Cache-bust when replacing the logo so chat apps refresh the preview. */
+  shareImage: "/images/site/logo.png?v=20260824",
+  shareDescription:
+    "Media artist & creative technologist working across light, spatial installations, immersive spaces, and real-time visuals.",
   email: "ferran.belmon@gmail.com",
   contact: {
     intro:
@@ -15,7 +19,7 @@ export const site = {
     cvPath: "/downloads/ferran-belmon-cv.pdf",
   },
   bio: [
-    "Ferran Belmon is an audiovisual artist, engineer and creative programmer from Barcelona.",
+    "Ferran Belmon is an audiovisual artist, engineer and creative technologist from Barcelona.",
     "Throughout his career he has participated in festivals such as Mostra Festival (Barcelona), Volumens (Valencia), Mira Festival (Barcelona), Lux (Málaga), Intervals Fest (Nizhny Novgorod) and Sonar +D (Barcelona), Boiler Room Primavera Sound (Barcelona) and Bahidorá Festival (Morelos) presenting personal projects or collaborations in various formats.",
     "Through his work, he explores the intersection between space, light and sound, and how this interaction influences our perception. His creations encompass immersive experiences, installations and audiovisual performances in real time.",
     "Always immersed in experimentation, he uses multiple technologies with the aim of giving life to unique and innovative experiences.",
