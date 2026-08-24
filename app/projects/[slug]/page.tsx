@@ -65,7 +65,7 @@ export async function generateMetadata({
         alt: project.title,
       }
     : {
-        url: site.shareImage,
+        url: site.logo,
         alt: site.name,
       };
 

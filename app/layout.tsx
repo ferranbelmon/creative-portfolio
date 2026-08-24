@@ -38,10 +38,6 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description: site.shareDescription,
-  icons: {
-    icon: [{ url: site.shareImage, type: "image/png" }],
-    apple: [{ url: site.shareImage }],
-  },
   alternates: {
     canonical: "/",
   },
@@ -52,18 +48,11 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: site.name,
     description: site.shareDescription,
-    images: [
-      {
-        url: site.shareImage,
-        alt: site.name,
-      },
-    ],
   },
   twitter: {
     card: "summary",
     title: site.name,
     description: site.shareDescription,
-    images: [site.shareImage],
   },
 };
 

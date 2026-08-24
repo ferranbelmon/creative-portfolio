@@ -113,7 +113,7 @@ function ProjectRow({
         </span>
 
         <div className="min-w-0">
-          <h2 className="line-clamp-2 text-left font-display text-[0.78rem] font-extrabold uppercase leading-[1.08] tracking-tight transition-colors duration-200 group-hover:text-accent md:line-clamp-none md:text-[0.92rem] min-[1080px]:text-[clamp(1.0rem,3vw,2.0rem)] min-[1080px]:leading-[0.92]">
+          <h2 className="line-clamp-2 text-left font-display text-[0.78rem] font-extrabold uppercase leading-[1.08] tracking-tight transition-colors duration-200 group-hover:text-accent md:line-clamp-none md:text-[1.2rem] min-[1080px]:text-[clamp(1.4rem,3.5vw,2.5rem)] min-[1080px]:leading-[0.92]">
             <span className="mr-1.5 font-mono text-[0.7em] font-normal tabular-nums tracking-[0.14em] text-accent md:hidden">
               [{project.id}]
             </span>

@@ -5,8 +5,6 @@ export const site = {
   url: "https://stupe.digital",
   location: "Barcelona - 2025",
   logo: "/images/site/logo.png",
-  /** Cache-bust when replacing the logo so chat apps refresh the preview. */
-  shareImage: "/images/site/logo.png?v=20260824",
   shareDescription:
     "Media artist & creative technologist working across light, spatial installations, immersive spaces, and real-time visuals.",
   email: "ferran.belmon@gmail.com",
