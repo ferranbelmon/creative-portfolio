@@ -111,10 +111,12 @@ export const projects: Project[] = [
     skills: ["visuals"],
     thumbnail: "/images/projects/020-torre-glories-content/thumbnail.jpg",
     images: [
-      "/images/projects/020-torre-glories-content/gallery/01-3-1.jpg",
-      "/images/projects/020-torre-glories-content/gallery/01-3-2.jpg",
-      "/images/projects/020-torre-glories-content/gallery/01-3-3.jpg",
-      "/images/projects/020-torre-glories-content/gallery/02-1-1.jpg",
+      "/images/projects/020-torre-glories-content/gallery/01-1-1.jpg",
+      "/images/projects/020-torre-glories-content/gallery/02-1-1.gif",
+      "/images/projects/020-torre-glories-content/gallery/03-2-1.jpg",
+      "/images/projects/020-torre-glories-content/gallery/03-2-2.gif",
+      "/images/projects/020-torre-glories-content/gallery/04-2-1.jpg",
+      "/images/projects/020-torre-glories-content/gallery/04-2-2.jpg",
     ],
     sections: {
       concept:
