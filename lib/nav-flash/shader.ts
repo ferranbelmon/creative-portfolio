@@ -2,7 +2,7 @@ export const NAV_FLASH_PEAK_S = 0.32;
 export const NAV_FLASH_FADE_START_S = 0.48;
 export const NAV_FLASH_END_S = 0.68;
 export const NAV_FLASH_STROBE_RATE = 11;
-export const NAV_FLASH_CIRCLE_COUNT = 6;
+export const NAV_FLASH_CIRCLE_COUNT = 3;
 
 export const navFlashVertexShader = `#version 300 es
 in vec2 aPosition;
@@ -23,6 +23,9 @@ out vec4 fragColor;
 
 #define COL vec3(235.0, 241.0, 245.0) / 255.0
 #define FLASH_COUNT ${NAV_FLASH_CIRCLE_COUNT}
+#define BLAST_SCALE 0.42
+// Master strength for god rays (try 0.4 … 2.0)
+#define GODRAYS_POWER 1.0
 
 float hash11(float p) {
   return fract(sin(p * 127.1) * 43758.5453123);
@@ -32,18 +35,18 @@ vec2 flashCenter(int i, float pulseIndex) {
   float fi = float(i);
   float a = hash11(fi + pulseIndex * 13.7);
   float b = hash11(fi + pulseIndex * 29.3 + 4.1);
-  return vec2(a * 2.0 - 1.0, b * 2.0 - 1.0) * vec2(0.72, 0.52);
+  return vec2(a * 2.0 - 1.0, b * 2.0 - 1.0) * vec2(0.55, 0.4);
 }
 
 float circ(vec2 p, float phase) {
   float r = sqrt(length(p));
-  return abs(4.0 * r * phase);
+  return abs(2.6 * r * phase);
 }
 
 float circleScalar(vec2 delta, float phase) {
-  float rz = max(abs(circ(delta, phase)), 0.015);
-  vec3 pulse = vec3(0.2 / rz);
-  return clamp(max(pulse.r, max(pulse.g, pulse.b)) / 7.0, 0.0, 1.0);
+  float rz = max(abs(circ(delta * BLAST_SCALE, phase)), 0.012);
+  vec3 pulse = vec3(0.28 / rz);
+  return clamp(max(pulse.r, max(pulse.g, pulse.b)) / 5.5, 0.0, 1.0);
 }
 
 vec3 circleChromatic(vec2 uv, vec2 center, float phase) {
@@ -53,25 +56,21 @@ vec3 circleChromatic(vec2 uv, vec2 center, float phase) {
 
   float scalar = circleScalar(delta, phase);
   float edgeMask =
-    smoothstep(0.1, 0.38, scalar) * (1.0 - smoothstep(0.58, 0.98, scalar));
-  float aber = (0.008 + edgeMask * 0.024) * smoothstep(0.04, 0.55, dist);
+    smoothstep(0.08, 0.36, scalar) * (1.0 - smoothstep(0.55, 0.98, scalar));
 
-  vec2 deltaR = delta - dir * aber * 1.35;
-  vec2 deltaG = delta;
-  vec2 deltaB = delta + dir * aber * 1.35;
+  // Pure RGB offset — magenta/cyan fringe, no red tint overlay
+  float aber = (0.028 + edgeMask * 0.1) * smoothstep(0.02, 0.85, dist);
 
-  float rzR = max(abs(circ(deltaR, phase)), 0.015);
-  float rzG = max(abs(circ(deltaG, phase)), 0.025);
-  float rzB = max(abs(circ(deltaB, phase)), 0.035);
+  float hitR = circleScalar(delta - dir * aber * 2.0, phase);
+  float hitG = circleScalar(delta, phase);
+  float hitB = circleScalar(delta + dir * aber * 2.0, phase);
 
-  vec3 pulse = vec3(0.2 / rzR, 0.2 / rzG, 0.2 / rzB);
-  vec3 chroma = clamp(pulse / 7.0, 0.0, 1.0);
+  vec3 chroma = vec3(hitR, hitG, hitB);
+  // Soften toward white so the core stays cool, not tinted
+  float luma = (hitR + hitG + hitB) / 3.0;
+  chroma = mix(chroma, vec3(luma), 0.28);
 
-  vec3 fringe = vec3(1.0, 0.72, 0.45) * edgeMask * 0.22;
-  chroma.r += fringe.r;
-  chroma.b += fringe.b * 0.85;
-
-  return chroma;
+  return clamp(chroma, 0.0, 1.0);
 }
 
 float godRays(vec2 uv, vec2 center, float phase, float mixAmt) {
@@ -79,20 +78,28 @@ float godRays(vec2 uv, vec2 center, float phase, float mixAmt) {
   float dist = length(delta);
   vec2 dir = delta / max(dist, 1e-4);
 
+  // Radial light march toward the blast core
   float march = 0.0;
-  for (int i = 0; i < 10; i++) {
-    float t = float(i) / 9.0;
-    vec2 sampleDelta = (uv - dir * t * 0.62) - center;
-    float sampleHit = circleScalar(sampleDelta, phase);
-    march += sampleHit * (1.0 - t * 0.75);
+  for (int i = 0; i < 16; i++) {
+    float t = float(i) / 15.0;
+    vec2 sampleUv = uv - dir * t * 1.45;
+    float sampleHit = circleScalar(sampleUv - center, phase);
+    march += sampleHit * (1.0 - t * 0.55);
   }
-  march = clamp(march / 9.5, 0.0, 1.0);
+  march = clamp(march / 12.0, 0.0, 1.0);
 
   float angle = atan(delta.y, delta.x);
-  float spokes = pow(abs(sin(angle * 11.0 + phase * 12.566)), 3.2);
-  float radial = exp(-dist * 1.65) * (0.28 + 0.72 * spokes);
+  float spokesA = pow(abs(sin(angle * 7.0 + phase * 18.849)), 2.1);
+  float spokesB = pow(abs(sin(angle * 13.0 - phase * 9.425)), 3.4);
+  float spokes = max(spokesA, spokesB * 0.75);
 
-  return march * radial * mixAmt;
+  float falloff = exp(-dist * 0.55) * (0.18 + 0.82 * spokes);
+  float shaft = falloff * (0.35 + 0.65 * march);
+
+  // Soft bloom halo so rays read even without a hard spoke
+  float halo = exp(-dist * 1.1) * circleScalar(delta, phase) * 0.45;
+
+  return clamp((shaft * 1.55 + halo) * mixAmt * GODRAYS_POWER, 0.0, 1.0);
 }
 
 void main() {
@@ -104,7 +111,8 @@ void main() {
   vec3 strobeCol = vec3(0.0);
   float strobe = 0.0;
   float rays = 0.0;
-  float rayMix = smoothstep(0.24, 0.52, uTime);
+  // God rays build through the flash and peak near the end
+  float rayMix = smoothstep(0.08, 0.28, uTime) * (1.0 - smoothstep(0.55, 0.68, uTime) * 0.25);
 
   for (int i = 0; i < FLASH_COUNT; i++) {
     vec2 center = flashCenter(i, pulseIndex);
@@ -116,11 +124,12 @@ void main() {
   }
 
   float wash = smoothstep(0.1, 0.42, uTime);
-  vec3 col = mix(strobeCol, COL, wash * 0.28);
-  col = max(col, COL * rays * 0.62);
+  vec3 col = mix(strobeCol, COL, wash * 0.16);
+  col = max(col, COL * rays);
+  col += COL * rays * 0.55;
 
-  float intensity = clamp(max(strobe, max(wash * 0.92, rays * 0.5)), 0.0, 1.0);
-  fragColor = vec4(col, intensity * uOpacity);
+  float intensity = clamp(max(strobe, max(wash * 0.92, rays * 0.85)), 0.0, 1.0);
+  fragColor = vec4(clamp(col, 0.0, 1.0), intensity * uOpacity);
 }
 `;
 
