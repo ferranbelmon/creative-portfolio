@@ -6,6 +6,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { Footer } from "@/components/Footer";
 import { GoogleAnalyticsBeacon } from "@/components/GoogleAnalyticsBeacon";
 import { Header } from "@/components/Header";
+import { NavFlashProvider } from "@/components/NavFlashProvider";
+import { PageTransition } from "@/components/PageTransition";
 import { ScrollRail } from "@/components/ScrollRail";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { site } from "@/content/site";
@@ -74,24 +76,26 @@ export default function RootLayout({
         <Script id="theme-init" strategy="beforeInteractive">
           {`(function(){try{if(!localStorage.getItem("themeMigratedNight")){localStorage.setItem("theme","dark");localStorage.setItem("themeMigratedNight","1");}if(localStorage.getItem("theme")==="light")document.documentElement.classList.add("light");else document.documentElement.classList.remove("light");}catch(e){}})();`}
         </Script>
-        <ScrollToTop />
-        <ScrollRail />
-        <Suspense fallback={null}>
-          <div className="relative z-50">
-            <Header />
+        <NavFlashProvider>
+          <ScrollToTop />
+          <ScrollRail />
+          <Suspense fallback={null}>
+            <div className="relative z-50">
+              <Header />
+            </div>
+          </Suspense>
+          <div
+            id="main-scroll"
+            className="relative z-10 min-w-0 overflow-x-hidden pt-[4.5rem] pb-[4.5rem] md:pt-[5.25rem] md:pb-[5rem]"
+          >
+            <PageTransition>{children}</PageTransition>
           </div>
-        </Suspense>
-        <div
-          id="main-scroll"
-          className="relative z-10 min-w-0 overflow-x-hidden pt-[4.5rem] pb-[4.5rem] md:pt-[5.25rem] md:pb-[5rem]"
-        >
-          {children}
-        </div>
-        <div className="relative z-50">
-          <Footer />
-        </div>
-        <Analytics />
-        <GoogleAnalyticsBeacon />
+          <div className="relative z-50">
+            <Footer />
+          </div>
+          <Analytics />
+          <GoogleAnalyticsBeacon />
+        </NavFlashProvider>
       </body>
     </html>
   );

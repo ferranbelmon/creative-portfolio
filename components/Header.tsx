@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { normalizeNavPath, useNavFlash } from "@/components/NavFlashProvider";
 import { site } from "@/content/site";
 import {
   markScrollToSelectedWork,
@@ -11,7 +12,7 @@ import {
 } from "@/lib/scroll-selected-work";
 
 const navLinkClass =
-  "font-display text-xs font-bold uppercase tracking-[0.2em] transition-opacity hover:opacity-70 md:text-sm";
+  "select-none font-display text-xs font-bold uppercase tracking-[0.2em] transition-opacity hover:opacity-70 md:text-sm";
 
 const MORSE_MARK = "..-. -...";
 
@@ -36,6 +37,7 @@ function MorseMark() {
 
 export function Header() {
   const pathname = usePathname();
+  const navFlash = useNavFlash();
   const [open, setOpen] = useState(false);
   const [menuMounted, setMenuMounted] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -111,14 +113,38 @@ export function Header() {
   const isHome = pathname === "/";
   const solidChrome = !isHome || homePastSelected;
 
-  function goHomeTop(event: React.MouseEvent<HTMLAnchorElement>) {
-    if (!isHome) return;
+  function handleNavClick(
+    event: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+    onBeforeNavigate?: () => void,
+  ) {
+    const targetPath = normalizeNavPath(href);
+
+    if (targetPath === pathname && !href.includes("#")) {
+      event.preventDefault();
+      onBeforeNavigate?.();
+      return;
+    }
+
+    if (!navFlash) return;
 
     event.preventDefault();
-    if (window.location.hash) {
-      window.history.replaceState(null, "", "/");
+    onBeforeNavigate?.();
+    navFlash.navigateWithFlash(href);
+  }
+
+  function goHomeTop(event: React.MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+
+    if (isHome) {
+      if (window.location.hash) {
+        window.history.replaceState(null, "", "/");
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      return;
     }
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
+    navFlash?.navigateWithFlash("/");
   }
 
   return (
@@ -133,7 +159,7 @@ export function Header() {
           href="/"
           aria-label={site.name}
           onClick={goHomeTop}
-          className="group mix-blend-difference light:mix-blend-normal"
+          className="group select-none mix-blend-difference light:mix-blend-normal"
         >
           <span className="flex items-center justify-center rounded-2xl border-2 border-white/50 px-3 py-2 transition-colors group-hover:border-white light:border-foreground/40 light:group-hover:border-foreground">
             <MorseMark />
@@ -141,13 +167,28 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-5 text-white mix-blend-difference light:text-foreground light:mix-blend-normal md:flex md:gap-8">
-          <Link href="/work" data-ui-tone="classic" className={navLinkClass}>
+          <Link
+            href="/work"
+            data-ui-tone="classic"
+            className={navLinkClass}
+            onClick={(event) => handleNavClick(event, "/work")}
+          >
             Work
           </Link>
-          <Link href="/about" data-ui-tone="classic" className={navLinkClass}>
+          <Link
+            href="/about"
+            data-ui-tone="classic"
+            className={navLinkClass}
+            onClick={(event) => handleNavClick(event, "/about")}
+          >
             About
           </Link>
-          <Link href="/contact" data-ui-tone="classic" className={navLinkClass}>
+          <Link
+            href="/contact"
+            data-ui-tone="classic"
+            className={navLinkClass}
+            onClick={(event) => handleNavClick(event, "/contact")}
+          >
             Contact
           </Link>
           <span className="h-4 w-px bg-white/35 light:bg-foreground/30" />
@@ -173,7 +214,7 @@ export function Header() {
             <div
               id="mobile-nav"
               role="navigation"
-              className={`mobile-nav-popup absolute top-[calc(100%+0.75rem)] right-0 z-50 min-w-[13.5rem] border border-white/20 bg-background/55 px-4 py-4 text-right text-foreground shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl light:border-foreground/15 ${
+              className={`mobile-nav-popup absolute top-[calc(100%+0.75rem)] right-0 z-50 min-w-[13.5rem] overflow-hidden rounded-lg border border-white/20 bg-background/55 px-4 py-4 text-right text-foreground shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl light:border-foreground/15 ${
                 menuVisible ? "is-open" : ""
               }`}
             >
@@ -184,10 +225,15 @@ export function Header() {
                     data-ui-tone="classic"
                     className={`${navLinkClass} whitespace-nowrap`}
                     onClick={(event) => {
-                      setOpen(false);
                       markScrollToSelectedWork();
-                      if (pathname !== "/") return;
+                      if (pathname !== "/") {
+                        handleNavClick(event, "/#selected-work-heading", () =>
+                          setOpen(false),
+                        );
+                        return;
+                      }
                       event.preventDefault();
+                      setOpen(false);
                       scrollToSelectedWork();
                     }}
                   >
@@ -199,7 +245,9 @@ export function Header() {
                     href="/work"
                     data-ui-tone="classic"
                     className={navLinkClass}
-                    onClick={() => setOpen(false)}
+                    onClick={(event) =>
+                      handleNavClick(event, "/work", () => setOpen(false))
+                    }
                   >
                     Work
                   </Link>
@@ -209,7 +257,9 @@ export function Header() {
                     href="/about"
                     data-ui-tone="classic"
                     className={navLinkClass}
-                    onClick={() => setOpen(false)}
+                    onClick={(event) =>
+                      handleNavClick(event, "/about", () => setOpen(false))
+                    }
                   >
                     About
                   </Link>
@@ -219,7 +269,9 @@ export function Header() {
                     href="/contact"
                     data-ui-tone="classic"
                     className={navLinkClass}
-                    onClick={() => setOpen(false)}
+                    onClick={(event) =>
+                      handleNavClick(event, "/contact", () => setOpen(false))
+                    }
                   >
                     Contact
                   </Link>

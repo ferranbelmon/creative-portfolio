@@ -137,8 +137,16 @@ function ProjectRow({
         </span>
 
         <div className="flex items-center justify-between gap-3 md:w-full md:justify-end md:justify-self-end">
-          <p className="font-mono text-[0.58rem] tabular-nums tracking-[0.14em] text-muted md:hidden">
-            <span className="text-foreground/80">{project.year}</span>
+          <p className="flex min-w-0 flex-1 items-baseline gap-x-1.5 font-mono text-[0.58rem] tracking-[0.14em] text-muted md:hidden">
+            {meta ? (
+              <span className="truncate uppercase">{meta}</span>
+            ) : null}
+            {meta ? (
+              <span className="shrink-0 text-foreground/35">·</span>
+            ) : null}
+            <span className="shrink-0 tabular-nums text-foreground/80">
+              {project.year}
+            </span>
           </p>
           <ProjectSkills
             skills={project.skills}
