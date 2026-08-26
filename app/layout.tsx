@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { Footer } from "@/components/Footer";
 import { GoogleAnalyticsBeacon } from "@/components/GoogleAnalyticsBeacon";
+import { MicrosoftClarityBeacon } from "@/components/MicrosoftClarityBeacon";
 import { Header } from "@/components/Header";
 import { NavFlashProvider } from "@/components/NavFlashProvider";
 import { PageTransition } from "@/components/PageTransition";
@@ -95,6 +96,7 @@ export default function RootLayout({
           </div>
           <Analytics />
           <GoogleAnalyticsBeacon />
+          <MicrosoftClarityBeacon />
         </NavFlashProvider>
       </body>
     </html>

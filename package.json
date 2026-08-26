@@ -13,6 +13,7 @@
     "download-galleries": "node scripts/download-project-galleries.mjs && node scripts/apply-gallery-manifest.mjs"
   },
   "dependencies": {
+    "@microsoft/clarity": "^1.0.2",
     "@next/third-parties": "^16.3.2",
     "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.40.0",
